@@ -11,13 +11,6 @@ from unicodedata import name
 from django.db import models
 from django.forms import CharField
 
-class cursosmanage(models.Model):
-
-    def buscar(self,query):
-
-        return self.get_queryset().filter(models.Q(nome__icontains=query) | models.Q(descricao__icontains=query) )
-
-
 
 class cursos(models.Model):
 
@@ -34,13 +27,11 @@ class cursos(models.Model):
     criado_em= models.DateTimeField('criado em: ',auto_now_add=True)
     atualizado_em= models.DateTimeField('atualizado em: ',auto_now=True)
 
-    objects = cursosmanage() 
-
-    def __str__(self) -> str:
+    def __str__(self) -> str: # define um nome para o objeto
         return self.nome
     
     class Meta:
 
         verbose_name = 'Curso'
         verbose_name_plural ='Cursos'
-        
+    

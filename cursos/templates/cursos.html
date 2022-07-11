@@ -22,23 +22,26 @@
     <div class="pure-u-1-3">
         <div class="l-box">
             
-            <a href="#">
-            {% if curso.image %}
+            <a href="{% url 'detalhes-curso' curso.slug %}">
+                
+                {% if curso.image %}
 
-            <img src="{{ curso.image.url }}" alt="{{curso.nome}}" />
-            
-            {%else %}
-            <img src="{% static 'img/curso_capa.png' %}" alt="" />
-            
-            {%endif%}
-            </a>
+                <img src="{{ curso.image.url }}" alt="{{curso.nome}}" />
+                
+                {%else %}
+                <img src="{% static 'img/curso_capa.png' %}" alt="" />
+                
+                {%endif%}
+           
+        </a>
+       
         </div>
     
     </div>
     
     <div class="pure-u-2-3">
         <div class="l-box">
-            <h4 class="content-subhead"><a href="" title=""></a>{{ curso.nome}}</h4>
+            <h4 class="content-subhead"><a href="{% url 'detalhes-curso' curso.slug %}" title="{{ curso.nome}}"></a>{{ curso.nome}}</h4>
             
             {{ curso.descricao | linebreaks }} #linelinebreaks comando em django para formatar texto
             
