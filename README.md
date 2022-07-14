@@ -32,7 +32,7 @@
 
 ### Ativar ambiente virtual
 
-    source .venv/bin/activate
+    source venv/bin/activate
 
 ### Rodar servidor de teste    
     python3 manage.py runserver

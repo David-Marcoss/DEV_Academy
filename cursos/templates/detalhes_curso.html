@@ -53,6 +53,50 @@
             {% endif %}
         
         </div>
+        <h4>Dúvidas?</h4>
+            <p>
+                <a href="#contato" title="" class="pure-button">Fale Conosco</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="pure-g-r content-ribbon" id="contato">
+        <div class="pure-u-1">
+            
+            <form class="pure-form pure-form-aligned" method="post" >
+             
+                <h3>Tire sua dúvida sobre o Curso</h3>
+
+                {%if is_valid %}
+                <h4 style="color: green;">Formulario enviado com sucesso !!!</h4>
+                {%endif%}
+                
+                {% csrf_token %}
+                
+                {% for campo in form %}
+                    <div class="pure-control-group">
+                    {{ campo.label_tag}}
+                    {{campo}}
+                    
+                    {%if campo.errors %}
+                    <ul class="errorlist">
+                        {%for erro in campo.errors %}
+                            <li>{{ erro }}</li>
+                        {%endfor%}
+                    </ul>
+                    {%endif%}
+                    
+                    </div>
+                
+                    {%endfor%}
+                    
+                <div class="pure-controls">
+                    <button type="submit" class="pure-button pure-button-primary">Enviar</button>
+                </div>
+            
+            
+                </form>
+        </div>
     
     </div>
 

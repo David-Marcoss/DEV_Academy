@@ -7,6 +7,9 @@ body {
     margin: 0 auto;
     line-height: 1.7em;
 }
+.content {
+    padding-top: 2em;
+}
 .l-box {
     padding: 1em;
 }
@@ -27,8 +30,8 @@ body .primary-button {
     color: #fff;
 }
 .splash {
-    margin: 2em auto 0;
-    padding: 3em 0.5em;
+    margin: 0 auto;
+    padding: 1.5em 1em 0;
     background: #eee;
 }
 .splash .splash-head {
@@ -72,4 +75,19 @@ body .primary-button {
     text-align: center;
     padding: 1em;
     font-size: 80%;
+}
+ul.errorlist {
+    margin: 0;
+    padding: 0;
+}
+ul.errorlist li {
+    color: #C53F3F;
+    display: block;
+    margin: 0.3em 0;
+    font-size: 0.9em;
+    border: none;
+    padding: 0;
+}
+form.pure-form-aligned ul.errorlist li {
+    padding-left: 11.5em;
 }

@@ -16,10 +16,6 @@
 
 <body>
 
-<div class="content">
-
-    {% block content %} {% endblock%}
-
     <div class="header">
         <div class="pure-menu pure-menu-open pure-menu-fixed pure-menu-horizontal">
             <a class="pure-menu-heading" href="{% url 'home' %}">DEV Academy</a>
@@ -31,11 +27,18 @@
         </div>
     </div>
 
-        <div class="footer">
+    <div class="content">
+
+        {% block content %} {% endblock%}
+    
+    </div>
+
+    
+
+    <div class="footer">
         DEV Academy - Uma simples plataforma de ensino a distância
     </div>
 
-</div>
 
 <script src="http://yui.yahooapis.com/3.12.0/build/yui/yui-min.js"></script>
 
