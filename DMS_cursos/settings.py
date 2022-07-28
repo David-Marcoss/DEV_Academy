@@ -149,6 +149,6 @@ CONTACT_EMAIL = 'contato@devacademy.com'
 
 ## configuraçoes login
 
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_URL = 'logout'
+LOGIN_URL = 'login'             # define url de login
+LOGIN_REDIRECT_URL = 'home'     #define url para quando o login for concluido
+LOGOUT_REDIRECT_URL = 'login'
