@@ -12,7 +12,7 @@ from django.shortcuts import render, get_object_or_404
 class cursosview(ListView):
 
     model = cursos
-    template_name = 'cursos.html'
+    template_name = 'cursos/cursos.html'
 
 
 def detalhes_cursoview(request,slug):
@@ -36,7 +36,7 @@ def detalhes_cursoview(request,slug):
     context['course'] =  course #contexto serve para passar um objeto para um template
     context['form'] =  form 
 
-    template_name = 'detalhes_curso.html'
+    template_name = 'cursos/detalhes_curso.html'
     
     return render(request, template_name, context)
 
