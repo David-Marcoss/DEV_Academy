@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
 
 
-<div class="pure-g-r content-ribbon">
+<!-- <div class="pure-g-r content-ribbon">
     <div class="pure-u-1">
         <h2>Informe seus dados para logar:</h2>
         
@@ -27,6 +28,51 @@
             </p>
         </form>
     </div>
+</div> -->
+
+<div class="container col-xl-10 col-xxl-8 px-4 py-5">
+    <div class="row align-items-center g-lg-5 py-5">
+        <div class="col-lg-7 text-center text-lg-start">
+            <h1 class="display-4 fw-bold lh-1 mb-3">Lorem Ipsum</h1>
+            <p class="col-lg-10 fs-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur commodo sodales libero, a eleifend odio faucibus
+                eget. Nulla enim tellus, vestibulum a tempus ut, molestie eget ante. Etiam ac congue enim. Vivamus at laoreet massa.
+                Donec cursus nunc a odio feugiat pellentesque. Nulla pharetra vulputate consectetur. Donec ac accumsan felis. Nullam a
+                mi nec massa ultricies gravida eu non mauris. Etiam enim nunc, gravida in tellus tempus, sagittis tempor risus.
+            </p>
+        </div>
+        <div class="col-md-10 mx-auto col-lg-5">
+            <form class="p-4 p-md-5 border rounded-3 bg-light" method="post">
+                <div class="form-floating mb-3">
+                    <a href="{% url 'home' %}" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
+                        <img src="../../static/img/dev_logo.png" alt="" style="width: 10%; margin: 10px;">
+                        <span class="fs-4">Dev Academy</span>
+                    </a>
+                </div>
+
+                <div class="form-row">
+                    {% csrf_token %}
+                
+                    {% for field in form %}
+                    <div class="form-floating mb-3">
+                        {% render_field field placeholder=field.label class="form-control" %}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    </div>
+                    {% endfor %}
+                
+                </div>
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
+                <hr class="my-4">
+                <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
+            </form>
+        </div>
+    </div>
 </div>
+
 
 {% endblock%}
