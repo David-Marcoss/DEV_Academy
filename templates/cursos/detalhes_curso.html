@@ -1,59 +1,137 @@
-
 {% extends 'base.html' %}
 
 {% load static %}
+{% load widget_tweaks %}
 
 {%block content %}
 
-
-<div class="splash">
-    
-    <div class="pure-g-r">
-        
-        <div class="pure-u-1">
-            
-            <div class="l-box splash-text">
-                
-                <h1 class="splash-head">
-                    {{ course }}
-                </h1>
-                
-                <h2 class="splash-subhead"> {{ course.descricao }} </h2>
-                
-                <p>
-                    <a href="#" class="pure-button primary-button">Inscreva-se</a>
+<div class="container">
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <div class="text-center">
+                <h1 class="display-5 fw-bold">{{ course }}</h1>
+                <p class="col-md-12 fs-4">
+                    {{ course.descricao }}
                 </p>
+                <a href="#" class="btn btn-primary btn-lg">Inscreva-se</a>
             </div>
         </div>
+    </div>
+    <div class="container col-xxl-8 px-4 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+            <div class="col-10 col-sm-8 col-lg-6">
+                {% if course.image %}
+                <img src="{{ course.image.url }}" alt="" class="d-block mx-lg-auto img-fluid" alt="" width="700"
+                    height="500" loading="lazy"/>
+                {% else %}
+                <img src="{% static 'img/curso_capa.png' %}" alt="" class="d-block mx-lg-auto img-fluid" alt="" width="700"
+                    height="500" loading="lazy"/>
+                {% endif %}
+            </div>
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold lh-1 mb-3">Sobre o Curso</h1>
+                <p class="lead">
+                    {{ course.sobre_curso|linebreaks }}
+                </p>
+                <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                    <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Primary</button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="bg-light">
+        <div class="container">
+            <div class="row align-items-center py-5">
+                <div class="col-md-12 mx-auto col-lg-6">
+                    <form method="post">
+
+                        <div class="text-center py-5">
+                            <h3>Tire sua dúvida sobre o Curso</h3>
+                        </div>
     
+                        <div class="form-row">
+                            {% csrf_token %}
+    
+                            {% for field in form %}
+                            <div class="form-floating mb-3">
+                                {% render_field field placeholder=field.label class="form-control" %}
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            </div>
+    
+                            {% endfor %}
+    
+                        </div>
+                        <button class="w-100 btn btn-lg btn-primary" type="submit">Enviar</button>
+                        <hr class="my-4">
+    
+                        {% if form.errors %}
+    
+                        <div class="alert alert-warning" role="alert">
+                            Usuario ou senha incorretos
+                        </div>
+    
+                        {% endif %}
+    
+                        <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
 
-<div class= "pure-g-r content-ribbon">
-    
-    <div class="pure-u-2-3">
-        
-        <div class="l-box">
-            <h4 class="content-subhead">Sobre o Curso</h4>
-            {{ course.sobre_curso|linebreaks }}
-        
+
+<!-- <div class="container">
+    <div class="splash">
+
+        <div class="pure-g-r">
+
+            <div class="pure-u-1">
+
+                <div class="l-box splash-text">
+
+                    <h1 class="splash-head">
+                        {{ course }}
+                    </h1>
+
+                    <h2 class="splash-subhead"> {{ course.descricao }} </h2>
+
+                    <p>
+                        <a href="#" class="pure-button primary-button">Inscreva-se</a>
+                    </p>
+                </div>
+            </div>
+
         </div>
-    
+
     </div>
-   
-    <div class="pure-u-1-3">
-        
-        <div class="l-box">
-            
-            {% if course.image %}
-            <img src="{{ course.image.url }}" alt="" />
-            {% else %}
-            <img src="{% static 'img/curso_capa.png' %}" alt="" />
-            {% endif %}
-        
+
+    <div class="pure-g-r content-ribbon">
+
+        <div class="pure-u-2-3">
+
+            <div class="l-box">
+                <h4 class="content-subhead">Sobre o Curso</h4>
+                {{ course.sobre_curso|linebreaks }}
+
+            </div>
+
         </div>
-        <h4>Dúvidas?</h4>
+
+        <div class="pure-u-1-3">
+
+            <div class="l-box">
+
+                {% if course.image %}
+                <img src="{{ course.image.url }}" alt="" />
+                {% else %}
+                <img src="{% static 'img/curso_capa.png' %}" alt="" />
+                {% endif %}
+
+            </div>
+            <h4>Dúvidas?</h4>
             <p>
                 <a href="#contato" title="" class="pure-button">Fale Conosco</a>
             </p>
@@ -62,45 +140,45 @@
 
     <div class="pure-g-r content-ribbon" id="contato">
         <div class="pure-u-1">
-            
-            <form class="pure-form pure-form-aligned" method="post" >
-             
+
+            <form class="pure-form pure-form-aligned" method="post">
+
                 <h3>Tire sua dúvida sobre o Curso</h3>
 
                 {%if is_valid %}
                 <h4 style="color: green;">Formulario enviado com sucesso !!!</h4>
                 {%endif%}
-                
+
                 {% csrf_token %}
-                
+
                 {% for campo in form %}
-                    <div class="pure-control-group">
+                <div class="pure-control-group">
                     {{ campo.label_tag}}
                     {{campo}}
-                    
+
                     {%if campo.errors %}
                     <ul class="errorlist">
                         {%for erro in campo.errors %}
-                            <li>{{ erro }}</li>
+                        <li>{{ erro }}</li>
                         {%endfor%}
                     </ul>
                     {%endif%}
-                    
-                    </div>
-                
-                    {%endfor%}
-                    
+
+                </div>
+
+                {%endfor%}
+
                 <div class="pure-controls">
                     <button type="submit" class="pure-button pure-button-primary">Enviar</button>
                 </div>
-            
-            
-                </form>
+
+
+            </form>
         </div>
-    
+
     </div>
 
-</div>
+</div> -->
 
 
 {% endblock %}
