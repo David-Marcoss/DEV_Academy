@@ -1,8 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Mochiy+Pop+One&display=swap');
+
 * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+
+h4,h3,p{
+    font-family: 'Roboto', sans-serif;
+    font-size: 130%;
+}
+
+
+
 body {
     margin: 0 auto;
     line-height: 1.7em;
@@ -15,11 +26,11 @@ body {
 }
 .header {
     margin: 0 0;
-    background-color: #2d3e50;
 }
+
 .header .pure-menu {
     padding: 0.5em;
-    background-color: #2d3e50;
+    background-color: #212d3a;
 }
 .header .pure-menu a {
     color: #fff;
@@ -42,7 +53,7 @@ body {
     box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
 }
 .home-menu.pure-menu-open {
-    background: #2d3e50;
+    background: #273545;
 }
 .pure-menu.pure-menu-open.pure-menu-fixed {
     border-bottom: none;
@@ -74,17 +85,20 @@ body .primary-button {
 .splash {
     margin: 0 auto;
     padding: 1.5em 1em 0;
-    background: #eee;
+    background-color: #c5d3e3;
 }
 .splash .splash-head {
     font-size: 300%;
     margin: 0em 0;
     line-height: 1.2em;
+    font-family: 'Mochiy Pop One', sans-serif;
+    color: #0d324b;
 }
 .splash .splash-subhead {
     color: #999;
     font-weight: 300;
     line-height: 1.4em;
+
 }
 .splash .primary-button {
     font-size: 150%;
@@ -106,10 +120,12 @@ body .primary-button {
     text-align: center;
     padding: 2em;
     color: #999;
+    
 }
 .ribbon h2 {
     display: inline;
     font-weight: normal;
+    font-family: 'Roboto', sans-serif;
 }
 .footer {
     background: #2d3e50;
@@ -130,13 +146,21 @@ ul.errorlist li {
     border: none;
     padding: 0;
 }
+.login h2{
+    font-family: 'Mochiy Pop One', sans-serif;
+    font-size: 160%;
+    font-weight: bolder;
+    color: #0d324b;
+}
 form.pure-form-aligned ul.errorlist li {
     padding-left: 11.5em;
 }
 .pure-form label {
     margin: 1em 0 0;
     font-weight: bold;
-    font-size: 100%;
+    font-size: 130%;
+    font-family: 'Roboto', sans-serif;
+    color: #0d324bac;
 }
 .pure-form input[type], textarea, select {
     border: 2px solid #ddd;
@@ -145,6 +169,7 @@ form.pure-form-aligned ul.errorlist li {
     width: 100%;
     max-width: 350px;
     margin-bottom: 0.3em;
+    border-radius: 10px ;
 }
 .pure-form textarea {
     max-width: 450px;
@@ -161,7 +186,31 @@ form.pure-form-aligned ul.errorlist li {
 
 a.pure-button-primary {
     background: white;
-    color: #1f8dd6;
+    color: #03131d;
     border-radius: 5px;
     font-size: 120%;
+}
+
+.inner {
+    padding: 0em 1em;
+}
+.inner p {
+    margin-top: 0;
+}
+ul.breadcrumb {
+    padding: 0;
+}
+ul.breadcrumb li {
+    display: inline-block;
+}
+ul.breadcrumb li a {
+    display: inline-block;
+    padding: 0.3em 0.7em;
+}
+
+.botoes{
+    font-family: 'Mochiy Pop One', sans-serif;
+    text-decoration: none;
+    color: #0d324b;
+
 }

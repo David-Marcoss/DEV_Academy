@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="pure-g-r content-ribbon">
+    <div class="pure-u-1 login">
+        <h2>{{titulo}}</h2>
+        <p>Preencha os dados corretamente</p>
+        <hr>
+        
+        <form class="pure-form pure-form-stacked" method="post">
+            
+            {% csrf_token %}
+                
+                
+                {% for campo in form %}
+                <div class="pure-control-group">
+                {{ campo.label_tag}}
+                {{campo}}
+                
+                {%if campo.errors %}
+                <ul class="errorlist">
+                    {%for erro in campo.errors %}
+                        <li style="color: red;">{{ erro }}</li>
+                    {%endfor%}
+                </ul>
+                {%endif%}
+                
+                </div>
+            
+                {%endfor%}
+                
+          
+
+                <div class="pure-controls">
+                    <button type="submit" class="pure-button pure-button-primary">{{submit}}</button>
+                </div>
+
+                {%if is_valid %}
+                    <h4 style="color: green;">Cadrasto concluido com sucesso !!!</h4>
+                {%endif%}
+
+        </form>
+
+        {% block extra %} {% endblock%}
+    </div>
+</div>
+
+{% endblock%}
