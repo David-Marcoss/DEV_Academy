@@ -35,7 +35,7 @@ manipular os dados do form
 """
 def cadastroview(request):
 
-    template_name = "cadastro.html"
+    template_name = "form.html"
 
     if request.method == 'POST': # verifica se o meto de formulario é post
         
