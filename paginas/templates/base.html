@@ -1,0 +1,64 @@
+<!doctype html>
+
+{% load static %}
+
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DEV Academy - Uma simples plataforma de ensino a distância" />
+    <title>DEV Academy</title>
+
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+    
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+    <div class="header">
+        
+        <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
+            
+            <a class="pure-menu-heading" href="{% url 'home' %}">DEV Academy</a>
+            
+            <ul>
+                <li class="pure-menu-selected"><a href="{% url 'home' %}">Início</a></li>
+                <li><a href="{% url 'cursos' %}">Cursos</a></li>
+                <li><a href="{% url 'contato' %}">Contato</a></li>
+                
+                {%if request.user.is_authenticated %}
+                
+                <li><a href="{% url 'perfil' %}">{{request.user}}</a></li>
+                <li><a href="{% url 'logout' %}">Sair</a></li>
+
+                {% else %}
+
+                <li><a href="{% url 'login' %}">Entrar</a></li>
+
+
+                {%endif %}
+            </ul>
+        
+        </div>
+    </div>
+
+    <div class="content">
+
+        {% block content %} {% endblock%}
+    
+    </div>
+
+    
+
+    <div class="footer">
+        DEV Academy - Uma simples plataforma de ensino a distância
+    </div>
+
+
+<script src="http://yui.yahooapis.com/3.12.0/build/yui/yui-min.js"></script>
+
+</body>
+
+</html>
