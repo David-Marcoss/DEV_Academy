@@ -4,10 +4,11 @@
 
 {% block content %}
 
-
 <div class="pure-g-r content-ribbon">
-    <div class="pure-u-1">
-        <h2>Informe seus dados</h2>
+    <div class="pure-u-1 login">
+        <h2>{{titulo}}</h2>
+        <p>Preencha os dados corretamente</p>
+        <hr>
         
         <form class="pure-form pure-form-stacked" method="post">
             
@@ -34,7 +35,7 @@
           
 
                 <div class="pure-controls">
-                    <button type="submit" class="pure-button pure-button-primary">Cadastrar-se</button>
+                    <button type="submit" class="pure-button pure-button-primary">{{submit}}</button>
                 </div>
 
                 {%if is_valid %}
@@ -42,6 +43,8 @@
                 {%endif%}
 
         </form>
+
+        {% block extra %} {% endblock%}
     </div>
 </div>
 
