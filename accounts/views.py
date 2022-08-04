@@ -35,7 +35,7 @@ manipular os dados do form
 """
 def cadastroview(request):
 
-    template_name = "form.html"
+    template_name = "cadastro.html"
 
     if request.method == 'POST': # verifica se o meto de formulario é post
         
@@ -97,7 +97,7 @@ class cadastroview2(CreateView):
 @login_required
 def perfilview(request):
 
-    template_name = "perfil.html"
+    template_name = "profile.html"
 
     return render(request,template_name)
 

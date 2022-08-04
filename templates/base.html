@@ -49,10 +49,34 @@
                 <li class="nav-item"><a href="#" class="nav-link text-white px-2">FAQs</a></li>
                 <li class="nav-item"><a href="#" class="nav-link text-white px-2">About</a></li>
             </ul>
+
+            {%if request.user.is_authenticated %}
+
+            <div class="dropdown text-end">
+                <a href="#" class="d-block text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <img src="https://github.com/mdo3.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu text-small">
+                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="{% url 'perfil' %}">Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+                </ul>
+            </div>
+
+            {% else %}
+
             <div class="text-end">
                 <a href="{% url 'login' %}" class="btn btn-outline-light me-2">Login</a>
                 <a href="{% url 'cadastrar' %}" class="btn btn-warning">Cadastre-se</a>
             </div>
+
+            {% endif %}
+            
         </div>
     </nav>
     <header class="py-4 border-bottom">
