@@ -12,9 +12,9 @@ from django.db import models
 from django.forms import CharField
 
 
-class cursos(models.Model):
+class modelcursos(models.Model):
 
-    nome = models.CharField('Nome',max_length=100)
+    nome = models.CharField('Titulo do curso',max_length=100)
     descricao = models.TextField('descrição breve',blank=True) #blank indica que o campo nao é obrigatorio
     
     sobre_curso = models.TextField('sobre o curso',blank=True) #blank indica que o campo nao é obrigatorio
