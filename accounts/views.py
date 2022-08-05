@@ -62,7 +62,6 @@ def cadastroview(request):
             user.groups.add(grupo)
 
             
-            
             user = authenticate(username = user.username,password = form.cleaned_data['password1'])
             
             login(request,user)
