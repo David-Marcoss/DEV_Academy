@@ -12,7 +12,7 @@ class contatocurso(forms.Form):
     email = forms.EmailField(label='Email')
     menssagem = forms.CharField(label='Mensagem',widget=forms.Textarea)
 
-    def enviar_email(self,curso):
+    def enviar_email(self,curso,email_criador):
        subject = f'Contato: {curso}'
        context = {
             'name': self.cleaned_data['nome'],
@@ -22,7 +22,7 @@ class contatocurso(forms.Form):
         
        template_name = 'cursos/contact_email.html'
         
-       send_mail_template(subject, template_name, context, [settings.CONTACT_EMAIL])
+       send_mail_template(subject, template_name, context, [email_criador])
 
 
 class cadastrocurso(forms.Form):

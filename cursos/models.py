@@ -11,6 +11,8 @@ from unicodedata import name
 from django.db import models
 from django.forms import CharField
 
+from django.contrib.auth.models import User 
+
 
 class modelcursos(models.Model):
 
@@ -26,6 +28,9 @@ class modelcursos(models.Model):
 
     criado_em= models.DateTimeField('criado em: ',auto_now_add=True)
     atualizado_em= models.DateTimeField('atualizado em: ',auto_now=True)
+
+    #cria uma chave estrangeira para associar usuario ao curso
+    user = models.ForeignKey(User,on_delete=models.PROTECT)
 
     def __str__(self) -> str: # define um nome para o objeto
         return self.nome
