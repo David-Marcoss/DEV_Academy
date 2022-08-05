@@ -3,7 +3,7 @@ import site
 from django.contrib import admin
 
 # Register your models here.
-from .models import modelcursos
+from .models import cursos
 
 class cusosadmin(admin.ModelAdmin): #faz a customização dos models
 
@@ -11,4 +11,4 @@ class cusosadmin(admin.ModelAdmin): #faz a customização dos models
     search_fields= ['nome','slug'] #cria um modulo de busca, que busca items da tabela com forme os campos passados
     prepopulated_fields= {'slug': ('nome',)}
 
-admin.site.register(modelcursos,cusosadmin) #adciona tabela cursos no admin
+admin.site.register(cursos,cusosadmin) #adciona tabela cursos no admin
