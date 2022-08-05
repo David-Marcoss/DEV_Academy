@@ -1,6 +1,7 @@
 from multiprocessing import context
 from pipes import Template
-from django.forms import PasswordInput
+from typing_extensions import Self
+from unicodedata import name
 from django.shortcuts import render, redirect
 
 from django.views.generic import CreateView,TemplateView
@@ -10,12 +11,14 @@ from django.contrib.auth.forms import UserCreationForm  #form padrao de cadastro
 from django.contrib.auth.models import User             #model padrao de cadastro de usuario
 
 from django.contrib.auth import authenticate,login #metodos de login
-from django.contrib.auth.decorators import login_required 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group 
 
 from django.conf import settings
 from DMS_cursos.settings import LOGIN_REDIRECT_URL
 
 from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
 
 from .forms import Userform
 
@@ -42,10 +45,26 @@ def cadastroview(request):
         form = Userform(request.POST) #requeste armazena os dados preencidos pelo ususario
 
         if form.is_valid(): #verifica se o formulario é valido
+
             
             user = form.save() # salva os dados do form no banco
+
+            #vrifica qual é o tipo de usuario
+            if form.cleaned_data['tipo_user'] == '1':
+                grupo = get_object_or_404(Group,name='aluno')
+                print("aluno")
+            
+            else:
+                grupo = get_object_or_404(Group,name='professor')
+                print("professor")
+            
+            #salva usuario ao grupo espesifico
+            user.groups.add(grupo)
+
+            
             
             user = authenticate(username = user.username,password = form.cleaned_data['password1'])
+            
             login(request,user)
 
             return redirect('home')

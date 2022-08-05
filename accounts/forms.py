@@ -11,11 +11,12 @@ class Userform(UserCreationForm):
 
     #campos adicionados ao form user
     email = forms.EmailField(max_length=100)
+    tipo_user = forms.ChoiceField(choices = (('1','aluno'),('2','professor')),label='Tipo de Ususario')
 
     #definição de valores padrao
     class Meta:
         model= User  #model padrao de usuarios do django
-        fields = ['username','email','first_name']
+        fields = ['username','email','tipo_user']
     
     """ 
         Clem_nome_do_campo é metodo padrao do UserCreationForm  para validar campo do form 
