@@ -20,21 +20,6 @@ class contatocurso(forms.Form):
             'message': self.cleaned_data['menssagem'],
        }
         
-       template_name = 'cursos/contact_email.html'
+       template_name = 'contact_email.html'
         
        send_mail_template(subject, template_name, context, [settings.CONTACT_EMAIL])
-
-
-class cadastrocurso(forms.Form):
-
-    nome = forms.CharField(max_length=100,label='Titulo do curso')
-    descricao = forms.CharField(max_length=200,label='descrição breve',required=True) #blank indica que o campo nao é obrigatorio
-    
-    sobre_curso = forms.CharField(label='sobre o curso',required=True,widget=forms.Textarea) #blank indica que o campo nao é obrigatorio
-    
-    data_inicio =  forms.DateField(label='Data de inicio',required=True)
-    image = forms.ImageField(label='imagem',allow_empty_file=False)
-    slug = forms.SlugField(label='slug')
-
-
-    
