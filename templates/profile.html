@@ -27,7 +27,7 @@
                         </div>
                     
                         <div class="text-center mt-3">
-                            <span class="bg-secondary p-1 px-4 rounded text-white">Professor</span>
+                            <span class="bg-secondary p-1 px-4 rounded text-white">{{tipo_user}}</span>
                             <h5 class="mt-2 mb-0">{{user}}</h5>
                             <h5 class="mt-2 mb-0">{{user.email}}</h5>
                             <!-- <span>UI/UX Designer</span> -->
@@ -55,43 +55,49 @@
                         </div>
                     
                         <div class="text-center mt-3">
-                            <span class="bg-secondary p-1 px-4 rounded text-white">Professor</span>
+                            <span class="bg-secondary p-1 px-4 rounded text-white">{{tipo_user}}</span>
                             <h5 class="mt-2 mb-0">{{user}}</h5>
                             <h5 class="mt-2 mb-0">{{user.email}}</h5>
                             <!-- <span>UI/UX Designer</span> -->
                     
                             <div class="p-5">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Nome</th>
-                                            <th scope="col">Quantidade de alunos</th>
-                                            <th scope="col">Data de criacao</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Python</td>
-                                            <td>32</td>
-                                            <td>25/02/2021</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Java</td>
-                                            <td>1</td>
-                                            <td>01/01/1998</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Flutter</td>
-                                            <td>120</td>
-                                            <!-- <td colspan="2">Larry the Bird</td> -->
-                                            <td>21/12/2021</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                {% if tipo_user == 'Aluno'%}
+                                    <h2>Aluno não está inscrito em nenhum curso!!</h2>
+                                
+                                {% else %}
+                                    {% if cursos != None %}
+
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Nome</th>
+                                                    <th scope="col">Quantidade de alunos</th>
+                                                    <th scope="col">Data de criacao</th>
+                                                </tr>
+                                            </thead>
+
+                                            {% for c in cursos %}
+                                            
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">{{c.id}}</th>
+                                                        <td><a href="{% url 'detalhes-curso' c.slug %}">{{c.nome}}</a></td>
+                                                        <td>*</td>
+                                                        <td>{{c.criado_em}}</td>
+                                                    </tr>
+                
+                                                </tbody>
+                    
+                                            {% endfor %}
+                                            
+                                        </table>
+                                    {% else %}
+                                        <h2>Usuario não possui Cursos criados!</h2>
+                                    {% endif %}
+                                
+                                {% endif %}
+
                             </div>
                             
                         </div>
@@ -105,7 +111,7 @@
                         </div>
                     
                         <div class="text-center mt-3">
-                            <span class="bg-secondary p-1 px-4 rounded text-white">Professor</span>
+                            <span class="bg-secondary p-1 px-4 rounded text-white">{{tipo_user}}</span>
                             <h5 class="mt-2 mb-0">{{user}}</h5>
                             <h5 class="mt-2 mb-0">{{user.email}}</h5>
                             <!-- <span>UI/UX Designer</span> -->
@@ -128,6 +134,9 @@
 
 </div>
 
+{% block editperfil %}
+
+
 <div class="modal fade" id="editAccount" tabindex="-1"
     aria-labelledby="editAccountTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -145,7 +154,8 @@
             </div>
         </div>
     </div>
-</div>
+
+{% endblock %}
 
 <div class="modal fade" id="editPassword" tabindex="-1"
     aria-labelledby="editPasswordTitle" aria-hidden="true">

@@ -4,7 +4,7 @@ from typing_extensions import Self
 from unicodedata import name
 from django.shortcuts import render, redirect
 
-from django.views.generic import CreateView,TemplateView
+from django.views.generic import CreateView,TemplateView,UpdateView
 
 # o django por padrao ja possui um model e um form para cadastro de usuarios
 from django.contrib.auth.forms import UserCreationForm  #form padrao de cadastro de usuario
@@ -12,7 +12,7 @@ from django.contrib.auth.models import User             #model padrao de cadastr
 
 from django.contrib.auth import authenticate,login #metodos de login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group 
+from django.contrib.auth.models import Group,User
 
 from django.conf import settings
 from DMS_cursos.settings import LOGIN_REDIRECT_URL
@@ -20,7 +20,11 @@ from DMS_cursos.settings import LOGIN_REDIRECT_URL
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 
+from cursos.models import modelcursos
+
 from .forms import Userform
+
+from .models import modelaluno,modelprofessor
 
 
 """
@@ -52,10 +56,12 @@ def cadastroview(request):
             #vrifica qual é o tipo de usuario
             if form.cleaned_data['tipo_user'] == '1':
                 grupo = get_object_or_404(Group,name='aluno')
-                print("aluno")
+                #cria perfil do user
+                modelaluno.objects.create(perfil = user)
             
             else:
                 grupo = get_object_or_404(Group,name='professor')
+                modelprofessor.objects.create(perfil = user)
                 print("professor")
             
             #salva usuario ao grupo espesifico
@@ -117,12 +123,47 @@ def perfilview(request):
 
     template_name = "profile.html"
 
-    return render(request,template_name)
+    user = request.user
+    
+    cursos = ''
+    tipo_user = ''
+
+    if user.groups.filter(name='professor').exists():
+
+        tipo_user = 'Professor'
+        
+        if modelcursos.objects.filter(user = user.id).exists():
+            cursos = modelcursos.objects.filter(user = user.id)
+        else:
+            cursos = None
+    
+    else:
+        tipo_user = 'Aluno'
+  
+
+    context = {'cursos': cursos,'tipo_user':tipo_user}
+
+    return render(request,template_name,context)
 
 
 
+"""
+função pendente implementar atualização dados do perfil 
 
+class Updateperfilview(UpdateView):
+ 
+    user = self.request.user
+    template_name = 'editperfil.html'
+    
+    if user.groups.filter(name='professor').exists():
+        pass
+    else:
+        pass
+    
+    def get_object(self, queryset= None):
+        return super().get_object(queryset)
 
+"""
 
 
 

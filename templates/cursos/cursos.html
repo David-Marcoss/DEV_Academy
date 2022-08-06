@@ -28,11 +28,11 @@
 
                         {% if curso.image %}
 
-                        <img src="{{ curso.image.url }}" alt="{{curso.nome}}"/>
+                        <a href="{% url 'detalhes-curso' curso.slug %}" ><img src="{{ curso.image.url }}" alt="{{curso.nome}}"/></a>
 
                         {%else %}
                         
-                        <img src="{% static 'img/curso_capa.png' %}" alt="" />
+                        <a href="{% url 'detalhes-curso' curso.slug %}" ><img src="{% static 'img/curso_capa.png' %}" alt="" /></a>
                         
                         {%endif%}
 
