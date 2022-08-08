@@ -40,9 +40,10 @@
                             </div>
                     
                             <div class="buttons">
-                    
-                                <a type="button" class="btn btn-outline-primary px-4" data-bs-toggle="modal" data-bs-target="#editAccount">Editar Conta</a>
-                                <a type="button" class="btn btn-primary px-4 ms-3" data-bs-toggle="modal" data-bs-target="#editPassword">Editar Senha</a>
+                                <!--<a type="button" class="btn btn-primary px-4 ms-3" data-bs-toggle="modal" data-bs-target="#editPassword">Editar Senha</a>-->
+                                <!--<a type="button" class="btn btn-outline-primary px-4" data-bs-toggle="modal" data-bs-target="#editAccount">Editar Conta</a><-->
+                                <a type="button" class="btn btn-outline-primary px-4" href=" {% url 'edit-perfil' request.user.id %} " >Editar Conta</a>
+                                <a type="button" class="btn btn-primary px-4 ms-3" href="{% url 'edit-password' %}">Editar Senha</a>
                             </div>
                         </div>
                     </div>
@@ -147,6 +148,24 @@
             </div>
             <div class="modal-body">
                 <p>Aqui vai ter o <strong>FORM</strong> para editar as informacoes da conta do usuario</p>
+                
+             <!--   
+                <div class="form-row">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    
+                    {% for field in form %}
+                        <div class="form-floating mb-3">
+                            {{ field.label }}
+                            {{field}}
+
+                        </div>
+                    {% endfor %}
+                
+                </div>
+
+            --> 
+            
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -167,6 +186,7 @@
             </div>
             <div class="modal-body">
                 <p>Aqui vai ter o <strong>FORM</strong> para editar apenas a senha do usuario.</p>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

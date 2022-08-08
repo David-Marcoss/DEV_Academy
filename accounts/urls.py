@@ -3,13 +3,15 @@ from django.urls import path,include
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 
-from .views import cadastroview,perfilview
+from .views import cadastroview,perfilview,UserUpdate,UserpasswordUpdate
 
 urlpatterns = [
    path('login/',auth_views.LoginView.as_view(template_name = 'login.html'),name='login'),
    path('logout/',auth_views.LogoutView.as_view(),name='logout'),
    path('cadastrar/',cadastroview,name='cadastrar'),
    path('perfil/',perfilview,name='perfil'),
+   path('edit-perfil/<int:pk>/',UserUpdate.as_view(),name='edit-perfil'),
+   path('edit-password/',UserpasswordUpdate,name='edit-password'),
    
 ]
 

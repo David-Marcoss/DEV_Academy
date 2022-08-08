@@ -1,3 +1,4 @@
+from dataclasses import fields
 import email
 
 from django.conf import settings
@@ -5,6 +6,8 @@ from django import forms
 
 from django.core.mail import send_mail
 from paginas.mail import send_mail_template
+
+from .views import modelcursos
 
 class contatocurso(forms.Form):
 
@@ -24,7 +27,7 @@ class contatocurso(forms.Form):
         
        send_mail_template(subject, template_name, context, [email_criador])
 
-
+"""
 class cadastrocurso(forms.Form):
 
     nome = forms.CharField(max_length=100,label='Titulo do curso')
@@ -36,5 +39,14 @@ class cadastrocurso(forms.Form):
     image = forms.ImageField(label='imagem',allow_empty_file=False)
     slug = forms.SlugField(label='slug')
 
+"""
 
-    
+"""
+foma simplificade de criar form, utulizando model form
+class cadastrocurso(forms.ModelForm):
+
+    class meta:
+        model = modelcursos
+        fields = fields = ['nome','descricao','sobre_curso','data_inicio','image']
+
+ """   
