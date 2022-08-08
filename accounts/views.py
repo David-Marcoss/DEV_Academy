@@ -1,13 +1,15 @@
 from multiprocessing import context
 from pipes import Template
+from re import template
 from typing_extensions import Self
 from unicodedata import name
+from urllib import request
 from django.shortcuts import render, redirect
 
 from django.views.generic import CreateView,TemplateView,UpdateView
 
 # o django por padrao ja possui um model e um form para cadastro de usuarios
-from django.contrib.auth.forms import UserCreationForm  #form padrao de cadastro de usuario
+from django.contrib.auth.forms import PasswordChangeForm  #form padrao para alteração de senha
 from django.contrib.auth.models import User             #model padrao de cadastro de usuario
 
 from django.contrib.auth import authenticate,login #metodos de login
@@ -22,7 +24,7 @@ from django.shortcuts import get_object_or_404
 
 from cursos.models import modelcursos
 
-from .forms import Userform
+from .forms import Userform,EditUserform
 
 from .models import modelaluno,modelprofessor
 
@@ -122,7 +124,6 @@ class cadastroview2(CreateView):
 def perfilview(request):
 
     template_name = "profile.html"
-
     user = request.user
     
     cursos = ''
@@ -165,8 +166,39 @@ class Updateperfilview(UpdateView):
 
 """
 
+class UserUpdate(UpdateView):
+    model= User
+    template_name = 'form.html'
+
+    fields = ['username','email','first_name','last_name']
+
+    success_url = reverse_lazy('perfil') 
+
+    def get_context_data(self, *args,**kwargs):
+
+        context = super().get_context_data(*args,**kwargs)
+        context['titulo'] = 'Editar Perfil'
+        context['botao'] = 'Salvar Alterações'
+
+        return context
 
 
+@login_required
+def UserpasswordUpdate(request):
+    
+    template_name = 'form.html'
+    form = PasswordChangeForm(user=request.user)
+    
+    if request.method == 'POST':
+        form = PasswordChangeForm(data= request.POST, user=request.user)
+
+        if form.is_valid():
+            form.save()
+    
+
+    context = {'form' : form,'titulo':'Editar Senha','botao':'Salvar Alterações'}
+
+    return render(request,template_name,context)
 
 
 

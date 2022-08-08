@@ -4,12 +4,13 @@ from tokenize import group
 from urllib import request
 from django.views.generic import TemplateView,ListView,CreateView
 from .models import modelcursos
-from .forms import contatocurso,cadastrocurso
+from .forms import contatocurso
 
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 
 from slug import slug
+import random
 
 """
 serve para apenas permitir acesso a view se o usuario for pertencente ao grupo predefinio
@@ -66,7 +67,12 @@ class CadastroCursoview(GroupRequiredMixin,CreateView):
     
     group_required = u'professor'
     model = modelcursos
+    """
+    utilizando o CreateView não é nescessario criar um formulario para o model
+    pois ele ja cria o formulario automaticamente com base nas fields definidas
     form = cadastrocurso
+    
+    """
     fields = ['nome','descricao','sobre_curso','data_inicio','image']
     
     template_name = 'form.html'
@@ -81,9 +87,12 @@ class CadastroCursoview(GroupRequiredMixin,CreateView):
     """ 
 
 
+
     def form_valid(self, form):
 
-        form.instance.slug = slug(form.instance.nome)
+        slug_curso = slug(form.instance.nome) + '-' + self.request.user.username +'-'+ f'{random.randint(0,1000)}'
+
+        form.instance.slug = slug_curso
         form.instance.user = self.request.user
 
         form.save()
