@@ -12,7 +12,7 @@ class User(AbstractUser):
         db_table = "usuario"
 
     def __str__(self):
-        return f"{self.username}, {self.email}"
+        return f"{self.username}"
 
 class modelaluno(models.Model):
     nome = models.CharField('Nome completo',max_length=100,null=True)

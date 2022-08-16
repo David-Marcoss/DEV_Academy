@@ -10,11 +10,11 @@ from django.views.generic import CreateView,TemplateView,UpdateView
 
 # o django por padrao ja possui um model e um form para cadastro de usuarios
 from django.contrib.auth.forms import PasswordChangeForm  #form padrao para alteração de senha
-from django.contrib.auth.models import User             #model padrao de cadastro de usuario
+from accounts.models import User
 
 from django.contrib.auth import authenticate,login #metodos de login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group,User
+from django.contrib.auth.models import Group
 
 from django.conf import settings
 from DMS_cursos.settings import LOGIN_REDIRECT_URL
