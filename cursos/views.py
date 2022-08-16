@@ -22,7 +22,7 @@ from braces.views import GroupRequiredMixin
 #serve para apenas permitir acesso a view se o user estiver logado
 from django.contrib.auth.decorators import login_required                     
 
-from django.contrib.auth.models import User 
+from accounts.models import User
 
 # Create your views here.
 
