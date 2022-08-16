@@ -24,7 +24,7 @@ from django.shortcuts import get_object_or_404
 
 from cursos.models import modelcursos
 
-from .forms import Userform,EditUserform
+from .forms import UserChangeForm, UserCreationForm
 
 from .models import modelaluno,modelprofessor
 
@@ -48,24 +48,37 @@ def cadastroview(request):
 
     if request.method == 'POST': # verifica se o meto de formulario é post
         
-        form = Userform(request.POST) #requeste armazena os dados preencidos pelo ususario
+        # requeste armazena os dados preencidos pelo ususario
+        form = UserCreationForm(request.POST)
 
         if form.is_valid(): #verifica se o formulario é valido
 
-            
-            user = form.save() # salva os dados do form no banco
+            user = form.save(commit=False) # salva os dados do form no banco
 
             #vrifica qual é o tipo de usuario
             if form.cleaned_data['tipo_user'] == '1':
                 grupo = get_object_or_404(Group,name='aluno')
+                
+                user.is_Teacher = False
+                user = form.save()  # salva os dados do form no banco
+
                 #cria perfil do user
-                modelaluno.objects.create(perfil = user)
-            
+                modelaluno.objects.create(
+                    perfil = user,
+                    nome = "Teste"
+                )
+
             else:
                 grupo = get_object_or_404(Group,name='professor')
-                modelprofessor.objects.create(perfil = user)
-                print("professor")
-            
+
+                user.is_Teacher = True
+                user = form.save()  # salva os dados do form no banco
+
+                modelprofessor.objects.create(
+                    perfil = user,
+                    nome="Teste",
+                )
+
             #salva usuario ao grupo espesifico
             user.groups.add(grupo)
 
@@ -78,7 +91,7 @@ def cadastroview(request):
     
     
     else:
-        form = Userform()
+        form = UserCreationForm()
 
 
     context = { 'form':  form ,'titulo': 'Criar Conta','submit' : 'Cadastrar-se'}

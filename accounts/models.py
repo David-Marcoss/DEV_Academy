@@ -1,6 +1,18 @@
 from django.db import models
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
+
+
+class User(AbstractUser):
+    is_Teacher = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Usuário"
+        verbose_name_plural = "Usuários"
+        db_table = "usuario"
+
+    def __str__(self):
+        return f"{self.username}, {self.email}"
 
 class modelaluno(models.Model):
     nome = models.CharField('Nome completo',max_length=100,null=True)

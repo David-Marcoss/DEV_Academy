@@ -153,3 +153,5 @@ CONTACT_EMAIL = 'contato@devacademy.com'
 LOGIN_URL = 'login'             # define url de login
 LOGIN_REDIRECT_URL = 'home'     #define url para quando o login for concluido
 LOGOUT_REDIRECT_URL = 'login'
+
+AUTH_USER_MODEL = "accounts.User"
