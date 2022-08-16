@@ -84,7 +84,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <th scope="row">{{c.id}}</th>
-                                                        <td><a href="{% url 'detalhes-curso' c.slug %}">{{c.nome}}</a></td>
+                                                        <td>{{c.nome}}</td>
                                                         <td>*</td>
                                                         <td>{{c.criado_em}}</td>
                                                         <td>
@@ -97,7 +97,7 @@
                                                                         d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                                                 </svg>
                                                             </a>
-                                                            <a href="" type="button" class="btn btn-group">
+                                                            <a href="{% url 'detalhes-curso' c.slug %}" type="button" class="btn btn-group">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-right"
                                                                     viewBox="0 0 16 16">
                                                                     <path fill-rule="evenodd"
