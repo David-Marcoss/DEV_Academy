@@ -62,11 +62,9 @@
                             <!-- <span>UI/UX Designer</span> -->
                     
                             <div class="p-5">
-                                {% if tipo_user == 'Aluno'%}
-                                    <h2>Aluno não está inscrito em nenhum curso!!</h2>
-                                
-                                {% else %}
-                                    {% if cursos != None %}
+                                {% if user.is_Teacher %}
+
+                                    {% if cursos %}
 
                                         <table class="table table-striped">
                                             <thead>
@@ -95,8 +93,15 @@
                                         </table>
                                     {% else %}
                                         <h2>Usuario não possui Cursos criados!</h2>
+                                    
                                     {% endif %}
-                                
+
+
+                                    
+                                {% else %}
+
+                                    <h2>Aluno não está inscrito em nenhum curso!!</h2>
+                         
                                 {% endif %}
 
                             </div>

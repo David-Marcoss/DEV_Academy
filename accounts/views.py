@@ -1,6 +1,9 @@
+from cgitb import reset
+import email
 from multiprocessing import context
 from pipes import Template
 from re import template
+import re
 from typing_extensions import Self
 from unicodedata import name
 from urllib import request
@@ -9,8 +12,13 @@ from django.shortcuts import render, redirect
 from django.views.generic import CreateView,TemplateView,UpdateView
 
 # o django por padrao ja possui um model e um form para cadastro de usuarios
+<<<<<<< Updated upstream
 from django.contrib.auth.forms import PasswordChangeForm  #form padrao para alteração de senha
 from django.contrib.auth.models import User             #model padrao de cadastro de usuario
+=======
+from django.contrib.auth.forms import PasswordChangeForm,SetPasswordForm  #form padrao para alteração de senha
+from accounts.models import User
+>>>>>>> Stashed changes
 
 from django.contrib.auth import authenticate,login #metodos de login
 from django.contrib.auth.decorators import login_required
@@ -24,9 +32,15 @@ from django.shortcuts import get_object_or_404
 
 from cursos.models import modelcursos
 
+<<<<<<< Updated upstream
 from .forms import Userform,EditUserform
+=======
+from .forms import UserChangeForm, UserCreationForm,Redefinir_senhaForm
+>>>>>>> Stashed changes
 
-from .models import modelaluno,modelprofessor
+from .models import modelaluno,modelprofessor,redefinir_senha
+
+from paginas.funcoes_auxiliares import generate_hash_key
 
 
 """
@@ -86,61 +100,89 @@ def cadastroview(request):
     return render(request,template_name,context)
 
 
-"""
-CreateView serve para renderizar formulario e cadastrar os dados do 
-formulario digitado pelo ususario para isso esta função necessita do
-nome do template que ira receber o form, o model que ira armazenar os
-dados uma lista de filds que é os campos do model que ira aparecer no form
-e success_url que é a url que o usuario vai ser redirecionado apos concluir 
-o cadastro.
-
-"""
-
-"""
-OUTRA FORMA DE CADASTRO DE USUSARIO
-
-class cadastroview2(CreateView):
+def redefinir_senhaview(request):
     
-    template_name= 'form.html'
+    """form recebe o request.POST com os dados preenchidos do formulario se o form
+       foi preenchido ou recebe None se o form ainda não foi preenchido
+    """
+    template_name = 'account/redefinir_senha.html'
+    success = False
+
+    form = Redefinir_senhaForm(request.POST or None)  
+
+    if form.is_valid():
+
+        form.save()
+
+        #indica se a operação ocorreu com sucesso
+        success = True
+
+
+    else:
+        form = Redefinir_senhaForm()
+
+    context['success'] = success
+    context['form'] = form
+    context['titulo'] = 'Digite seu E-mail para redefinir senha'
+    context['botao'] = 'Submeter'
+    context['success_msg'] = 'E-mail confirmado com sucesso!!Foi enviado um E-mail para você com mais detalhes para redefinir sua senha'
+
+    return render(request,template_name,context)
+
+
+    return render(request,template_name,context)
+
+
+def reset_passwordview(request,key):
+
+    template_name = 'account/redefinir_senha.html'
+    context = {}
+
+    success = False
+
+    reset = get_object_or_404(redefinir_senha,key=key)
+
+    form = SetPasswordForm(user = reset.User,data = request.POST or None)
+
+    if form.is_valid():
+
+        reset.confirmado = True
+        reset.save()
+
+        form.save()
+
+        success = True
     
-    form_class= Userform
-    success_url= reverse_lazy('home')
+    context['success'] = success
+    context['form'] = form
+    context['titulo'] = 'Redefinir senha'
+    context['botao'] = 'Confirmar'
+    context['success_msg'] = 'Senha redefinida com sucesso!!'
+
+    return render(request,template_name,context)
 
 
-    #get_context_data serve para passar valores para o template 
-    def get_context_data(self, *args,**kwargs):
-        
-        context = super().get_context_data(*args,**kwargs)
-        context['titulo'] = 'Criar Conta'
-        context['submit'] = 'Cadastrar-se'
-
-        return context
-
-
-
-"""
 
 @login_required
 def perfilview(request):
 
     template_name = "profile.html"
     user = request.user
-    
     cursos = ''
     tipo_user = ''
-
-    if user.groups.filter(name='professor').exists():
-
-        tipo_user = 'Professor'
-        
-        if modelcursos.objects.filter(user = user.id).exists():
-            cursos = modelcursos.objects.filter(user = user.id)
-        else:
-            cursos = None
     
+    """
+        é possivel acessar os cursos que estao relacionados a um usuario atravez 
+        do comando nome_do_atributo.nome_do_model_relacionado_set (EX:user.modelcursos_set )
+        com esse comando é retornado todos os dados que estao relacionados ao atributo
+    
+    """
+    
+    if user.is_Teacher:
+        tipo_user = 'Professor'
+        cursos = user.modelcursos_set.all()
     else:
         tipo_user = 'Aluno'
-  
 
     context = {'cursos': cursos,'tipo_user':tipo_user}
 
@@ -170,7 +212,7 @@ class UserUpdate(UpdateView):
     model= User
     template_name = 'form.html'
 
-    fields = ['username','email','first_name','last_name']
+    fields = ['username','email','nome','imageperfil']
 
     success_url = reverse_lazy('perfil') 
 
@@ -203,3 +245,12 @@ def UserpasswordUpdate(request):
 
 
 
+"""
+CreateView serve para renderizar formulario e cadastrar os dados do 
+formulario digitado pelo ususario para isso esta função necessita do
+nome do template que ira receber o form, o model que ira armazenar os
+dados uma lista de filds que é os campos do model que ira aparecer no form
+e success_url que é a url que o usuario vai ser redirecionado apos concluir 
+o cadastro.
+
+"""
