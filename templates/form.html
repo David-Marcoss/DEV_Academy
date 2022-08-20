@@ -7,34 +7,43 @@
 
 {% block content %}
 
-<main class="form-signin w-100 m-auto">
-    
-        <form method="post" enctype="multipart/form-data" >
-            <div class="text-center">
-                <h1 class="h4 mb-3 fw-normal">{{ titulo }}</h1>
-                <hr>
-            </div>
-            
-            <div class="form-row">
-                {% csrf_token %}
-                
-                {{ field.non_field_errors }}
+<div class="container">
+    <div class="row">
 
-                {% for field in form %}
-                <div class="form-floating mb-3">
-                    {% render_field field placeholder=field.label class="form-control" %}
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        <div class="my-3 col-md-2"></div>
+        <div class="my-3 col-md-8">
+            <form method="post" enctype="multipart/form-data" >
+                <div class="text-center">
+                    <h1 class="h4 mb-3 fw-normal">{{ titulo }}</h1>
+                    <hr>
                 </div>
-                {% endfor %}
+                
+                <div class="form-row">
+                    {% csrf_token %}
+                    
+                    {{ field.non_field_errors }}
+    
+                    {% for field in form %}
+                    <div class="form-floating mb-3">
+                        {% render_field field placeholder=field.label class="form-control" %}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    </div>
+                    {% endfor %}
+                
+                </div>
+    
+
+                <div class="text-center">
+                    <button class="btn btn-lg btn-danger" onclick="window.open(document.referrer,'_self');">Voltar</button>
+                    <button class="btn btn-lg btn-primary" type="submit">{{ botao }}</button>
+                </div>
             
-            </div>
-
-            <button class="w-100 btn btn-lg btn-primary" type="submit">{{ botao }}</button>
-            <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
-        
-        </form>
-
-</main>
+            </form>
+    
+        </div>
+        <div class="my-3 col-md-2"></div>
+    </div>
+</div>
 
 
 {% endblock%}

@@ -121,8 +121,25 @@
         <!-- START THE FEATURETTES -->
     
         <hr class="featurette-divider">
-    
-        <div class="row featurette">
+
+        {% for curso in top_cursos %}
+
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading fw-normal lh-1">{{ curso.nome }}</h2>
+                    <p class="lead">{{ curso.descricao }}</p>
+                </div>
+                <div class="col-md-5">
+                    <img src="{{ curso.image.url }}" alt="" style="width: 450px; height: 450px;">
+            
+                </div>
+            </div>
+            
+            <hr class="featurette-divider">
+
+        {% endfor %}
+
+        <!-- <div class="row featurette">
             <div class="col-md-7">
                 <h2 class="featurette-heading fw-normal lh-1">First featurette heading. <span class="text-muted">It’ll blow
                         your mind.</span></h2>
@@ -190,7 +207,7 @@
             </div>
         </div>
     
-        <hr class="featurette-divider">
+        <hr class="featurette-divider"> -->
     
         <!-- /END THE FEATURETTES -->
     

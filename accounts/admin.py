@@ -1,12 +1,12 @@
 from django.contrib import admin
+from django.contrib.auth import admin as auth_admin
 
-from .models import modelprofessor,modelaluno
+from .forms import UserChangeForm, UserCreationForm
+from .models import User, modelprofessor,modelaluno,redefinir_senha
 
 # Register your models here.
 
 
-<<<<<<< Updated upstream
-=======
 @admin.register(User)
 class UserAdmin(auth_admin.UserAdmin):
     form = UserChangeForm
@@ -16,7 +16,7 @@ class UserAdmin(auth_admin.UserAdmin):
         ("Informações Pessoais", {"fields": ("is_Teacher",'nome','imageperfil')}),
     )
 
->>>>>>> Stashed changes
 admin.site.register(modelprofessor) #adciona tabela cursos no admin
 admin.site.register(modelaluno) #adciona tabela cursos no admin
+admin.site.register(redefinir_senha) #adciona tabela redefinir_senha  no admin
 

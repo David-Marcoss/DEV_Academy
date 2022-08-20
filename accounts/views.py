@@ -12,17 +12,12 @@ from django.shortcuts import render, redirect
 from django.views.generic import CreateView,TemplateView,UpdateView
 
 # o django por padrao ja possui um model e um form para cadastro de usuarios
-<<<<<<< Updated upstream
-from django.contrib.auth.forms import PasswordChangeForm  #form padrao para alteração de senha
-from django.contrib.auth.models import User             #model padrao de cadastro de usuario
-=======
 from django.contrib.auth.forms import PasswordChangeForm,SetPasswordForm  #form padrao para alteração de senha
 from accounts.models import User
->>>>>>> Stashed changes
 
 from django.contrib.auth import authenticate,login #metodos de login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group,User
+from django.contrib.auth.models import Group
 
 from django.conf import settings
 from DMS_cursos.settings import LOGIN_REDIRECT_URL
@@ -32,16 +27,14 @@ from django.shortcuts import get_object_or_404
 
 from cursos.models import modelcursos
 
-<<<<<<< Updated upstream
-from .forms import Userform,EditUserform
-=======
 from .forms import UserChangeForm, UserCreationForm,Redefinir_senhaForm
->>>>>>> Stashed changes
 
 from .models import modelaluno,modelprofessor,redefinir_senha
 
 from paginas.funcoes_auxiliares import generate_hash_key
 
+from datetime import datetime
+from paginas.funcoes_auxiliares import compara_tempo
 
 """
 request é outra forma de renderizar um template e manipular o template
@@ -62,24 +55,37 @@ def cadastroview(request):
 
     if request.method == 'POST': # verifica se o meto de formulario é post
         
-        form = Userform(request.POST) #requeste armazena os dados preencidos pelo ususario
+        # requeste armazena os dados preencidos pelo ususario
+        form = UserCreationForm(request.POST)
 
         if form.is_valid(): #verifica se o formulario é valido
 
-            
-            user = form.save() # salva os dados do form no banco
+            user = form.save(commit=False) # salva os dados do form no banco
 
             #vrifica qual é o tipo de usuario
             if form.cleaned_data['tipo_user'] == '1':
                 grupo = get_object_or_404(Group,name='aluno')
+                
+                user.is_Teacher = False
+                user = form.save()  # salva os dados do form no banco
+
                 #cria perfil do user
-                modelaluno.objects.create(perfil = user)
-            
+                modelaluno.objects.create(
+                    perfil = user,
+                    nome = "Teste"
+                )
+
             else:
                 grupo = get_object_or_404(Group,name='professor')
-                modelprofessor.objects.create(perfil = user)
-                print("professor")
-            
+
+                user.is_Teacher = True
+                user = form.save()  # salva os dados do form no banco
+
+                modelprofessor.objects.create(
+                    perfil = user,
+                    nome="Teste",
+                )
+
             #salva usuario ao grupo espesifico
             user.groups.add(grupo)
 
@@ -92,7 +98,7 @@ def cadastroview(request):
     
     
     else:
-        form = Userform()
+        form = UserCreationForm()
 
 
     context = { 'form':  form ,'titulo': 'Criar Conta','submit' : 'Cadastrar-se'}
@@ -101,36 +107,44 @@ def cadastroview(request):
 
 
 def redefinir_senhaview(request):
+
+    template_name = 'account/redefinir_senha.html'
+    success = False
+    success_msg = ''
+    context = {}
+
     
     """form recebe o request.POST com os dados preenchidos do formulario se o form
        foi preenchido ou recebe None se o form ainda não foi preenchido
     """
-    template_name = 'account/redefinir_senha.html'
-    success = False
 
     form = Redefinir_senhaForm(request.POST or None)  
 
     if form.is_valid():
 
-        form.save()
+        user = User.objects.get(email = form.cleaned_data['email'])
+
+        #verifica se o usuario já possui algum pedido de redefinição de senha em aberto
+        if redefinir_senha.objects.filter(User = user,confirmado = False).exists():
+            success_msg = """Você já possui um pedido de redefinição de senha em aberto!
+            Acesse seu E-mail e veja o E-mail que enviamos para voce com mais detalhes para 
+            redefinir sua senha"""
+        
+        else:
+            
+            form.save()
+            success_msg = 'E-mail confirmado com sucesso!!Foi enviado um E-mail para você com mais detalhes para redefinir sua senha'
 
         #indica se a operação ocorreu com sucesso
         success = True
-
-
-    else:
-        form = Redefinir_senhaForm()
 
     context['success'] = success
     context['form'] = form
     context['titulo'] = 'Digite seu E-mail para redefinir senha'
     context['botao'] = 'Submeter'
-    context['success_msg'] = 'E-mail confirmado com sucesso!!Foi enviado um E-mail para você com mais detalhes para redefinir sua senha'
-
+    context['success_msg'] = success_msg
     return render(request,template_name,context)
 
-
-    return render(request,template_name,context)
 
 
 def reset_passwordview(request,key):
@@ -138,26 +152,39 @@ def reset_passwordview(request,key):
     template_name = 'account/redefinir_senha.html'
     context = {}
 
+    success_msg = ''
     success = False
 
     reset = get_object_or_404(redefinir_senha,key=key)
+    horario_atual = datetime.now().time()
 
-    form = SetPasswordForm(user = reset.User,data = request.POST or None)
+    expirou = compara_tempo(horario_atual,reset.expira_em)
 
-    if form.is_valid():
-
-        reset.confirmado = True
-        reset.save()
-
-        form.save()
-
+    if reset.confirmado or  expirou:
+        form = SetPasswordForm(user = reset.User)
+        
+        success_msg = "OPs esté link já expirou! \n Não é mais possivel realizar esta operação!!"
+        
         success = True
-    
+
+    else:
+        form = SetPasswordForm(user = reset.User,data = request.POST or None)
+
+        if form.is_valid():
+
+            reset.confirmado = True
+            reset.save()
+
+            form.save()
+
+            success = True
+            success_msg = 'Senha redefinida com sucesso!!'
+        
     context['success'] = success
     context['form'] = form
     context['titulo'] = 'Redefinir senha'
     context['botao'] = 'Confirmar'
-    context['success_msg'] = 'Senha redefinida com sucesso!!'
+    context['success_msg'] = success_msg
 
     return render(request,template_name,context)
 

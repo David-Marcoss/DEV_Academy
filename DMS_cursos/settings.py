@@ -137,12 +137,13 @@ MEDIA_URL = '/media/'
 # E-mails
 #configurações para envio de e-mails
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'Nome <email@gmail.com>'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'david.marcos54321@gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'email@gmail.com'
-EMAIL_HOST_PASSWORD = 'senha'
+EMAIL_HOST_USER = 'devacademy.suporte@gmail.com'
+EMAIL_HOST_PASSWORD = 'suporte098'
 EMAIL_PORT = 587
 
 CONTACT_EMAIL = 'contato@devacademy.com'
@@ -153,3 +154,5 @@ CONTACT_EMAIL = 'contato@devacademy.com'
 LOGIN_URL = 'login'             # define url de login
 LOGIN_REDIRECT_URL = 'home'     #define url para quando o login for concluido
 LOGOUT_REDIRECT_URL = 'login'
+
+AUTH_USER_MODEL = "accounts.User"

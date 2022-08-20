@@ -2,11 +2,6 @@ from cProfile import label
 from cgitb import reset
 from tabnanny import verbose
 from django.db import models
-<<<<<<< Updated upstream
-from django.contrib.auth.models import User 
-# Create your models here.
-
-=======
 from django.contrib.auth.models import AbstractUser
 
 from django.conf import settings
@@ -46,9 +41,11 @@ class redefinir_senha(models.Model):
     key = models.TextField('key',max_length=100,unique=True)
     criado_em = models.DateField('Data criação',auto_now=True)
     confirmado = models.BooleanField('Senha foi redefinida:',default=False)
+    horario = models.TimeField('horario de criação',auto_now=True)
+    expira_em = models.TimeField('tempo para expirar',null=True)
 
     def __str__(self):
-        return f"{self.user} {self.criado_em}"
+        return f"{self.User} {self.criado_em}"
     
     class meta:
         verbose_name = 'Nova senha'
@@ -57,7 +54,6 @@ class redefinir_senha(models.Model):
 
 
 
->>>>>>> Stashed changes
 class modelaluno(models.Model):
     nome = models.CharField('Nome completo',max_length=100,null=True)
     imageperfil = models.ImageField(upload_to='perfil/imagens',verbose_name='imagem perfil',null=True,blank=True)

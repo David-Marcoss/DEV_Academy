@@ -23,7 +23,12 @@
                     <div class="p-3 py-4">
                     
                         <div class="text-center">
-                            <img src="https://github.com/mdo3.png" width="100" class="rounded-circle">
+                            {% if user.imageperfil %}
+                                <img src="{{ user.imageperfil.url }}" width="100" class="rounded-circle">
+                            {% else%}
+                                <img src="https://github.com/mdo3.png" width="100" class="rounded-circle">
+                            {% endif %} 
+
                         </div>
                     
                         <div class="text-center mt-3">
@@ -52,7 +57,12 @@
                     <div class="p-3 py-4">
                     
                         <div class="text-center">
-                            <img src="https://github.com/mdo3.png" width="100" class="rounded-circle">
+                            {% if user.imageperfil %}
+                                <img src="{{ user.imageperfil.url }}" width="100" class="rounded-circle">
+                            {% else%}
+                                <img src="https://github.com/mdo3.png" width="100" class="rounded-circle">
+                            {% endif %} 
+
                         </div>
                     
                         <div class="text-center mt-3">
@@ -73,6 +83,7 @@
                                                     <th scope="col">Nome</th>
                                                     <th scope="col">Quantidade de alunos</th>
                                                     <th scope="col">Data de criacao</th>
+                                                    <th scope="col"></th>
                                                 </tr>
                                             </thead>
 
@@ -81,9 +92,27 @@
                                                 <tbody>
                                                     <tr>
                                                         <th scope="row">{{c.id}}</th>
-                                                        <td><a href="{% url 'detalhes-curso' c.slug %}">{{c.nome}}</a></td>
+                                                        <td>{{c.nome}}</td>
                                                         <td>*</td>
                                                         <td>{{c.criado_em}}</td>
+                                                        <td>
+                                                            <a href="" type="button" class="btn btn-group">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square"
+                                                                    viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                                                </svg>
+                                                            </a>
+                                                            <a href="{% url 'detalhes-curso' c.slug %}" type="button" class="btn btn-group">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-right"
+                                                                    viewBox="0 0 16 16">
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8zm-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5z" />
+                                                                </svg>
+                                                            </a>
+                                                        </td>
                                                     </tr>
                 
                                                 </tbody>
@@ -113,7 +142,12 @@
                     <div class="p-3 py-4">
                     
                         <div class="text-center">
-                            <img src="https://github.com/mdo3.png" width="100" class="rounded-circle">
+                            {% if user.imageperfil %}
+                                <img src="{{ user.imageperfil.url }}" width="100" class="rounded-circle">
+                            {% else%}
+                                <img src="https://github.com/mdo3.png" width="100" class="rounded-circle">
+                            {% endif %} 
+
                         </div>
                     
                         <div class="text-center mt-3">

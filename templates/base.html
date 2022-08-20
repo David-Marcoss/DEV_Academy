@@ -56,10 +56,19 @@
             <div class="dropdown text-end">
                 <a href="#" class="d-block text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    <img src="https://github.com/mdo3.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    
+                    {% if request.user.imageperfil %}
+                        <img src="{{ request.user.imageperfil.url }}" alt="mdo" width="32" height="32" class="rounded-circle">
+                    {% else%}
+                        <img src="https://github.com/mdo3.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    {% endif %}
+                    
+                
                 </a>
                 <ul class="dropdown-menu text-small">
-                    <li><a class="dropdown-item" href="{% url 'cadastrar-curso' %}">Criar Curso</a></li>
+                    {% if request.user.is_Teacher %}
+                        <li><a class="dropdown-item" href="{% url 'cadastrar-curso' %}">Criar Curso</a></li>
+                    {% endif %}
                     <li><a class="dropdown-item" href="#">Settings</a></li>
                     <li><a class="dropdown-item" href="{% url 'perfil' %}">Profile</a></li>
                     <li>
@@ -129,7 +138,7 @@
         </div>
     </main>
 
-    <script src="../../static/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
 </body>
 

@@ -9,7 +9,7 @@
     {% if success == True %}
 
         <div class="text-center">
-            <h1 class="h4 mb-3 fw-normal" style="color: green;">{{success_msg}}</h1>
+            <h1 class="h4 mb-3 fw-normal">{{success_msg|linebreaks}}</h1>
         </div>
 
     {% else %}
