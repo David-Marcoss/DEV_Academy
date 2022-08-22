@@ -130,8 +130,9 @@
                     <p class="lead">{{ curso.descricao }}</p>
                 </div>
                 <div class="col-md-5">
-                    <img src="{{ curso.image.url }}" alt="" style="width: 450px; height: 450px;">
-            
+                    <a href="{% url 'detalhes-curso' curso.slug %}">
+                        <img src="{{ curso.image.url }}" alt="" style="width: 450px; height: 450px;">
+                    </a>
                 </div>
             </div>
             
