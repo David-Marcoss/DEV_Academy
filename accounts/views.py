@@ -56,7 +56,7 @@ def cadastroview(request):
     if request.method == 'POST': # verifica se o meto de formulario é post
         
         # requeste armazena os dados preencidos pelo ususario
-        form = UserCreationForm(request.POST)
+        form = UserCreationForm(request.POST, request.FILES)
 
         if form.is_valid(): #verifica se o formulario é valido
 
