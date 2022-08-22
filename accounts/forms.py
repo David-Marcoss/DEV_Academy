@@ -24,10 +24,10 @@ User = get_user_model()
 
 class UserChangeForm(auth_forms.UserChangeForm):
 
-    #campos adicionados ao form user
-    email = forms.EmailField(max_length=100)
-    tipo_user = forms.ChoiceField(
-        choices=(('1', 'aluno'), ('2', 'professor')), label='Tipo de Usuário')
+    # #campos adicionados ao form user
+    # email = forms.EmailField(max_length=100)
+    # tipo_user = forms.ChoiceField(
+    #     choices=(('1', 'aluno'), ('2', 'professor')), label='Tipo de Usuário')
 
     #definição de valores padrao
     class Meta:
