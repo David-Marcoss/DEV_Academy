@@ -41,65 +41,69 @@
         </symbol>
     </svg>
 
-    <nav class="py-2 fixed-top navbar-dark bg-dark border-bottom">
-        <div class="container d-flex flex-wrap">
-            <ul class="nav me-auto">
+    <nav class="py-2 fixed-top bg-white border-bottom shadow-lg border">
+        <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
+            <div>
+                <a href="{% url 'home' %}" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 link-dark text-decoration-none"
+                    aria-expanded="false">
+                        <img src="{% static 'img/dev_logo.png' %}" alt="" style="width: 40%; margin: 10px;">
+                        <span>Dev Academy</span>
+
+                </a>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <form class="w-100 me-3" role="search">
+                    <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+                </form>
+            
+                {%if request.user.is_authenticated %}
+                
+                <div class="flex-shrink-0 dropdown text-end">
+                    <a href="#" class="d-block text-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                
+                        {% if request.user.imageperfil %}
+                        <img src="{{ request.user.imageperfil.url }}" alt="mdo" width="32" height="32" class="rounded-circle">
+                        {% else%}
+                        <img src="https://github.com/mdo3.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                        {% endif %}
+                
+                
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                        {% if request.user.is_Teacher %}
+                        <li><a class="dropdown-item" href="{% url 'cadastrar-curso' %}">Criar Curso</a></li>
+                        {% endif %}
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="{% url 'perfil' %}">Profile</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+                    </ul>
+                </div>
+                
+                {% else %}
+                
+                <div class="flex-shrink-0 text-end">
+                    <a href="{% url 'login' %}" class="btn btn-light text-dark me-2">Login</a>
+                    <a href="{% url 'cadastrar' %}" class="btn btn-dark text-white me-2">Cadastre-se</a>
+                </div>
+                
+                {% endif %}
+            </div>
+
+            <!-- <ul class="nav me-auto">
                 <li class="nav-item"><a href="{% url 'home' %}" class="nav-link text-white px-2 active" aria-current="page">Início</a></li>
                 <li class="nav-item"><a href="{% url 'cursos' %}" class="nav-link text-white px-2">Cursos</a></li>
                 <li class="nav-item"><a href="{% url 'contato' %}" class="nav-link text-white px-2">Contato</a></li>
                 <li class="nav-item"><a href="#" class="nav-link text-white px-2">FAQs</a></li>
                 <li class="nav-item"><a href="#" class="nav-link text-white px-2">About</a></li>
-            </ul>
-
-            {%if request.user.is_authenticated %}
-
-            <div class="dropdown text-end">
-                <a href="#" class="d-block text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    
-                    {% if request.user.imageperfil %}
-                        <img src="{{ request.user.imageperfil.url }}" alt="mdo" width="32" height="32" class="rounded-circle">
-                    {% else%}
-                        <img src="https://github.com/mdo3.png" alt="mdo" width="32" height="32" class="rounded-circle">
-                    {% endif %}
-                    
-                
-                </a>
-                <ul class="dropdown-menu text-small">
-                    {% if request.user.is_Teacher %}
-                        <li><a class="dropdown-item" href="{% url 'cadastrar-curso' %}">Criar Curso</a></li>
-                    {% endif %}
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="{% url 'perfil' %}">Profile</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
-                </ul>
-            </div>
-
-            {% else %}
-
-            <div class="text-end">
-                <a href="{% url 'login' %}" class="btn btn-outline-light me-2">Login</a>
-                <a href="{% url 'cadastrar' %}" class="btn btn-warning">Cadastre-se</a>
-            </div>
-
-            {% endif %}
+            </ul> -->
             
         </div>
     </nav>
-    <header class="py-4 border-bottom">
-        <div class="container d-flex flex-wrap justify-content-center">
-            <a href="{% url 'home' %}" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
-                <img src="{% static 'img/dev_logo.png' %}" alt="" style="width: 10%; margin: 10px;">
-                <span class="fs-4">Dev Academy</span>
-            </a>
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
-                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-            </form>
-        </div>
-    </header>
 
     <main>
 
