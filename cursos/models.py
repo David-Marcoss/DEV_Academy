@@ -39,4 +39,17 @@ class modelcursos(models.Model):
 
         verbose_name = 'Curso'
         verbose_name_plural ='Cursos'
+
+class matricula(models.Model):
+
+    data_matricula = models.DateTimeField('criado em: ',auto_now_add=True)
+    curso = models.ForeignKey(modelcursos,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+
+    def __str__(self) -> str: # define um nome para o objeto
+        return f'{self.user} matriculado em {self.curso}'
     
+    class Meta:
+
+        verbose_name = 'Matricula'
+        verbose_name_plural ='Matriculas'

@@ -13,7 +13,6 @@ from django.views.generic import CreateView,TemplateView,UpdateView
 
 # o django por padrao ja possui um model e um form para cadastro de usuarios
 from django.contrib.auth.forms import PasswordChangeForm,SetPasswordForm  #form padrao para alteração de senha
-from accounts.models import User
 
 from django.contrib.auth import authenticate,login #metodos de login
 from django.contrib.auth.decorators import login_required
@@ -29,7 +28,7 @@ from cursos.models import modelcursos
 
 from .forms import UserChangeForm, UserCreationForm,Redefinir_senhaForm
 
-from .models import modelaluno,modelprofessor,redefinir_senha
+from .models import User,redefinir_senha
 
 from paginas.funcoes_auxiliares import generate_hash_key
 
@@ -69,22 +68,11 @@ def cadastroview(request):
                 user.is_Teacher = False
                 user = form.save()  # salva os dados do form no banco
 
-                #cria perfil do user
-                modelaluno.objects.create(
-                    perfil = user,
-                    nome = "Teste"
-                )
-
             else:
                 grupo = get_object_or_404(Group,name='professor')
 
                 user.is_Teacher = True
                 user = form.save()  # salva os dados do form no banco
-
-                modelprofessor.objects.create(
-                    perfil = user,
-                    nome="Teste",
-                )
 
             #salva usuario ao grupo espesifico
             user.groups.add(grupo)
@@ -106,6 +94,12 @@ def cadastroview(request):
     return render(request,template_name,context)
 
 
+"""
+redefinir_senhaview permite que o usuario solicite redefinir sua senha
+para isso é utilizado um form que recebe o e-mail do usuario e se o e-mail
+for valido envia um e e-mail para o usuario com o link para alterar senha
+
+"""
 def redefinir_senhaview(request):
 
     template_name = 'account/redefinir_senha.html'
@@ -146,7 +140,13 @@ def redefinir_senhaview(request):
     return render(request,template_name,context)
 
 
+"""
+reset_passwordview é responsavel por redefinir a senha do usuario
+recebe a chave que foi gerada pela solicitação de senha do usuario
+e redefine a senha do user utilizando o form SetPasswordForm que
+é um form padrao do django para redefinição de senha
 
+"""
 def reset_passwordview(request,key):
 
     template_name = 'account/redefinir_senha.html'
@@ -155,6 +155,7 @@ def reset_passwordview(request,key):
     success_msg = ''
     success = False
 
+    #busca a solicitação do usuario no model redefinir senha
     reset = get_object_or_404(redefinir_senha,key=key)
     horario_atual = datetime.now().time()
 
@@ -164,6 +165,9 @@ def reset_passwordview(request,key):
         form = SetPasswordForm(user = reset.User)
         
         success_msg = "OPs esté link já expirou! \n Não é mais possivel realizar esta operação!!"
+        
+        reset.confirmado = True
+        reset.save()
         
         success = True
 
@@ -215,31 +219,11 @@ def perfilview(request):
 
     return render(request,template_name,context)
 
-
-
-"""
-função pendente implementar atualização dados do perfil 
-
-class Updateperfilview(UpdateView):
- 
-    user = self.request.user
-    template_name = 'editperfil.html'
-    
-    if user.groups.filter(name='professor').exists():
-        pass
-    else:
-        pass
-    
-    def get_object(self, queryset= None):
-        return super().get_object(queryset)
-
-"""
-
 class UserUpdate(UpdateView):
     model= User
     template_name = 'form.html'
 
-    fields = ['username','email','nome','imageperfil']
+    fields = ['username','email','nome','imageperfil','bio']
 
     success_url = reverse_lazy('perfil') 
 

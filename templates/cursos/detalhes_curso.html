@@ -16,7 +16,8 @@
                 <p class="col-md-12 fs-4">
                     {{ course.descricao }}
                 </p>
-                <a href="#" class="btn btn-primary btn-lg">Inscreva-se</a>
+                <a href="{% url 'detalhes-curso' course.slug %}" class="btn btn-primary btn-lg">Inscreva-se</a>
+            
             </div>
         </div>
     </div>
@@ -49,15 +50,17 @@
                 <div class="col-md-12 mx-auto col-lg-6">
                     <h3>Informações do professor do curso:</h3>
                     {% if criador.imageperfil %}
-                        <img src="{{ criador.imageperfil.url }}" alt="mdo" width="224" height="224" class="rounded-circle">
+                        <img src="{{ criador.imageperfil.url }}" alt="mdo" width="154" height="154" class="rounded-circle">
                     {% else%}
-                        <img src="https://github.com/mdo3.png" alt="mdo" width="224" height="224" class="rounded-circle">
+                        <img src="https://github.com/mdo3.png" alt="mdo" width="154" height="154" class="rounded-circle">
                     {% endif %}
                     <br><br>
-                    <label class="form-label">Primeiro nome</label>
-                    <input type="text" class="form-control" value="{{ criador.first_name }}" disabled>
-                    <label class="form-label">Sobrenome</label>
-                    <input type="text" class="form-control" value="{{ criador.last_name }}" disabled>
+                    <label class="form-label">Nome</label>
+                    {% if criador.nome %}
+                    <input type="text" class="form-control" value="{{ criador.nome}}" disabled>
+                    {% else %}
+                    <input type="text" class="form-control" value="{{ criador.username }}" disabled>
+                    {% endif %}
                     <label class="form-label">Email</label>
                     <input type="text" class="form-control" value="{{ criador.email }}" disabled>
                 </div>

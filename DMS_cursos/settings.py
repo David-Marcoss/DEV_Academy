@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os.path
 from pathlib import Path
 
+"""
+esta biblioteca serve para armazenar variaveis que nao devem ser vistas 
+como senhas 
+"""
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -137,16 +143,18 @@ MEDIA_URL = '/media/'
 # E-mails
 #configurações para envio de e-mails
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'david.marcos54321@gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'DevAcademy_suporte@gmail.com'
-EMAIL_HOST_PASSWORD = 'xvlzatsgioloiaji'
-EMAIL_PORT = 587
 
-CONTACT_EMAIL = 'contato@devacademy.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = config('EMAIL_PORT')
+
+CONTACT_EMAIL = config('CONTACT_EMAIL')
 
 
 ## configuraçoes login
