@@ -7,7 +7,7 @@
 <section class="py-5 text-center container">
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">Listagem de Cursos do DEV Academy</h1>
+            <h1 class="fw-light">{{ titulo }}</h1>
             <!-- <p class="lead text-muted">Abaixo a lista de cursos disponíveis na plataforma</p>
             <p>
                 <a href="#" class="btn btn-primary my-2">Main call to action</a>
@@ -28,11 +28,11 @@
 
                         {% if curso.image %}
 
-                        <a href="{% url 'detalhes-curso' curso.slug %}" ><img src="{{ curso.image.url }}" alt="{{curso.nome}}" style="width: 100%;"/></a>
+                            <a href="{% url 'detalhes-curso' curso.slug %}" ><img src="{{ curso.image.url }}" alt="{{curso.nome}}" style="width: 100%;"/></a>
 
                         {%else %}
                         
-                        <a href="{% url 'detalhes-curso' curso.slug %}" ><img src="{% static 'img/curso_capa.png' %}" alt="" style="width: 100%;"/></a>
+                            <a href="{% url 'detalhes-curso' curso.slug %}" ><img src="{% static 'img/curso_capa.png' %}" alt="" style="width: 100%;"/></a>
                         
                         {%endif%}
 
@@ -51,7 +51,9 @@
                                 <div class="btn-group">
                                     <a href="{% url 'detalhes-curso' curso.slug %}" class="btn btn-sm btn-outline-secondary">View</a>
                                     <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button> -->
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                    {% if curso.user == request.user %}
+                                        <a href="{% url 'edit-curso' curso.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                    {% endif %}
                                 </div>
                                 
                                 <small class="text-muted">9 mins</small>

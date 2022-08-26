@@ -11,12 +11,15 @@
             <div class="text-center">
                 
                 <h1 class="display-5 fw-bold">{{ course }}</h1>
-                <h3 class="display-10 fw-bold">Criado por: {{criador}}</h1>
                 
                 <p class="col-md-12 fs-4">
                     {{ course.descricao }}
                 </p>
-                <a href="{% url 'detalhes-curso' course.slug %}" class="btn btn-primary btn-lg">Inscreva-se</a>
+                {% if matriculado %}
+                    <a href="{% url 'cancelar-matricula' course.id %}" class="btn btn-primary btn-lg" style="background-color: green;">Inscrito</a>
+                {% else %}
+                    <a href="{% url 'matricula' course.slug %}" class="btn btn-primary btn-lg">Inscreva-se</a>
+                {% endif %}
             
             </div>
         </div>

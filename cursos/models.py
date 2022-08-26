@@ -3,6 +3,7 @@ from curses.ascii import NUL
 from distutils.command.upload import upload
 from distutils.text_file import TextFile
 from email.mime import image
+from enum import unique
 from pickle import TRUE
 from tabnanny import verbose
 from typing import OrderedDict
@@ -43,8 +44,8 @@ class modelcursos(models.Model):
 class matricula(models.Model):
 
     data_matricula = models.DateTimeField('criado em: ',auto_now_add=True)
-    curso = models.ForeignKey(modelcursos,on_delete=models.CASCADE)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    curso = models.ForeignKey(modelcursos,on_delete=models.CASCADE,related_name='matricula')
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='matricula')
 
     def __str__(self) -> str: # define um nome para o objeto
         return f'{self.user} matriculado em {self.curso}'
@@ -53,3 +54,5 @@ class matricula(models.Model):
 
         verbose_name = 'Matricula'
         verbose_name_plural ='Matriculas'
+        #esta variavel serve para definir um unico objeto entre o usuario e o curso
+        unique_together = (('user','curso')) 
