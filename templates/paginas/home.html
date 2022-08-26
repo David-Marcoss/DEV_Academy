@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% get_media_prefix %}
 
 {% block content %}
 
@@ -64,55 +65,282 @@
     <!-- Wrap the rest of the page in another container to center all the content. -->
     
     <div class="container marketing">
-    
+
         <!-- Three columns of text below the carousel -->
+        
         <div class="row">
+
+            {%if Prof_01 %}
+                <div class="col-lg-4">
+                    <img src="{% get_media_prefix %}{{ Prof_01.imageperfil }}" alt="mdo" width="140" height="140" class="rounded-circle">
+        
+                    <h2 class="fw-normal">{{ Prof_01.nome }}</h2>
+                    <p>Some representative placeholder content for the three columns of text below the carousel. This is
+                        the first
+                        column.</p>
+                    <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                </div><!-- /.col-lg-4 -->
+
+            {% else %}
+                <div class="col-lg-4">
+                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
+                        role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
+                    </svg>
+                
+                    <h2 class="fw-normal">Heading</h2>
+                    <p>Some representative placeholder content for the three columns of text below the carousel. This is
+                        the first
+                        column.</p>
+                    <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                </div><!-- /.col-lg-4 -->
+            {% endif %}
+
+            {%if Prof_02 %}
             <div class="col-lg-4">
-                <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-                    role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777"
-                        dy=".3em">140x140</text>
-                </svg>
+                <img src="{% get_media_prefix %}{{ Prof_02.imageperfil }}" alt="mdo" width="140" height="140" class="rounded-circle">
     
-                <h2 class="fw-normal">Heading</h2>
-                <p>Some representative placeholder content for the three columns of text below the carousel. This is
-                    the first
-                    column.</p>
+                <h2 class="fw-normal">{{ Prof_02.nome }}</h2>
+                <p>Another exciting bit of representative placeholder content. This time, we've moved on to the
+                    second column.
+                </p>
                 <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
+            {% else %}
             <div class="col-lg-4">
                 <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
                     role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
                     <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777"
-                        dy=".3em">140x140</text>
+                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                 </svg>
-    
+            
                 <h2 class="fw-normal">Heading</h2>
                 <p>Another exciting bit of representative placeholder content. This time, we've moved on to the
                     second column.
                 </p>
                 <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
+            {% endif %}
+
+            {%if Prof_03 %}
+            <div class="col-lg-4">
+                <img src="{% get_media_prefix %}{{ Prof_03.imageperfil }}" alt="mdo" width="140" height="140" class="rounded-circle">
+    
+                <h2 class="fw-normal">{{ Prof_03.nome }}</h2>
+                <p>And lastly this, the third column of representative placeholder content.</p>
+                <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+            {% else %}
             <div class="col-lg-4">
                 <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
                     role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
                     <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777"
-                        dy=".3em">140x140</text>
+                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                 </svg>
-    
+            
                 <h2 class="fw-normal">Heading</h2>
                 <p>And lastly this, the third column of representative placeholder content.</p>
                 <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
+            {% endif %}
+
         </div><!-- /.row -->
     
     
         <!-- START THE FEATURETTES -->
     
         <hr class="featurette-divider">
+
+        <nav>
+            <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-python-tab" data-bs-toggle="tab" data-bs-target="#nav-python"
+                    type="button" role="tab" aria-controls="nav-python" aria-selected="false">Python</button>
+                <button class="nav-link" id="nav-java-tab" data-bs-toggle="tab" data-bs-target="#nav-java" type="button"
+                    role="tab" aria-controls="nav-java" aria-selected="false">Java</button>
+                <button class="nav-link" id="nav-ruby-tab" data-bs-toggle="tab" data-bs-target="#nav-ruby"
+                    type="button" role="tab" aria-controls="nav-ruby" aria-selected="true">Ruby</button>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-python" role="tabpanel" aria-labelledby="nav-python-tab">
+                <div class="card-group">
+                    <div class="card">
+                        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%"
+                            height="180px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                            <title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
+                        </svg>
+                        <div class="card-body">
+                            <h5 class="card-title">Título do card</h5>
+                            <p class="card-text">Este é um card maior com suporte a texto embaixo, que funciona como uma introdução a um
+                                conteúdo adicional. Este conteúdo é um pouco maior, para demonstração.</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Atualizados 3 minutos atrás</small>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%"
+                            height="180px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                            <title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
+                        </svg>
+                        <div class="card-body">
+                            <h5 class="card-title">Título do card</h5>
+                            <p class="card-text">Este é um card com suporte a texto embaixo, que funciona como uma introdução a um
+                                conteúdo adicional.</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Atualizados 3 minutos atrás</small>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%"
+                            height="180px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                            preserveAspectRatio="xMidYMid slice" focusable="false">
+                            <title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
+                        </svg>
+                        <div class="card-body">
+                            <h5 class="card-title">Título do card</h5>
+                            <p class="card-text">Este é um card maior com suporte a texto embaixo, que funciona como uma introdução a um
+                                conteúdo adicional. Este card tem o conteúdo ainda maior que o primeiro, para mostrar a altura igual, em
+                                ação.</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Atualizados 3 minutos atrás</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-java" role="tabpanel" aria-labelledby="nav-java-tab">
+                <div class="tab-pane fade show active" id="nav-python" role="tabpanel" aria-labelledby="nav-python-tab">
+                    <div class="card-group">
+                        <div class="card">
+                            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%"
+                                height="180px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
+                                    dy=".3em">500x500</text>
+                            </svg>
+                            <div class="card-body">
+                                <h5 class="card-title">Título do card</h5>
+                                <p class="card-text">Este é um card maior com suporte a texto embaixo, que funciona como uma introdução
+                                    a um
+                                    conteúdo adicional. Este conteúdo é um pouco maior, para demonstração.</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Atualizados 3 minutos atrás</small>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%"
+                                height="180px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
+                                    dy=".3em">500x500</text>
+                            </svg>
+                            <div class="card-body">
+                                <h5 class="card-title">Título do card</h5>
+                                <p class="card-text">Este é um card com suporte a texto embaixo, que funciona como uma introdução a um
+                                    conteúdo adicional.</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Atualizados 3 minutos atrás</small>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%"
+                                height="180px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
+                                    dy=".3em">500x500</text>
+                            </svg>
+                            <div class="card-body">
+                                <h5 class="card-title">Título do card</h5>
+                                <p class="card-text">Este é um card maior com suporte a texto embaixo, que funciona como uma introdução
+                                    a um
+                                    conteúdo adicional. Este card tem o conteúdo ainda maior que o primeiro, para mostrar a altura
+                                    igual, em
+                                    ação.</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Atualizados 3 minutos atrás</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-ruby" role="tabpanel" aria-labelledby="nav-ruby-tab">
+                <div class="tab-pane fade show active" id="nav-python" role="tabpanel" aria-labelledby="nav-python-tab">
+                    <div class="card-group">
+                        <div class="card">
+                            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%"
+                                height="180px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
+                                    dy=".3em">500x500</text>
+                            </svg>
+                            <div class="card-body">
+                                <h5 class="card-title">Título do card</h5>
+                                <p class="card-text">Este é um card maior com suporte a texto embaixo, que funciona como uma introdução
+                                    a um
+                                    conteúdo adicional. Este conteúdo é um pouco maior, para demonstração.</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Atualizados 3 minutos atrás</small>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%"
+                                height="180px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
+                                    dy=".3em">500x500</text>
+                            </svg>
+                            <div class="card-body">
+                                <h5 class="card-title">Título do card</h5>
+                                <p class="card-text">Este é um card com suporte a texto embaixo, que funciona como uma introdução a um
+                                    conteúdo adicional.</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Atualizados 3 minutos atrás</small>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%"
+                                height="180px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
+                                    dy=".3em">500x500</text>
+                            </svg>
+                            <div class="card-body">
+                                <h5 class="card-title">Título do card</h5>
+                                <p class="card-text">Este é um card maior com suporte a texto embaixo, que funciona como uma introdução
+                                    a um
+                                    conteúdo adicional. Este card tem o conteúdo ainda maior que o primeiro, para mostrar a altura
+                                    igual, em
+                                    ação.</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Atualizados 3 minutos atrás</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
 
         <!-- {% for curso in top_cursos %}
 
@@ -131,7 +359,7 @@
 
         {% endfor %} -->
 
-        <div class="row featurette">
+        <!-- <div class="row featurette">
             <div class="col-md-7">
                 <h2 class="featurette-heading fw-normal lh-1">First featurette heading. <span class="text-muted">It’ll blow
                         your mind.</span></h2>
@@ -193,7 +421,7 @@
                 </svg>
         
             </div>
-        </div>
+        </div> -->
         
         <hr class="featurette-divider">
     
