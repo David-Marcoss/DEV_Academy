@@ -24,9 +24,8 @@
                     {{ field.non_field_errors }}
     
                     {% for field in form %}
-                    <div class="form-floating mb-3">
+                    <div class="mb-3">
                         {% render_field field placeholder=field.label class="form-control" %}
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                     </div>
                     {% endfor %}
                 

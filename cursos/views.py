@@ -5,6 +5,7 @@ from urllib import request
 from django.views.generic import TemplateView,ListView,CreateView
 from .models import modelcursos
 from .forms import contatocurso
+from django import forms
 
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
@@ -25,6 +26,9 @@ from django.contrib.auth.decorators import login_required
 from accounts.models import User
 
 # Create your views here.
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class cursosview(ListView):
 
@@ -86,7 +90,10 @@ class CadastroCursoview(GroupRequiredMixin,CreateView):
     
     """ 
 
-
+    def get_form(self, form_class=None):
+        form = super(CadastroCursoview, self).get_form(form_class)
+        form.fields['data_inicio'].widget = DateInput()
+        return form
 
     def form_valid(self, form):
 
