@@ -41,27 +41,34 @@
         </symbol>
     </svg>
 
-    <nav class="py-2 fixed-top bg-white border-bottom shadow-lg border">
-        <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
-            <div>
+    <nav class="py-2 fixed-top bg-white border-bottom shadow-lg border p-3 mb-3">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <a href="{% url 'home' %}"
-                    class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 link-dark text-decoration-none"
+                    class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"
                     aria-expanded="false">
-                    <img src="{% static 'img/dev_logo.png' %}" alt="" style="width: 40%; margin: 10px;">
+                    <img src="{% static 'img/dev_logo.png' %}" alt="" width="100" class="p-2" height="50">
                     <span>Dev Academy</span>
     
                 </a>
-            </div>
     
-            <div class="d-flex align-items-center">
-                <form class="w-100 me-3" role="search">
+                
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="#" class="nav-link px-2 link-secondary"></a></li>
+                    <div class="vr"></div>
+                    <li><a href="{% url 'home' %}" class="nav-link px-2 link-dark">Início</a></li>
+                    <li><a href="{% url 'cursos' %}" class="nav-link px-2 link-dark">Cursos</a></li>
+                    <li><a href="{% url 'contato' %}" class="nav-link px-2 link-dark">Contato</a></li>
+                </ul>
+        
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                     <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
                 </form>
-
+    
                 {%if request.user.is_authenticated %}
     
-                <div class="flex-shrink-0 dropdown text-end">
-                    <a href="#" class="d-block text-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+                <div class="dropdown text-end">
+                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
                         aria-expanded="false">
     
                         {% if request.user.imageperfil %}
@@ -95,15 +102,15 @@
                 </div>
     
                 {% endif %}
+        
+                <!-- <ul class="nav me-auto">
+                    <li class="nav-item"><a href="{% url 'home' %}" class="nav-link text-dark px-2 active" aria-current="page">Início</a></li>
+                    <li class="nav-item"><a href="{% url 'cursos' %}" class="nav-link text-dark px-2">Cursos</a></li>
+                    <li class="nav-item"><a href="{% url 'contato' %}" class="nav-link text-dark px-2">Contato</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-dark px-2">FAQs</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-dark px-2">About</a></li>
+                </ul> -->
             </div>
-    
-            <!-- <ul class="nav me-auto">
-                <li class="nav-item"><a href="{% url 'home' %}" class="nav-link text-dark px-2 active" aria-current="page">Início</a></li>
-                <li class="nav-item"><a href="{% url 'cursos' %}" class="nav-link text-dark px-2">Cursos</a></li>
-                <li class="nav-item"><a href="{% url 'contato' %}" class="nav-link text-dark px-2">Contato</a></li>
-                <li class="nav-item"><a href="#" class="nav-link text-dark px-2">FAQs</a></li>
-                <li class="nav-item"><a href="#" class="nav-link text-dark px-2">About</a></li>
-            </ul> -->
         </div>
     </nav>
 
