@@ -226,3 +226,12 @@ class Meus_cursos_criados_view(GroupRequiredMixin,ListView):
 
 
         return context
+
+def aulaview(request):
+    template_name = 'cursos/aula.html'
+    
+    aula = '''<iframe width="560" height="315" src="https://www.youtube.com/embed/fzqbreu4RwM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'''
+    
+    context = {'aula': aula}
+
+    return render(request,template_name,context)
