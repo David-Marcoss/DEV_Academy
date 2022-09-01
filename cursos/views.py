@@ -87,7 +87,7 @@ class CadastroCursoview(GroupRequiredMixin,CreateView):
     form = cadastrocurso
     
     """
-    fields = ['nome','descricao','sobre_curso','data_inicio','image']
+    fields = ['nome','descricao','sobre_curso','data_inicio','image','categoria']
     
     template_name = 'form.html'
 

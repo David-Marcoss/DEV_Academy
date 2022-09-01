@@ -5,6 +5,7 @@ from distutils.text_file import TextFile
 from email.mime import image
 from enum import unique
 from pickle import TRUE
+from pyexpat import model
 from tabnanny import verbose
 from typing import OrderedDict
 from typing_extensions import Self
@@ -13,6 +14,17 @@ from django.db import models
 from django.forms import CharField
 
 from accounts.models import User
+
+class categoria_curso(models.Model):
+    categoria = models.CharField('Categoria do curso',max_length=100)
+
+    def __str__(self) -> str: # define um nome para o objeto
+        return self.categoria
+    
+    class Meta:
+
+        verbose_name = 'Categoria curso'
+        verbose_name_plural ='Categorias cursos'
 
 
 class modelcursos(models.Model):
@@ -32,6 +44,8 @@ class modelcursos(models.Model):
 
     #cria uma chave estrangeira para associar usuario ao curso
     user = models.ForeignKey(User,on_delete=models.PROTECT)
+    categoria = models.ForeignKey(categoria_curso,on_delete=models.CASCADE)
+
 
     def __str__(self) -> str: # define um nome para o objeto
         return self.nome
@@ -40,6 +54,8 @@ class modelcursos(models.Model):
 
         verbose_name = 'Curso'
         verbose_name_plural ='Cursos'
+
+
 
 class matricula(models.Model):
 

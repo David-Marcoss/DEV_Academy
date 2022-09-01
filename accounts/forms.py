@@ -39,7 +39,7 @@ class UserCreationForm(auth_forms.UserCreationForm):
     #definição de valores padrao
     class Meta:
         model = User  # model padrao de usuarios do django
-        fields = ['username', 'nome','email', 'tipo_user','imageperfil','bio']
+        fields = ['username', 'nome','email', 'tipo_user']
 
 
 
