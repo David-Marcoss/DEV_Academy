@@ -9,7 +9,7 @@ from tokenize import group
 from urllib import request
 from django.views.generic import UpdateView,ListView,CreateView,DeleteView
 from .models import modelcursos,matricula,aulas_curso,modulo_curso
-from .forms import contatocurso,criar_moduloform
+from .forms import contatocurso,criar_moduloform,criar_aula_moduloform
 
 from django.shortcuts import render, get_object_or_404,redirect
 from django.urls import reverse_lazy
@@ -230,21 +230,12 @@ class Meus_cursos_criados_view(GroupRequiredMixin,ListView):
         return context
 
 """
-def aulaview(request):
-    template_name = 'cursos/aula.html'
-    
-    aula = '''<iframe width="560" height="315" src="https://www.youtube.com/embed/fzqbreu4RwM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'''
-    
-    context = {'aula': aula}
-
-    return render(request,template_name,context)
-
+faz o cadastro de um modulo no curso somente o usuario que criou
+o curso pode realizar esta operação
 """
-
-def criar_modulo_cursoView(request,slug):
+def cadastrar_modulo_cursoView(request,slug):
 
     template_name = 'form.html'
-    model = modulo_curso
     form = criar_moduloform(request.POST or None)
 
     curso = get_object_or_404(modelcursos,slug = slug,user = request.user)
@@ -259,9 +250,46 @@ def criar_modulo_cursoView(request,slug):
         return redirect('meus-cursos-criados')
         
     
-    context = {'form': form,'titulo':'Criar Modulo do Curso','botao':'Criar'}
+    context = {'form': form,'titulo':'Cadastrar Modulo do Curso','botao':'Cadastrar'}
 
     return render(request,template_name,context)
 
+
+
+"""
+faz o cadastro de uma aula no modulo no curso somente o usuario que criou
+o curso pode realizar esta operação
+"""
+def cadastrar_aula_modulo_cursoView(request,slug,pk):
+
+    template_name = 'form.html'
+    form = criar_aula_moduloform(request.POST or None)
+
+    curso = get_object_or_404(modelcursos,slug = slug,user = request.user)
+    modulo = get_object_or_404(modulo_curso,id = pk,curso = curso)
+
+    if form.is_valid():
+        
+        form.instance.modulo = modulo
+        form.save()
+        
+        messages.info(request,'Aula Criado com Sucesso!!')
+        
+        return redirect('meus-cursos-criados')
     
+    context = {'form': form,'titulo':'Cadastrar aula no Modulo','botao':'Cadastrar'}
+
+    return render(request,template_name,context)
+
+"""   
+def aulaview(request):
+    template_name = 'cursos/aula.html'
+    
+    aula = '''<iframe width="560" height="315" src="https://www.youtube.com/embed/fzqbreu4RwM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'''
+    
+    context = {'aula': aula}
+
+    return render(request,template_name,context)
+"""
+
 

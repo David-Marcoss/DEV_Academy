@@ -6,7 +6,7 @@ from django.conf import settings
 from django import forms
 from paginas.mail import send_mail_template
 
-from .models import modulo_curso 
+from .models import modulo_curso,aulas_curso
 
 #form para entrar em contato com o criador do curso
 class contatocurso(forms.Form):
@@ -33,4 +33,10 @@ class criar_moduloform(forms.ModelForm):
      class Meta:
           model = modulo_curso
           fields = ['titulo']
+
+class criar_aula_moduloform(forms.ModelForm):
+     
+     class Meta:
+          model = aulas_curso
+          fields = ['titulo','video']
 
