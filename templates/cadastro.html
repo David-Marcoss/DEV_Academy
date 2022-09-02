@@ -77,9 +77,9 @@
                     {% csrf_token %}
 
                     {% for field in form %}
-                    <div class="form-floating mb-3">
-                        {% render_field field placeholder=field.label class="form-control" %}
+                    <div class="mb-3">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {% render_field field placeholder=field.label class="form-control" %}
                     </div>
                     
                     {% endfor %}

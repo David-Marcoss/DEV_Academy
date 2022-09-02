@@ -2,7 +2,20 @@
 
 {% block content %}
 
-<div class="container mt-5 mb-5">
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Perfil</h1>
+            <!-- <p class="lead text-muted">Abaixo a lista de cursos disponíveis na plataforma</p>
+            <p>
+                <a href="#" class="btn btn-primary my-2">Main call to action</a>
+                <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+            </p> -->
+        </div>
+    </div>
+</section>
+
+<div class="container">
 
     <div class="row d-flex justify-content-center">
 
@@ -56,9 +69,9 @@
                     
                         <div class="text-center">
                             {% if user.imageperfil %}
-                                <img src="{{ user.imageperfil.url }}" width="100" class="rounded-circle">
+                                <img src="{{ user.imageperfil.url }}" width="128" height="128" class="rounded-circle">
                             {% else%}
-                                <img src="https://github.com/mdo3.png" width="100" class="rounded-circle">
+                                <img src="https://github.com/mdo3.png" width="128" height="128" class="rounded-circle">
                             {% endif %} 
 
                         </div>
@@ -141,9 +154,9 @@
                     
                         <div class="text-center">
                             {% if user.imageperfil %}
-                                <img src="{{ user.imageperfil.url }}" width="100" class="rounded-circle">
+                                <img src="{{ user.imageperfil.url }}" width="128" height="128" class="rounded-circle">
                             {% else%}
-                                <img src="https://github.com/mdo3.png" width="100" class="rounded-circle">
+                                <img src="https://github.com/mdo3.png" width="128" height="128" class="rounded-circle">
                             {% endif %} 
 
                         </div>
@@ -168,67 +181,6 @@
 
     </div>
 
-</div>
-
-{% block editperfil %}
-
-
-<div class="modal fade" id="editAccount" tabindex="-1"
-    aria-labelledby="editAccountTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editAccountTitle">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Aqui vai ter o <strong>FORM</strong> para editar as informacoes da conta do usuario</p>
-                
-             <!--   
-                <div class="form-row">
-                    {% csrf_token %}
-                    {{ form.non_field_errors }}
-                    
-                    {% for field in form %}
-                        <div class="form-floating mb-3">
-                            {{ field.label }}
-                            {{field}}
-
-                        </div>
-                    {% endfor %}
-                
-                </div>
-
-            --> 
-            
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-
-{% endblock %}
-
-<div class="modal fade" id="editPassword" tabindex="-1"
-    aria-labelledby="editPasswordTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editPasswordTitle">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Aqui vai ter o <strong>FORM</strong> para editar apenas a senha do usuario.</p>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
 </div>
 
 {% endblock %}

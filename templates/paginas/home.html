@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load static %}
+{% get_media_prefix %}
 
 {% block content %}
 
@@ -11,10 +13,7 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#777" />
-                </svg>
+                <img src="{% static 'img/good-programmer-banner-final.jpg' %}" alt="" style="width: 100%; height: 100%">
 
                 <!-- <img src="../../static/img/dev_logo.svg" alt="" style="width: 100%; height: 100%"> -->
     
@@ -28,30 +27,24 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#777" />
-                </svg>
-    
+                <img src="{% static 'img/android-app-development-banner.png' %}" alt="" style="width: 100%; height: 100%">
+
                 <div class="container">
                     <div class="carousel-caption">
-                        <h1>Another example headline.</h1>
-                        <p>Some representative placeholder content for the second slide of the carousel.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                        <h1>Cursos de Android.</h1>
+                        <p>Não perca a oportunidade de aprender a programar aplicações para android.</p>
+                        <p><a class="btn btn-lg btn-primary" href="#">Buscar cursos para Android</a></p>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#777" />
-                </svg>
-    
+                <img src="{% static 'img/coding-banner_1.jpg' %}" alt="" style="width: 100%; height: 100%">
+            
                 <div class="container">
                     <div class="carousel-caption text-end">
-                        <h1>One more for good measure.</h1>
-                        <p>Some representative placeholder content for the third slide of this carousel.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+                        <h1>Cursos de Machine Learning.</h1>
+                        <p>Aprenda a tecnologia que não para de crescer!</p>
+                        <p><a class="btn btn-lg btn-primary" href="#">Buscar cursos para ML</a></p>
                     </div>
                 </div>
             </div>
@@ -72,49 +65,86 @@
     <!-- Wrap the rest of the page in another container to center all the content. -->
     
     <div class="container marketing">
-    
+
         <!-- Three columns of text below the carousel -->
+        
         <div class="row">
+
+            {%if Prof_01 %}
+                <div class="col-lg-4">
+                    <img src="{% get_media_prefix %}{{ Prof_01.imageperfil }}" alt="mdo" width="140" height="140" class="rounded-circle">
+        
+                    <h2 class="fw-normal">{{ Prof_01.nome }}</h2>
+                    <p>Some representative placeholder content for the three columns of text below the carousel. This is
+                        the first
+                        column.</p>
+                    <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                </div><!-- /.col-lg-4 -->
+
+            {% else %}
+                <div class="col-lg-4">
+                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
+                        role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
+                    </svg>
+                
+                    <h2 class="fw-normal">Heading</h2>
+                    <p>Some representative placeholder content for the three columns of text below the carousel. This is
+                        the first
+                        column.</p>
+                    <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                </div><!-- /.col-lg-4 -->
+            {% endif %}
+
+            {%if Prof_02 %}
             <div class="col-lg-4">
-                <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-                    role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777"
-                        dy=".3em">140x140</text>
-                </svg>
+                <img src="{% get_media_prefix %}{{ Prof_02.imageperfil }}" alt="mdo" width="140" height="140" class="rounded-circle">
     
-                <h2 class="fw-normal">Heading</h2>
-                <p>Some representative placeholder content for the three columns of text below the carousel. This is
-                    the first
-                    column.</p>
+                <h2 class="fw-normal">{{ Prof_02.nome }}</h2>
+                <p>Another exciting bit of representative placeholder content. This time, we've moved on to the
+                    second column.
+                </p>
                 <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
+            {% else %}
             <div class="col-lg-4">
                 <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
                     role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
                     <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777"
-                        dy=".3em">140x140</text>
+                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                 </svg>
-    
+            
                 <h2 class="fw-normal">Heading</h2>
                 <p>Another exciting bit of representative placeholder content. This time, we've moved on to the
                     second column.
                 </p>
                 <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
+            {% endif %}
+
+            {%if Prof_03 %}
+            <div class="col-lg-4">
+                <img src="{% get_media_prefix %}{{ Prof_03.imageperfil }}" alt="mdo" width="140" height="140" class="rounded-circle">
+    
+                <h2 class="fw-normal">{{ Prof_03.nome }}</h2>
+                <p>And lastly this, the third column of representative placeholder content.</p>
+                <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+            {% else %}
             <div class="col-lg-4">
                 <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
                     role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
                     <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777"
-                        dy=".3em">140x140</text>
+                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                 </svg>
-    
+            
                 <h2 class="fw-normal">Heading</h2>
                 <p>And lastly this, the third column of representative placeholder content.</p>
                 <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
+            {% endif %}
+
         </div><!-- /.row -->
     
     
@@ -122,7 +152,119 @@
     
         <hr class="featurette-divider">
 
-        {% for curso in top_cursos %}
+        <div class="container">
+
+            <div>
+                <h2 class="pb-2">Uma ampla seleção de cursos</h2>
+                <p>Escolha entre diversos cursos em vídeo online com novas adições publicadas mensalmente.</p>
+            </div>
+
+            <nav>
+                <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-python-tab" data-bs-toggle="tab" data-bs-target="#nav-python"
+                        type="button" role="tab" aria-controls="nav-python" aria-selected="false">Python</button>
+                    <button class="nav-link" id="nav-java-tab" data-bs-toggle="tab" data-bs-target="#nav-java" type="button"
+                        role="tab" aria-controls="nav-java" aria-selected="false">Java</button>
+                    <button class="nav-link" id="nav-ruby-tab" data-bs-toggle="tab" data-bs-target="#nav-ruby"
+                        type="button" role="tab" aria-controls="nav-ruby" aria-selected="true">Ruby</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-python" role="tabpanel" aria-labelledby="nav-python-tab">
+                    <div class="splide" role="group" aria-label="Splide Basic HTML Example">
+                        <div class="card-group">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+                                    <li class="splide__slide">
+                                        <div class="card">
+                                            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%" height="180px"
+                                                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                                                <title>Placeholder</title>
+                                                <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
+                                            </svg>
+                                            <div class="card-body">
+                                                <h5 class="card-title">Título do card</h5>
+                                                <p class="card-text">Este é um card maior com suporte a texto embaixo, que funciona como uma introdução a um
+                                                    conteúdo adicional. Este conteúdo é um pouco maior, para demonstração.</p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <small class="text-muted">Atualizados 3 minutos atrás</small>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-java" role="tabpanel" aria-labelledby="nav-java-tab">
+                    <div class="tab-pane fade show active" id="nav-python" role="tabpanel" aria-labelledby="nav-python-tab">
+                        <div class="splide" role="group" aria-label="Splide Basic HTML Example">
+                            <div class="card-group">
+                                <div class="splide__track">
+                                    <ul class="splide__list">
+                                        <li class="splide__slide">
+                                            <div class="card">
+                                                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%"
+                                                    height="180px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                                                    preserveAspectRatio="xMidYMid slice" focusable="false">
+                                                    <title>Placeholder</title>
+                                                    <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
+                                                </svg>
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Título do card</h5>
+                                                    <p class="card-text">Este é um card maior com suporte a texto embaixo, que funciona como uma introdução
+                                                        a um
+                                                        conteúdo adicional. Este conteúdo é um pouco maior, para demonstração.</p>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <small class="text-muted">Atualizados 3 minutos atrás</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-ruby" role="tabpanel" aria-labelledby="nav-ruby-tab">
+                    <div class="tab-pane fade show active" id="nav-python" role="tabpanel" aria-labelledby="nav-python-tab">
+                        <div class="splide" role="group" aria-label="Splide Basic HTML Example">
+                            <div class="card-group">
+                                <div class="splide__track">
+                                    <ul class="splide__list">
+                                        <li class="splide__slide">
+                                            <div class="card">
+                                                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%"
+                                                    height="180px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                                                    preserveAspectRatio="xMidYMid slice" focusable="false">
+                                                    <title>Placeholder</title>
+                                                    <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
+                                                </svg>
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Título do card</h5>
+                                                    <p class="card-text">Este é um card maior com suporte a texto embaixo, que funciona como uma introdução
+                                                        a um
+                                                        conteúdo adicional. Este conteúdo é um pouco maior, para demonstração.</p>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <small class="text-muted">Atualizados 3 minutos atrás</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+        </div>
+
+
+        <!-- {% for curso in top_cursos %}
 
             <div class="row featurette">
                 <div class="col-md-7">
@@ -137,7 +279,7 @@
             
             <hr class="featurette-divider">
 
-        {% endfor %}
+        {% endfor %} -->
 
         <!-- <div class="row featurette">
             <div class="col-md-7">
@@ -152,15 +294,14 @@
                     height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
                     preserveAspectRatio="xMidYMid slice" focusable="false">
                     <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
-                        dy=".3em">500x500</text>
+                    <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
                 </svg>
-    
+        
             </div>
         </div>
-    
+        
         <hr class="featurette-divider">
-    
+        
         <div class="row featurette">
             <div class="col-md-7 order-md-2">
                 <h2 class="featurette-heading fw-normal lh-1">Oh yeah, it’s that good. <span class="text-muted">See
@@ -175,19 +316,17 @@
                     height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
                     preserveAspectRatio="xMidYMid slice" focusable="false">
                     <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
-                        dy=".3em">500x500</text>
+                    <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
                 </svg>
-    
+        
             </div>
         </div>
-    
+        
         <hr class="featurette-divider">
-    
+        
         <div class="row featurette">
             <div class="col-md-7">
-                <h2 class="featurette-heading fw-normal lh-1">And lastly, this one. <span
-                        class="text-muted">Checkmate.</span>
+                <h2 class="featurette-heading fw-normal lh-1">And lastly, this one. <span class="text-muted">Checkmate.</span>
                 </h2>
                 <p class="lead">And yes, this is the last block of representative placeholder content. Again, not
                     really
@@ -200,16 +339,168 @@
                     height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
                     preserveAspectRatio="xMidYMid slice" focusable="false">
                     <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
-                        dy=".3em">500x500</text>
+                    <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
                 </svg>
-    
+        
+            </div>
+        </div> -->
+        <div class="b-example-divider"></div>
+
+        <div class="container col-xxl-10 px-4 py-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                    <img src="{% static 'img/instructor-1x-v3.jpg' %}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700"
+                        height="500" loading="lazy">
+                </div>
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold lh-1 mb-3">Torne-se um professor</h1>
+                    <p class="lead">Professores de todo o mundo lecionam a milhões de alunos na Dev Academy. Oferecemos as ferramentas e habilidades para ensinar
+                    o que você ama.</p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                        <button type="button" class="btn btn-dark text-white btn-lg px-4 me-md-2">Comece a ensinar hoje mesmo</button>
+                    </div>
+                </div>
             </div>
         </div>
-    
-        <hr class="featurette-divider"> -->
-    
-        <!-- /END THE FEATURETTES -->
+        
+        <div class="b-example-divider"></div>
+
+        <div class="container">
+
+            <div>
+                <h2 class="pb-2">Alunos estão assistindo</h2>
+                <p>Alunos de todo o mundo estão iniciando novas carreiras, avançando em suas áreas e enriquecendo suas vidas.</p>
+            </div>
+
+            <div class="splide" role="group" aria-label="Splide Basic HTML Example">
+                <div class="card-group">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            <li class="splide__slide">
+                                <div class="card">
+                                    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                                        width="100%" height="180px" xmlns="http://www.w3.org/2000/svg" role="img"
+                                        aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <title>Placeholder</title>
+                                        <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
+                                            dy=".3em">500x500</text>
+                                    </svg>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Título do card</h5>
+                                        <p class="card-text">Este é um card maior com suporte a texto embaixo, que funciona como uma
+                                            introdução a um
+                                            conteúdo adicional. Este conteúdo é um pouco maior, para demonstração.</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="text-muted">Atualizados 3 minutos atrás</small>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="py-5 container" id="icon-grid">
+
+            <h2 class="pb-2 border-bottom">Principais categorias</h2>
+        
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
+                <div class="col d-flex align-items-start">
+                    <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em">
+                        <use xlink:href="#cpu-fill" />
+                    </svg>
+                    <div>
+                        <h4 class="fw-bold mb-0">Categoria X</h4>
+                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-start">
+                    <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em">
+                        <use xlink:href="#cpu-fill" />
+                    </svg>
+                    <div>
+                        <h4 class="fw-bold mb-0">Categoria X</h4>
+                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-start">
+                    <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em">
+                        <use xlink:href="#calendar3" />
+                    </svg>
+                    <div>
+                        <h4 class="fw-bold mb-0">Categoria X</h4>
+                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-start">
+                    <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em">
+                        <use xlink:href="#home" />
+                    </svg>
+                    <div>
+                        <h4 class="fw-bold mb-0">Categoria X</h4>
+                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-start">
+                    <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em">
+                        <use xlink:href="#speedometer2" />
+                    </svg>
+                    <div>
+                        <h4 class="fw-bold mb-0">Categoria X</h4>
+                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-start">
+                    <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em">
+                        <use xlink:href="#toggles2" />
+                    </svg>
+                    <div>
+                        <h4 class="fw-bold mb-0">Categoria X</h4>
+                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-start">
+                    <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em">
+                        <use xlink:href="#geo-fill" />
+                    </svg>
+                    <div>
+                        <h4 class="fw-bold mb-0">Categoria X</h4>
+                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-start">
+                    <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em">
+                        <use xlink:href="#tools" />
+                    </svg>
+                    <div>
+                        <h4 class="fw-bold mb-0">Categoria X</h4>
+                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var elms = document.getElementsByClassName('splide');
+                for (var i = 0; i < elms.length; i++) {
+                    new Splide(elms[i],
+                        {
+                            type: 'loop',
+                            drag: 'free',
+                            focus: 'center',
+                            perPage: 3,
+                            autoScroll: {
+                                speed: 2,
+                            },
+                        }).mount();
+                }
+            });
+        </script>
     
     </div><!-- /.container -->
 
