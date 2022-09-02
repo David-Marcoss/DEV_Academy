@@ -1,6 +1,5 @@
 from django.urls import path
-from .views import (cursosview,detalhes_cursoview,CadastroCursoview,Edit_cursoview
-,matriculaview,Meus_cursos_matriculados_view,Meus_cursos_criados_view,Cancelar_matriculaview,aulaview)
+from .views import *
 
 
 urlpatterns = [
@@ -13,4 +12,5 @@ urlpatterns = [
     path('cursos/meus-cursos-criados/',Meus_cursos_criados_view.as_view(),name='meus-cursos-criados'),
     path('cursos/cancelar-matricula/<int:pk>/',Cancelar_matriculaview,name='cancelar-matricula'),
     path('cursos/aula/',aulaview,name='cancelar-matricula'),
+    path('cursos/criar-modulo/<str:slug>/',criar_modulo_cursoView,name='criar-modulo-curso'),
 ]

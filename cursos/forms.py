@@ -1,9 +1,12 @@
 from dataclasses import fields
 import email
+from pyexpat import model
 
 from django.conf import settings
 from django import forms
 from paginas.mail import send_mail_template
+
+from .models import modulo_curso 
 
 #form para entrar em contato com o criador do curso
 class contatocurso(forms.Form):
@@ -24,3 +27,10 @@ class contatocurso(forms.Form):
         
        send_mail_template(subject, template_name, context, [email_criador])
    
+
+class criar_moduloform(forms.ModelForm):
+     
+     class Meta:
+          model = modulo_curso
+          fields = ['titulo']
+

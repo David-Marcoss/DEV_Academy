@@ -1,3 +1,4 @@
+from dataclasses import fields
 from email.mime import image
 import http
 from http.client import HTTPResponse
@@ -7,8 +8,8 @@ from re import template
 from tokenize import group
 from urllib import request
 from django.views.generic import UpdateView,ListView,CreateView,DeleteView
-from .models import modelcursos,matricula
-from .forms import contatocurso
+from .models import modelcursos,matricula,aulas_curso,modulo_curso
+from .forms import contatocurso,criar_moduloform
 
 from django.shortcuts import render, get_object_or_404,redirect
 from django.urls import reverse_lazy
@@ -146,6 +147,7 @@ class Edit_cursoview(LoginRequiredMixin,UpdateView):
 
         return context
 
+#metodo responsavel por realizar matricula do usuario no curso
 @login_required
 def matriculaview(request,slug):
     
@@ -227,6 +229,7 @@ class Meus_cursos_criados_view(GroupRequiredMixin,ListView):
 
         return context
 
+
 def aulaview(request):
     template_name = 'cursos/aula.html'
     
@@ -235,3 +238,29 @@ def aulaview(request):
     context = {'aula': aula}
 
     return render(request,template_name,context)
+
+
+def criar_modulo_cursoView(request,slug):
+
+    template_name = 'form.html'
+    model = modulo_curso
+    form = criar_moduloform(request.POST or None)
+
+    curso = get_object_or_404(modelcursos,slug = slug,user = request.user)
+
+    
+    if form.is_valid():
+        form.instance.curso = curso
+        form.save()
+        
+        messages.info(request,'Modulo Criado com Sucesso!!')
+        
+        return redirect('meus-cursos-criados')
+        
+    
+    context = {'form': form,'titulo':'Criar Modulo do Curso','botao':'Criar'}
+
+    return render(request,template_name,context)
+
+    
+
