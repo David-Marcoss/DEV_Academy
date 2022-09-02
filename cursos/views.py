@@ -240,6 +240,8 @@ def cadastrar_modulo_cursoView(request,slug):
 
     curso = get_object_or_404(modelcursos,slug = slug,user = request.user)
 
+def aulaview(request):
+    template_name = 'cursos/aula.html'
     
     if form.is_valid():
         form.instance.curso = curso
@@ -253,8 +255,6 @@ def cadastrar_modulo_cursoView(request,slug):
     context = {'form': form,'titulo':'Cadastrar Modulo do Curso','botao':'Cadastrar'}
 
     return render(request,template_name,context)
-
-
 
 """
 faz o cadastro de uma aula no modulo no curso somente o usuario que criou
