@@ -229,7 +229,6 @@ class Meus_cursos_criados_view(GroupRequiredMixin,ListView):
 
         return context
 
-
 def aulaview(request):
     template_name = 'cursos/aula.html'
     
@@ -238,7 +237,6 @@ def aulaview(request):
     context = {'aula': aula}
 
     return render(request,template_name,context)
-
 
 def criar_modulo_cursoView(request,slug):
 

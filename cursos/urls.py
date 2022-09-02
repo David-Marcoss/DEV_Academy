@@ -13,4 +13,6 @@ urlpatterns = [
     path('cursos/cancelar-matricula/<int:pk>/',Cancelar_matriculaview,name='cancelar-matricula'),
     path('cursos/aula/',aulaview,name='cancelar-matricula'),
     path('cursos/criar-modulo/<str:slug>/',criar_modulo_cursoView,name='criar-modulo-curso'),
+    path('cursos/criar-modulo/<str:slug>/',criar_modulo_cursoView,name='criar-modulo-curso'),
+    #path('cursos/aula/',aulaview,name='cancelar-matricula'),
 ]
