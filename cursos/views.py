@@ -3,6 +3,7 @@ from email.mime import image
 import http
 from http.client import HTTPResponse
 from multiprocessing import context
+from pipes import Template
 from pyexpat import model
 from re import template
 from tokenize import group
@@ -146,6 +147,11 @@ class Edit_cursoview(LoginRequiredMixin,UpdateView):
 
 
         return context
+    
+    #redireciona a pagina anterior que solicitou a edição
+    def get_success_url(self):
+        return self.request.GET.get('next', reverse_lazy('meus-cursos-criados'))
+
 
 #metodo responsavel por realizar matricula do usuario no curso
 @login_required
@@ -161,8 +167,8 @@ def matriculaview(request,slug):
 
     messages.info(request,'Inscrição realizada com sucesso!!')
       
-
-    return redirect('meus-cursos-matriculados')
+    #redireciona para pagina que solicitou a operação
+    return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))
 
 #este metodo cancela a matricula do user no curso
 @login_required
@@ -175,7 +181,8 @@ def Cancelar_matriculaview(request,pk):
     
     messages.info(request,'Inscrição Cancelada!!')
 
-    return redirect('meus-cursos-matriculados')
+    #redireciona para pagina que solicitou a operação
+    return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))
 
 
 
@@ -246,7 +253,7 @@ def cadastrar_modulo_cursoView(request,slug):
         
         messages.info(request,'Modulo Criado com Sucesso!!')
         
-        return redirect('meus-cursos-criados')
+        return redirect(request.GET.get('next', reverse_lazy('meus-cursos-criados')))
         
     
     context = {'form': form,'titulo':'Cadastrar Modulo do Curso','botao':'Cadastrar'}
@@ -282,8 +289,6 @@ class Edit_moduloView(GroupRequiredMixin,UpdateView):
     model = modulo_curso
     fields = ['titulo']
 
-    success_url = reverse_lazy('cursos')
-    
     def get_object(self, queryset = None):
 
        curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
@@ -298,7 +303,32 @@ class Edit_moduloView(GroupRequiredMixin,UpdateView):
 
         return context
     
+    #redireciona a pagina anterior que solicitou a edição
+    def get_success_url(self):
+        return self.request.GET.get('next', reverse_lazy('meus-cursos-criados'))
 
+
+"""
+este metodo responsavel por excluir modulo do curso, so é possivel
+excluir se o modulo não possuir aulas cadastradas
+"""
+@login_required
+def deletar_modulo_cursoView(request,slug,pk):
+    
+    curso = get_object_or_404(modelcursos,slug = slug,user = request.user)
+    modulo = get_object_or_404(modulo_curso,id = pk,curso = curso)
+
+    if modulo.aulas.all():
+        messages.info(request,'Não é possivel excluir modulo com aulas cadastradas!!')
+    else:    
+        modulo.delete()
+        messages.info(request,'Modulo excluido com sucesso!!')
+    
+
+    #redireciona para pagina que solicitou a operação
+    return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))
+
+    
 """
 faz o cadastro de uma aula no modulo no curso somente o usuario que criou
 o curso pode realizar esta operação
@@ -318,11 +348,39 @@ def cadastrar_aula_modulo_cursoView(request,slug,pk):
         
         messages.info(request,'Aula Criado com Sucesso!!')
         
-        return redirect('meus-cursos-criados')
+        return redirect(request.GET.get('next', reverse_lazy('meus-cursos-criados')))
     
     context = {'form': form,'titulo':'Cadastrar aula no Modulo','botao':'Cadastrar'}
 
     return render(request,template_name,context)
+
+#View responsavel por editar aula do modulo do curso
+class Edit_aula_moduloView(GroupRequiredMixin,UpdateView):
+    
+    group_required = u'professor'
+    template_name = 'form.html'
+    model = aulas_curso
+    fields = ['titulo','video']
+    
+    def get_object(self, queryset = None):
+
+       curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
+       
+       object = get_object_or_404(aulas_curso,id = self.kwargs['pk'])
+       
+       return object
+
+    def get_context_data(self, *args,**kwargs):
+        context = super().get_context_data(*args,**kwargs)
+        context['titulo'] = 'Editar Aula'
+        context['botao'] = 'Salvar Alterações'
+
+        return context
+    
+    #redireciona a pagina anterior que solicitou a edição
+    def get_success_url(self):
+        return self.request.GET.get('next', reverse_lazy('meus-cursos-criados'))
+
 
 #view responsavel por mostrar aulas de um modulo
 class ver_aulas_modulos_cursoView(GroupRequiredMixin,ListView):
@@ -343,3 +401,31 @@ class ver_aulas_modulos_cursoView(GroupRequiredMixin,ListView):
         context['modulo'] = get_object_or_404(modulo_curso,id = self.kwargs['pk'])
 
         return context
+    
+"""
+este metodo responsavel por excluir aula do modulo do curso, so é possivel
+excluir se o modulo não possuir aulas cadastradas
+"""
+
+@login_required
+def deletar_aula_moduloView(request,slug,pk):
+    
+    curso = get_object_or_404(modelcursos,slug = slug,user = request.user)
+    aula = get_object_or_404(aulas_curso,id = pk)
+
+    aula.delete()
+    messages.info(request,'Aula excluida com sucesso!!')
+    
+
+    #redireciona para pagina que solicitou a operação
+    return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))
+
+
+def aulaView(request,pk):
+    template_name = 'cursos/aula.html'
+
+    aula = get_object_or_404(aulas_curso,id = pk)
+
+    context = {'aula':aula}
+
+    return render(request,template_name,context)

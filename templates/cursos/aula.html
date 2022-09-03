@@ -3,8 +3,11 @@
 
 {%block content %}
 
-    <h1>Aula curso</h1>
-    
-    {{aula|safe}}
+    <div class="text-center mt-3">
+        <h1>{{aula.titulo}}</h1>
+
+        {{aula.video|safe}}
+
+    </div>
 
 {% endblock %}

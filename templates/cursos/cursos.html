@@ -52,7 +52,7 @@
                                     <a href="{% url 'detalhes-curso' curso.slug %}" class="btn btn-sm btn-outline-secondary">View</a>
                                     <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button> -->
                                     {% if curso.user == request.user %}
-                                        <a href="{% url 'edit-curso' curso.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                        <a href="{% url 'edit-curso' curso.id %}?next={{ request.path }}" class="btn btn-sm btn-outline-secondary">Edit</a>
                                     {% endif %}
                                 </div>
                                 

@@ -16,9 +16,9 @@
                     {{ course.descricao }}
                 </p>
                 {% if matriculado %}
-                    <a href="{% url 'cancelar-matricula' course.id %}" class="btn btn-primary btn-lg" style="background-color: green;">Inscrito</a>
+                    <a href="{% url 'cancelar-matricula' course.id %}?next={{ request.path }}" class="btn btn-primary btn-lg" style="background-color: green;">Inscrito</a>
                 {% else %}
-                    <a href="{% url 'matricula' course.slug %}" class="btn btn-primary btn-lg">Inscreva-se</a>
+                    <a href="{% url 'matricula' course.slug %}?next={{ request.path }}" class="btn btn-primary btn-lg">Inscreva-se</a>
                 {% endif %}
             
             </div>
