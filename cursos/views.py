@@ -240,9 +240,6 @@ def cadastrar_modulo_cursoView(request,slug):
 
     curso = get_object_or_404(modelcursos,slug = slug,user = request.user)
 
-def aulaview(request):
-    template_name = 'cursos/aula.html'
-    
     if form.is_valid():
         form.instance.curso = curso
         form.save()
@@ -255,6 +252,52 @@ def aulaview(request):
     context = {'form': form,'titulo':'Cadastrar Modulo do Curso','botao':'Cadastrar'}
 
     return render(request,template_name,context)
+
+# view responsavel por mostrar lista de modulos do curso
+class ver_modulos_cursoView(GroupRequiredMixin,ListView):
+    
+    group_required = u'professor'
+    template_name = 'cursos/modulos_curso.html'
+    model = modulo_curso
+    
+    def get_queryset(self, queryset = None):
+
+        curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
+
+        self.object_list = curso.modulo.all() 
+
+        return self.object_list
+    
+    def get_context_data(self, *args,**kwargs):
+        context = super().get_context_data(*args,**kwargs)
+        context['curso'] = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
+
+        return context
+
+#View responsavel por editar um modulo do curso
+class Edit_moduloView(GroupRequiredMixin,UpdateView):
+    
+    group_required = u'professor'
+    template_name = 'form.html'
+    model = modulo_curso
+    fields = ['titulo']
+
+    success_url = reverse_lazy('cursos')
+    
+    def get_object(self, queryset = None):
+
+       curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
+       object = get_object_or_404(modulo_curso,id = self.kwargs['pk'],curso = curso)
+
+       return object
+
+    def get_context_data(self, *args,**kwargs):
+        context = super().get_context_data(*args,**kwargs)
+        context['titulo'] = 'Editar Modulo'
+        context['botao'] = 'Salvar Alterações'
+
+        return context
+    
 
 """
 faz o cadastro de uma aula no modulo no curso somente o usuario que criou
@@ -281,15 +324,22 @@ def cadastrar_aula_modulo_cursoView(request,slug,pk):
 
     return render(request,template_name,context)
 
-"""   
-def aulaview(request):
-    template_name = 'cursos/aula.html'
+#view responsavel por mostrar aulas de um modulo
+class ver_aulas_modulos_cursoView(GroupRequiredMixin,ListView):
     
-    aula = '''<iframe width="560" height="315" src="https://www.youtube.com/embed/fzqbreu4RwM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'''
+    group_required = u'professor'
+    template_name = 'cursos/aulas_modulo_curso.html'
+    model = aulas_curso
     
-    context = {'aula': aula}
+    def get_queryset(self, queryset = None):
 
-    return render(request,template_name,context)
-"""
+        curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
+        modulo = get_object_or_404(modulo_curso,id = self.kwargs['pk'],curso = curso)
+ 
+        return modulo.aulas.all()
+    
+    def get_context_data(self, *args,**kwargs):
+        context = super().get_context_data(*args,**kwargs)
+        context['modulo'] = get_object_or_404(modulo_curso,id = self.kwargs['pk'])
 
-
+        return context

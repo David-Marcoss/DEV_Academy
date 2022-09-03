@@ -24,4 +24,3 @@ def retorna_aulas_curso(slug):
     return aulas_curso
     
 
-

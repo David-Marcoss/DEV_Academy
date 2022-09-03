@@ -11,11 +11,10 @@ urlpatterns = [
     path('cursos/meus-cursos-matriculados/',Meus_cursos_matriculados_view.as_view(),name='meus-cursos-matriculados'),
     path('cursos/meus-cursos-criados/',Meus_cursos_criados_view.as_view(),name='meus-cursos-criados'),
     path('cursos/cancelar-matricula/<int:pk>/',Cancelar_matriculaview,name='cancelar-matricula'),
+    path('cursos/modulos-curso/<str:slug>/',ver_modulos_cursoView.as_view(),name='modulos-curso'),
     path('cursos/criar-modulo/<str:slug>/',cadastrar_modulo_cursoView,name='criar-modulo-curso'),
+    path('cursos/editar-modulo/<str:slug>/<int:pk>/',Edit_moduloView.as_view(),name='editar-modulo-curso'),
     path('cursos/criar-aula-modulo/<str:slug>/<int:pk>/',cadastrar_aula_modulo_cursoView,name='criar-aula-modulo'),
-    path('cursos/aula/',aulaview,name='cancelar-matricula'),
-    path('cursos/criar-modulo/<str:slug>/',criar_modulo_cursoView,name='criar-modulo-curso'),
-    path('cursos/criar-modulo/<str:slug>/',criar_modulo_cursoView,name='criar-modulo-curso'),
-    #path('cursos/aula/',aulaview,name='cancelar-matricula'),
+    path('cursos/modulos-curso/aulas/<str:slug>/<int:pk>/',ver_aulas_modulos_cursoView.as_view(),name='aulas-modulo-curso'),
 
 ]
