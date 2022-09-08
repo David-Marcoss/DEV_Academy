@@ -9,8 +9,8 @@ from re import template
 from tokenize import group
 from urllib import request
 from django.views.generic import UpdateView,ListView,CreateView,DeleteView
-from .models import modelcursos,matricula
-from .forms import contatocurso
+from .models import modelcursos, matricula, aulas_curso, modulo_curso
+from .forms import contatocurso, criar_moduloform, criar_aula_moduloform
 from django import forms
 
 from django.shortcuts import render, get_object_or_404,redirect
