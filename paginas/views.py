@@ -6,7 +6,12 @@ from accounts.models import User
 
 class contatoview(TemplateView):
     template_name = "paginas/contact.html"
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['titulo'] = 'Fale conosco'
 
+        return context
 
 class homeview(TemplateView):
     template_name = "paginas/home.html"
