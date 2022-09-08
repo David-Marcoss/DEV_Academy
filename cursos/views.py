@@ -25,6 +25,7 @@ este é uma app padrao do django que serve para enviar mensagens para os templat
 para indicar que alguma ação foi realizada
 """
 from django.contrib import messages
+from django import forms
 
 """
 serve para apenas permitir acesso a view se o usuario for pertencente ao grupo predefinio
@@ -39,6 +40,10 @@ from django.contrib.auth.decorators import login_required
 from accounts.models import User
 
 # Create your views here.
+
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class cursosview(ListView):
 
@@ -102,7 +107,10 @@ class CadastroCursoview(GroupRequiredMixin,CreateView):
     
     """ 
 
-
+    def get_form(self, form_class=None):
+        form = super(CadastroCursoview, self).get_form(form_class)
+        form.fields['data_inicio'].widget = DateInput()
+        return form
 
     def form_valid(self, form):
 
