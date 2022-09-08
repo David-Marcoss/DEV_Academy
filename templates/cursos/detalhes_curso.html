@@ -5,10 +5,80 @@
 
 {%block content %}
 
+<section class="bg-dark py-5 container-fluid">
+    <div class="container">
+        <div class="row py-lg-5">
+            <div class="col-2">
+                {% if course.image %}
+                <img src="{{ course.image.url }}" alt="" class="d-block mx-lg-auto img-fluid rounded" alt="" width="128"
+                    loading="lazy" />
+                {% else %}
+                <img src="{% static 'img/curso_capa.png' %}" alt="" class="d-block mx-lg-auto img-fluid rounded" alt="" width="128"
+                    loading="lazy" />
+                {% endif %}
+            </div>
+            <div class="col-10">
+                <h1 class="text-white">{{ course }}</h1>
+                <p class="lead text-white">
+                    {{ course.descricao }}
+                </p>
+                <div class="row col-12 text-center">
+                    <div class="col-2">
+                        <p>Seu Estado</p>
+                        {%if request.user.is_authenticated %}
+                            {% if matriculado %}
+                            <a href="{% url 'cancelar-matricula' course.id %}?next={{ request.path }}">
+                                <span class="badge text-bg-success">Inscrito</span>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'matricula' course.slug %}?next={{ request.path }}">
+                                <span class="badge text-bg-danger">Inscreva-se</span>
+                            </a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'login' %}">
+                                <span class="badge text-bg-danger">Inscreva-se</span>
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div style="display: inline-flex; width: 25px; height: 50px;">
+                        <hr style="margin: 0px 0px 0px 1px; border-left:2.5px solid #000;">
+                    </div>
+                    <div class="col-2">
+                        <p>Categoria</p>
+                        <span class="badge text-bg-light">{{ course.categoria }}</span>
+                    </div>
+                    <div style="display: inline-flex; width: 25px; height: 50px;">
+                        <hr style="margin: 0px 0px 0px 1px; border-left:2.5px solid #000;">
+                    </div>
+                    <div class="col-3">
+                        <p>Comece Agora</p>
+                        {%if request.user.is_authenticated %}
+                            <span class="badge text-bg-primary">Cadastrado</span>
+                        {% else %}
+                            <a href="{% url 'login' %}?next={{ request.path }}">
+                                <span class="badge text-bg-primary">Faça o login ou cadastro</span>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <div class="container">
     <div class="p-5 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
-            <div class="text-center">
+            <div>
+
+                <!-- {% if course.image %}
+                <img src="{{ course.image.url }}" alt="" class="d-block mx-lg-auto img-fluid" alt="" width="128" height="128"
+                    loading="lazy" />
+                {% else %}
+                <img src="{% static 'img/curso_capa.png' %}" alt="" class="d-block mx-lg-auto img-fluid" alt="" width="128" height="128"
+                    loading="lazy" />
+                {% endif %}
                 
                 <h1 class="display-5 fw-bold">{{ course }}</h1>
                 
@@ -19,8 +89,12 @@
                     <a href="{% url 'cancelar-matricula' course.id %}?next={{ request.path }}" class="btn btn-primary btn-lg" style="background-color: green;">Inscrito</a>
                 {% else %}
                     <a href="{% url 'matricula' course.slug %}?next={{ request.path }}" class="btn btn-primary btn-lg">Inscreva-se</a>
-                {% endif %}
-            
+                {% endif %} -->
+                <h1 class="display-5 fw-bold lh-1 mb-3">Descrição</h1>
+                <p>
+                    {{ course.sobre_curso|linebreaks }}
+                </p>
+
             </div>
         </div>
     </div>
