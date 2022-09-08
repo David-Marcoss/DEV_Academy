@@ -1,9 +1,13 @@
 from dataclasses import fields
 import email
+from pyexpat import model
 
 from django.conf import settings
 from django import forms
 from paginas.mail import send_mail_template
+
+from .models import modulo_curso,aulas_curso
+from .funcoes_auxiliares import trata_link,verifica_link
 
 #form para entrar em contato com o criador do curso
 class contatocurso(forms.Form):
@@ -24,3 +28,29 @@ class contatocurso(forms.Form):
         
        send_mail_template(subject, template_name, context, [email_criador])
    
+
+class criar_moduloform(forms.ModelForm):
+     
+     class Meta:
+          model = modulo_curso
+          fields = ['titulo']
+
+class criar_aula_moduloform(forms.ModelForm):
+     
+     class Meta:
+          model = aulas_curso
+          fields = ['titulo','video','sobre_aula']
+     
+     #função para validação do campo video
+     def clean_video(self):
+          
+          if verifica_link(self.cleaned_data['video']):
+               video = self.cleaned_data['video']
+               video = trata_link(video)
+               
+               return video
+          else:
+               raise forms.ValidationError('Por favor, digite um link valido!!') 
+
+
+

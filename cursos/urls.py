@@ -1,6 +1,5 @@
 from django.urls import path
-from .views import (cursosview,detalhes_cursoview,CadastroCursoview,Edit_cursoview
-,matriculaview,Meus_cursos_matriculados_view,Meus_cursos_criados_view,Cancelar_matriculaview)
+from .views import *
 
 
 urlpatterns = [
@@ -12,4 +11,13 @@ urlpatterns = [
     path('cursos/meus-cursos-matriculados/',Meus_cursos_matriculados_view.as_view(),name='meus-cursos-matriculados'),
     path('cursos/meus-cursos-criados/',Meus_cursos_criados_view.as_view(),name='meus-cursos-criados'),
     path('cursos/cancelar-matricula/<int:pk>/',Cancelar_matriculaview,name='cancelar-matricula'),
+    path('cursos/modulos-curso/<str:slug>/',ver_modulos_cursoView.as_view(),name='modulos-curso'),
+    path('cursos/criar-modulo/<str:slug>/',cadastrar_modulo_cursoView,name='criar-modulo-curso'),
+    path('cursos/editar-modulo/<str:slug>/<int:pk>/',Edit_moduloView.as_view(),name='editar-modulo-curso'),
+    path('cursos/excluir-modulo/<str:slug>/<int:pk>/',deletar_modulo_cursoView,name='excluir-modulo-curso'),
+    path('cursos/criar-aula-modulo/<str:slug>/<int:pk>/',cadastrar_aula_modulo_cursoView,name='criar-aula-modulo'),
+    path('cursos/modulos-curso/aulas/<str:slug>/<int:pk>/',ver_aulas_modulos_cursoView.as_view(),name='aulas-modulo-curso'),
+    path('cursos/modulos-curso/editar-aula/<str:slug>/<int:pk>/',Edit_aula_moduloView.as_view(),name='edit-aula-modulo-curso'),
+    path('cursos/modulos-curso/excluir-aula/<str:slug>/<int:pk>/',deletar_aula_moduloView,name='deletar-aula-modulo-curso'),
+    path('cursos/modulos-curso/aula/<int:pk>/',aulaView,name='ver-aula'),
 ]
