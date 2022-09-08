@@ -59,13 +59,17 @@ class cursosview(ListView):
 
         return context
 
-@login_required
+# @login_required
 def detalhes_cursoview(request,slug):
     context = {}
     
     course = get_object_or_404(modelcursos, slug=slug) #função busca um elemento de uma tabela
     criador = get_object_or_404(User, username = course.user)
-    matriculado = matricula.objects.filter(user = request.user,curso = course).exists()
+    print(request.user)
+    if request.user == "AnonymousUser":
+        matriculado = matricula.objects.filter(user = request.user,curso = course).exists()
+    else:
+        matriculado = None
     
     form = contatocurso(request.POST or None) #request.POST retorna um discionario com os atributos enviados do formulario
 
