@@ -249,6 +249,7 @@ def cadastrar_modulo_cursoView(request,slug):
 
     if form.is_valid():
         form.instance.curso = curso
+        form.instance.numero_modulo = curso.modulo.all().count() + 1
         form.save()
         
         messages.info(request,'Modulo Criado com Sucesso!!')
@@ -344,6 +345,7 @@ def cadastrar_aula_modulo_cursoView(request,slug,pk):
     if form.is_valid():
         
         form.instance.modulo = modulo
+        form.instance.numero_aula = modulo.aulas.all().count() + 1
         form.save()
         
         messages.info(request,'Aula Criado com Sucesso!!')
@@ -360,7 +362,7 @@ class Edit_aula_moduloView(GroupRequiredMixin,UpdateView):
     group_required = u'professor'
     template_name = 'form.html'
     model = aulas_curso
-    fields = ['titulo','video']
+    form_class= criar_aula_moduloform
     
     def get_object(self, queryset = None):
 

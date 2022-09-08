@@ -83,7 +83,9 @@ class modulo_curso(models.Model):
     titulo = models.CharField('Titulo do modulo',max_length=100)
     #status == False indica que o modulo ainda não foi finalizado e True o modulo ja foi finalizado
     status_modulo = models.BooleanField('Status do modulo:',default=False)
-
+    
+    numero_modulo = models.IntegerField('numero aula',blank=True,default=0)
+    
     criado_em= models.DateTimeField('criado em: ',auto_now_add=True)
     atualizado_em= models.DateTimeField('atualizado em: ',auto_now=True)
 
@@ -104,7 +106,11 @@ class aulas_curso(models.Model):
 
     titulo = models.CharField('Titulo da Aula',max_length=100)
     
-    video = models.TextField('Video',blank=False)
+    video = models.CharField('link do Video',max_length=100,blank=False)
+    
+    sobre_aula = models.TextField('sobre a aula',blank=True,null=True)
+
+    numero_aula = models.IntegerField('numero aula',blank=True,default=0)
 
     criado_em= models.DateTimeField('criado em: ',auto_now_add=True)
     atualizado_em= models.DateTimeField('atualizado em: ',auto_now=True)
@@ -119,3 +125,4 @@ class aulas_curso(models.Model):
 
         verbose_name = 'Aula curso'
         verbose_name_plural ='Aulas cursos'
+    

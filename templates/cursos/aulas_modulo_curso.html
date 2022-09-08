@@ -15,7 +15,7 @@
 
 <div class="text-center mt-3">
     <a href="{% url 'criar-aula-modulo' modulo.curso.slug modulo.id %}?next={{ request.path }}" class="btn btn-primary">
-        Criar modulo</a>
+        Criar Aula</a>
 </div>
 
 <div class="text-center mt-3">
@@ -24,6 +24,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th scope="col">Numero Aula</th>
                         <th scope="col">Titulo</th>
                         <th scope="col">Link da aula</th>
                         <th scope="col">Data de criacao</th>
@@ -35,6 +36,7 @@
 
                     <tbody>
                         <tr>
+                            <td>{{aula.numero_aula}}</td>
                             <td>{{aula.titulo}}</td>
                             <td>{{aula.video}}</td>
                             <td>{{aula.criado_em}}</td>

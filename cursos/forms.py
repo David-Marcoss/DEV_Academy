@@ -7,6 +7,7 @@ from django import forms
 from paginas.mail import send_mail_template
 
 from .models import modulo_curso,aulas_curso
+from .funcoes_auxiliares import trata_link,verifica_link
 
 #form para entrar em contato com o criador do curso
 class contatocurso(forms.Form):
@@ -38,5 +39,18 @@ class criar_aula_moduloform(forms.ModelForm):
      
      class Meta:
           model = aulas_curso
-          fields = ['titulo','video']
+          fields = ['titulo','video','sobre_aula']
+     
+     #função para validação do campo video
+     def clean_video(self):
+          
+          if verifica_link(self.cleaned_data['video']):
+               video = self.cleaned_data['video']
+               video = trata_link(video)
+               
+               return video
+          else:
+               raise forms.ValidationError('Por favor, digite um link valido!!') 
+
+
 

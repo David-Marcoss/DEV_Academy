@@ -19,10 +19,13 @@
 </div>
 
 <div class="text-center mt-3">
+
+    {% if object_list %}
         <div class="p-5">
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th scope="col">Numero do Modulo</th>
                     <th scope="col">Titulo</th>
                     <th scope="col">Data de criacao</th>
                     <th scope="col"></th>
@@ -33,6 +36,7 @@
 
                 <tbody>
                     <tr>
+                        <td>{{modulo.numero_modulo}}</td>
                         <td>{{modulo.titulo}}</td>
                         <td>{{modulo.criado_em}}</td>
                         <td>
@@ -61,14 +65,18 @@
                     </tr>
 
                 </tbody>
-            
-            {% empty %}
-                <h4 class="fw-light text-center">Não ha cursos disponíveis</h4>
 
             {% endfor %}
             
         </table>
-    </div>
+        </div>
+        
+    {% else %}
+        <h2> Não Há Modulos cadastradas neste curso!!</h2>
+    {% endif%}
+    
+</div>
+
 
 
 {% endblock %}
