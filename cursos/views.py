@@ -65,8 +65,7 @@ def detalhes_cursoview(request,slug):
     
     course = get_object_or_404(modelcursos, slug=slug) #função busca um elemento de uma tabela
     criador = get_object_or_404(User, username = course.user)
-    print(request.user)
-    if request.user == "AnonymousUser":
+    if str(request.user) != "AnonymousUser":
         matriculado = matricula.objects.filter(user = request.user,curso = course).exists()
     else:
         matriculado = None
