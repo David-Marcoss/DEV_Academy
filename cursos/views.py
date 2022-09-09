@@ -444,3 +444,38 @@ def aulaView(request,pk):
 
     return render(request,template_name,context)
 
+
+class Enviar_aviso(CreateView):
+
+    template_name = 'form.html'
+    model = avisos_curso
+    fields = ['titulo','assunto']
+
+    success_url =  reverse_lazy('home')
+
+    def form_valid(self, form):
+
+        form.instance.curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'])
+    
+        form.save()
+
+        return super().form_valid(form)
+
+    def get_context_data(self, *args,**kwargs):
+
+        context = super().get_context_data(*args,**kwargs)
+        context['titulo'] = 'Enviar Aviso'
+        context['botao'] = 'Enviar'
+
+        return context
+
+class Ver_avisos_curso(ListView):
+    template_name = 'cursos/avisos_curso.html'
+    model = avisos_curso
+
+    def get_queryset(self, queryset = None):
+        curso = get_object_or_404(modelcursos, slug = self.kwargs['slug'])
+
+        return curso.avisos.all()
+    
+    

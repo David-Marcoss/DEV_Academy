@@ -20,4 +20,6 @@ urlpatterns = [
     path('cursos/modulos-curso/editar-aula/<str:slug>/<int:pk>/',Edit_aula_moduloView.as_view(),name='edit-aula-modulo-curso'),
     path('cursos/modulos-curso/excluir-aula/<str:slug>/<int:pk>/',deletar_aula_moduloView,name='deletar-aula-modulo-curso'),
     path('cursos/modulos-curso/aula/<int:pk>/',aulaView,name='ver-aula'),
+    path('cursos/enviar-aviso/<str:slug>/',Enviar_aviso.as_view(),name='enviar-aviso'),
+    path('cursos/avisos/<str:slug>/',Ver_avisos_curso.as_view(),name='avisos-curso'),
 ]

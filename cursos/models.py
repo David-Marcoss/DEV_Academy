@@ -1,4 +1,5 @@
 from cgitb import text
+from copyreg import dispatch_table
 from curses.ascii import NUL
 from distutils.command.upload import upload
 from distutils.text_file import TextFile
@@ -15,6 +16,7 @@ from django.db import models
 from django.forms import CharField
 
 from accounts.models import User
+from paginas.mail import send_mail_template
 
 #model que armazena as categorias dos cursos
 class categoria_curso(models.Model):
@@ -128,18 +130,18 @@ class aulas_curso(models.Model):
         verbose_name = 'Aula curso'
         verbose_name_plural ='Aulas cursos'
 
-
+#model reponsavel por armazenar avisos do curso
 class avisos_curso(models.Model):
 
-    titulo = models.CharField('Titulo do modulo',max_length=100)
+    titulo = models.CharField('Titulo',max_length=100)
     assunto = models.TextField('Assunto')
     
     criado_em= models.DateTimeField('criado em: ',auto_now_add=True)
     atualizado_em= models.DateTimeField('atualizado em: ',auto_now=True)
 
     curso = models.ForeignKey(modelcursos,on_delete=models.PROTECT,related_name='avisos')
-    
 
+    
     def __str__(self) -> str: # define um nome para o objeto
         return self.titulo
     
@@ -147,5 +149,21 @@ class avisos_curso(models.Model):
 
         verbose_name = 'Aviso'
         verbose_name_plural ='Avisos'
+        ordering = ['-criado_em']
+
+
+def enviar_aviso_email(instance, created, **kwargs):
+    if created:
+        template_name = 'cursos/aviso_curso_email.html'
+        assunto = instance.titulo
+        context = {'aviso':instance}
+
+        matriculas = matricula.objects.filter(curso = instance.curso)
+
+        for i in matriculas:
+            if i.notificacoes:
+                send_mail_template(assunto,template_name,context,[i.user.email])
+
+models.signals.post_save.connect(enviar_aviso_email,sender = avisos_curso, dispatch_uid = 'enviar_aviso_email') 
 
     
