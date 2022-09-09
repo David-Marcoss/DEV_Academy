@@ -5,61 +5,89 @@
 
 {%block content %}
 
-<section class="bg-dark py-5 container-fluid">
+<style>
+    .accordion-button:not(.collapsed){
+        color: inherit;
+        background: rgba(33,37,41);
+        color: white;
+    }
+    .accordion-button:not(.collapsed)::after {
+        filter: brightness(0%) invert(70%);
+    }
+</style>
+
+<section class="bg-dark py-4 container-fluid">
     <div class="container">
         <div class="row py-lg-5">
             <div class="col-2">
                 {% if course.image %}
-                <img src="{{ course.image.url }}" alt="" class="d-block mx-lg-auto img-fluid rounded" alt="" width="128"
+                <img src="{{ course.image.url }}" alt="" class="img-fluid rounded" alt=""
                     loading="lazy" />
                 {% else %}
-                <img src="{% static 'img/curso_capa.png' %}" alt="" class="d-block mx-lg-auto img-fluid rounded" alt="" width="128"
+                <img src="{% static 'img/curso_capa.png' %}" alt="" class="img-fluid rounded" alt=""
                     loading="lazy" />
                 {% endif %}
             </div>
             <div class="col-10">
                 <h1 class="text-white">{{ course }}</h1>
-                <p class="lead text-white">
+                <p class="text-white">
                     {{ course.descricao }}
                 </p>
-                <div class="row col-12 text-center">
+                <p class="fs-6">
+                    Criado por <a href="">{{ course.user }}</a>
+                </p>
+                <p class="fs-6">
+                    Última atualização em {{ course.atualizado_em}}
+                </p>
+                <div class="row p-2 col-12 text-center">
                     <div class="col-2">
                         <p>Seu Estado</p>
                         {%if request.user.is_authenticated %}
                             {% if matriculado %}
-                            <a href="{% url 'cancelar-matricula' course.id %}?next={{ request.path }}">
-                                <span class="badge text-bg-success">Inscrito</span>
-                            </a>
+                            <p class="h5">
+                                <a href="{% url 'cancelar-matricula' course.id %}?next={{ request.path }}">
+                                    <span class="badge text-bg-success">Inscrito</span>
+                                </a>
+                            </p>
                             {% else %}
-                            <a href="{% url 'matricula' course.slug %}?next={{ request.path }}">
-                                <span class="badge text-bg-danger">Inscreva-se</span>
-                            </a>
+                            <p class="h5">
+                                <a href="{% url 'matricula' course.slug %}?next={{ request.path }}">
+                                    <span class="badge text-bg-danger">Inscreva-se</span>
+                                </a>
+                            </p>
                             {% endif %}
                         {% else %}
-                            <a href="{% url 'login' %}">
-                                <span class="badge text-bg-danger">Inscreva-se</span>
-                            </a>
+                            <p class="h5">
+                                <a href="{% url 'login' %}?next={{ request.path }}">
+                                    <span class="badge text-bg-danger">Inscreva-se</span>
+                                </a>
+                            </p>
                         {% endif %}
                     </div>
-                    <div style="display: inline-flex; width: 25px; height: 50px;">
+                    <div style="display: inline-flex; width: 25px; height: 75px;">
                         <hr style="margin: 0px 0px 0px 1px; border-left:2.5px solid #000;">
                     </div>
                     <div class="col-2">
                         <p>Categoria</p>
-                        <span class="badge text-bg-light">{{ course.categoria }}</span>
+                        <p class="h5">
+                            <span class="badge text-bg-light">{{ course.categoria }}</span>
+                        </p>
                     </div>
-                    <div style="display: inline-flex; width: 25px; height: 50px;">
+                    <div style="display: inline-flex; width: 25px; height: 75px;">
                         <hr style="margin: 0px 0px 0px 1px; border-left:2.5px solid #000;">
                     </div>
-                    <div class="col-3">
-                        <p>Comece Agora</p>
-                        {%if request.user.is_authenticated %}
-                            <span class="badge text-bg-primary">Cadastrado</span>
-                        {% else %}
-                            <a href="{% url 'login' %}?next={{ request.path }}">
-                                <span class="badge text-bg-primary">Faça o login ou cadastro</span>
-                            </a>
-                        {% endif %}
+                    <div class="col-2">
+                        <p>Classificações</p>
+                        <p class="h5">
+                            <span class="badge text-bg-warning">
+                                <span>4.5</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            </span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -71,25 +99,6 @@
     <div class="p-5 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
             <div>
-
-                <!-- {% if course.image %}
-                <img src="{{ course.image.url }}" alt="" class="d-block mx-lg-auto img-fluid" alt="" width="128" height="128"
-                    loading="lazy" />
-                {% else %}
-                <img src="{% static 'img/curso_capa.png' %}" alt="" class="d-block mx-lg-auto img-fluid" alt="" width="128" height="128"
-                    loading="lazy" />
-                {% endif %}
-                
-                <h1 class="display-5 fw-bold">{{ course }}</h1>
-                
-                <p class="col-md-12 fs-4">
-                    {{ course.descricao }}
-                </p>
-                {% if matriculado %}
-                    <a href="{% url 'cancelar-matricula' course.id %}?next={{ request.path }}" class="btn btn-primary btn-lg" style="background-color: green;">Inscrito</a>
-                {% else %}
-                    <a href="{% url 'matricula' course.slug %}?next={{ request.path }}" class="btn btn-primary btn-lg">Inscreva-se</a>
-                {% endif %} -->
                 <h1 class="display-5 fw-bold lh-1 mb-3">Descrição</h1>
                 <p>
                     {{ course.sobre_curso|linebreaks }}
@@ -98,30 +107,153 @@
             </div>
         </div>
     </div>
-    <div class="container col-xxl-8 px-4 py-5">
-        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-            <div class="col-10 col-sm-8 col-lg-6">
-                {% if course.image %}
-                <img src="{{ course.image.url }}" alt="" class="d-block mx-lg-auto img-fluid" alt="" width="700"
-                    height="500" loading="lazy"/>
-                {% else %}
-                <img src="{% static 'img/curso_capa.png' %}" alt="" class="d-block mx-lg-auto img-fluid" alt="" width="700"
-                    height="500" loading="lazy"/>
-                {% endif %}
-            </div>
-            <div class="col-lg-6">
-                <h1 class="display-5 fw-bold lh-1 mb-3">Sobre o Curso</h1>
-                <p class="lead">
-                    {{ course.sobre_curso|linebreaks }}
-                </p>
-                <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                    <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Primary</button>
-                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
-                </div> -->
+    <div class="p-5 mb-4 rounded-3">
+        <div class="container-fluid">
+            <h1 class="display-5 fw-bold lh-1 mb-4">Conteúdo do curso</h1>
+            <div>
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseOne">
+                                Seccao 01
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                            aria-labelledby="panelsStayOpen-headingOne">
+                            <div class="accordion-body">
+                                
+                                <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                                    <div class="list-group list-group-flush border-bottom scrollarea">
+                                        <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                                <strong class="mb-1">Aula X</strong>
+                                                <small><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                                        class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd"
+                                                            d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                                                    </svg></small>
+                                            </div>
+                                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                                <strong class="mb-1">Aula X</strong>
+                                                <small><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-right-circle"
+                                                    viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd"
+                                                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                                                </svg></small>
+                                            </div>
+                                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                                <strong class="mb-1">Aula X</strong>
+                                                <small><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-right-circle"
+                                                    viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd"
+                                                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                                                </svg></small>
+                                            </div>
+                                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                                <strong class="mb-1">Aula X</strong>
+                                                <small><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-right-circle"
+                                                    viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd"
+                                                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                                                </svg></small>
+                                            </div>
+                                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                                        </a>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseTwo">
+                                Seccao 02
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                            aria-labelledby="panelsStayOpen-headingTwo">
+                            <div class="accordion-body">
+
+                                <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                                    <div class="list-group list-group-flush border-bottom scrollarea">
+                                        <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                                <strong class="mb-1">Aula X</strong>
+                                                <small><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                                        class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd"
+                                                            d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                                                    </svg></small>
+                                            </div>
+                                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                                <strong class="mb-1">Aula X</strong>
+                                                <small><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                                        class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd"
+                                                            d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                                                    </svg></small>
+                                            </div>
+                                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseThree">
+                                Seccao 03
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                            aria-labelledby="panelsStayOpen-headingThree">
+                            <div class="accordion-body">
+                                
+                                <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                                    <div class="list-group list-group-flush border-bottom scrollarea">
+                                        <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                                <strong class="mb-1">Aula X</strong>
+                                                <small><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                                        class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd"
+                                                            d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                                                    </svg></small>
+                                            </div>
+                                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="bg-light">
+    <!-- <div class="bg-light">
         <div class="container text-center">
             <div class="row align-items-center py-5">
                 <div class="col-md-12 mx-auto col-lg-6">
@@ -143,9 +275,73 @@
                 </div>
             </div>
         </div>
+    </div> -->
+
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid">
+            <div>
+                <h1 class="display-5 fw-bold lh-1 mb-3">Instrutor</h1>
+                <p class="fs-5"> {{ criador.nome}} </p>
+                <div class="container">
+                    
+                    <div class="row py-lg-1">
+                        <div class="col-2">
+                            {% if criador.imageperfil %}
+                                <img src="{{ criador.imageperfil.url }}" alt="mdo" class="img-fluid rounded">
+                            {% else%}
+                                <img src="https://github.com/mdo3.png" alt="mdo" class="img-fluid rounded">
+                            {% endif %}
+                        </div>
+                        <div class="col-3">
+                            <p>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                                <strong>4.8</strong> Classificação do instrutor
+                            </p>
+                            <p>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-text"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
+                                    <path
+                                        d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z" />
+                                </svg>
+                                <strong>3.066</strong> Avaliações
+                            </p>
+                            <p>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill"
+                                    viewBox="0 0 16 16">
+                                    <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                                    <path fill-rule="evenodd"
+                                        d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z" />
+                                    <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
+                                </svg>
+                                <strong>158.495</strong> Alunos
+                            </p>
+                            <p>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-circle-fill"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
+                                </svg>
+                                <strong>14</strong> Cursos
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <p class="fs-5"> {{ criador.bio|linebreaks }} </p>
+    
+            </div>
+        </div>
     </div>
+
     <div class="container">
-        <div class="row align-items-center py-5">
+        <div class="row align-items-center mb-5">
             <div class="col-md-12 mx-auto col-lg-6">
                 <form method="post">
 
