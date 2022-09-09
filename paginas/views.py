@@ -23,3 +23,6 @@ class homeview(TemplateView):
         context['Prof_02'] = allProf[1:2][0] if allProf[1:2] else None
         context['Prof_03'] = allProf[2:3][0] if allProf[2:3] else None
         return context
+    
+class dashview(TemplateView):
+    template_name = "dashboard.html"
