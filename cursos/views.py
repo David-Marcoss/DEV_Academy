@@ -9,7 +9,7 @@ from re import template
 from tokenize import group
 from urllib import request
 from django.views.generic import UpdateView,ListView,CreateView,DeleteView
-from .models import modelcursos,matricula,aulas_curso,modulo_curso
+from .models import modelcursos,matricula,aulas_curso,modulo_curso,avisos_curso
 from .forms import contatocurso,criar_moduloform,criar_aula_moduloform
 
 from django.shortcuts import render, get_object_or_404,redirect
@@ -38,6 +38,8 @@ from braces.views import GroupRequiredMixin
 from django.contrib.auth.decorators import login_required                     
 
 from accounts.models import User
+
+from .decorator import is_creator
 
 # Create your views here.
 
@@ -248,12 +250,14 @@ class Meus_cursos_criados_view(GroupRequiredMixin,ListView):
 faz o cadastro de um modulo no curso somente o usuario que criou
 o curso pode realizar esta operação
 """
+@login_required
+@is_creator
 def cadastrar_modulo_cursoView(request,slug):
 
     template_name = 'form.html'
     form = criar_moduloform(request.POST or None)
 
-    curso = get_object_or_404(modelcursos,slug = slug,user = request.user)
+    curso = request.curso
 
     if form.is_valid():
         form.instance.curso = curso
@@ -322,10 +326,9 @@ este metodo responsavel por excluir modulo do curso, so é possivel
 excluir se o modulo não possuir aulas cadastradas
 """
 @login_required
+@is_creator
 def deletar_modulo_cursoView(request,slug,pk):
-    
-    curso = get_object_or_404(modelcursos,slug = slug,user = request.user)
-    modulo = get_object_or_404(modulo_curso,id = pk,curso = curso)
+    modulo = get_object_or_404(modulo_curso,id = pk,curso = request.curso)
 
     if modulo.aulas.all():
         messages.info(request,'Não é possivel excluir modulo com aulas cadastradas!!')
@@ -342,13 +345,14 @@ def deletar_modulo_cursoView(request,slug,pk):
 faz o cadastro de uma aula no modulo no curso somente o usuario que criou
 o curso pode realizar esta operação
 """
+@login_required
+@is_creator
 def cadastrar_aula_modulo_cursoView(request,slug,pk):
 
     template_name = 'form.html'
     form = criar_aula_moduloform(request.POST or None)
-
-    curso = get_object_or_404(modelcursos,slug = slug,user = request.user)
-    modulo = get_object_or_404(modulo_curso,id = pk,curso = curso)
+    
+    modulo = get_object_or_404(modulo_curso,id = pk,curso = request.curso)
 
     if form.is_valid():
         
@@ -418,9 +422,9 @@ excluir se o modulo não possuir aulas cadastradas
 """
 
 @login_required
+@is_creator
 def deletar_aula_moduloView(request,slug,pk):
-    
-    curso = get_object_or_404(modelcursos,slug = slug,user = request.user)
+
     aula = get_object_or_404(aulas_curso,id = pk)
 
     aula.delete()
@@ -439,3 +443,4 @@ def aulaView(request,pk):
     context = {'aula':aula}
 
     return render(request,template_name,context)
+

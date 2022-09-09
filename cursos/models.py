@@ -66,6 +66,8 @@ class matricula(models.Model):
     curso = models.ForeignKey(modelcursos,on_delete=models.CASCADE,related_name='matricula')
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='matricula')
 
+    notificacoes = models.BooleanField('deseja receber notificações do curso',default=True)
+
     def __str__(self) -> str: # define um nome para o objeto
         return f'{self.user} matriculado em {self.curso}'
     
@@ -125,4 +127,25 @@ class aulas_curso(models.Model):
 
         verbose_name = 'Aula curso'
         verbose_name_plural ='Aulas cursos'
+
+
+class avisos_curso(models.Model):
+
+    titulo = models.CharField('Titulo do modulo',max_length=100)
+    assunto = models.TextField('Assunto')
+    
+    criado_em= models.DateTimeField('criado em: ',auto_now_add=True)
+    atualizado_em= models.DateTimeField('atualizado em: ',auto_now=True)
+
+    curso = models.ForeignKey(modelcursos,on_delete=models.PROTECT,related_name='avisos')
+    
+
+    def __str__(self) -> str: # define um nome para o objeto
+        return self.titulo
+    
+    class Meta:
+
+        verbose_name = 'Aviso'
+        verbose_name_plural ='Avisos'
+
     
