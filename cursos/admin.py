@@ -14,4 +14,4 @@ class cusosadmin(admin.ModelAdmin): #faz a customização dos models
 admin.site.register(modelcursos,cusosadmin) #adciona tabela cursos no admin
 
 admin.site.register([matricula,categoria_curso
-,modulo_curso,aulas_curso,avisos_curso]) #adciona tabela cursos no admin
+,modulo_curso,aulas_curso,avisos_curso,materiais_curso]) #adciona tabela cursos no admin

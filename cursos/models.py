@@ -18,6 +18,9 @@ from django.forms import CharField
 from accounts.models import User
 from paginas.mail import send_mail_template
 
+#serve para limitar quais tipos de arquivos sao permitidos no FileFild
+from django.core.validators import FileExtensionValidator
+
 #model que armazena as categorias dos cursos
 class categoria_curso(models.Model):
     categoria = models.CharField('Categoria do curso',max_length=100)
@@ -59,26 +62,6 @@ class modelcursos(models.Model):
 
         verbose_name = 'Curso'
         verbose_name_plural ='Cursos'
-
-
-#model que armazena as matriculas dos cursos
-class matricula(models.Model):
-
-    data_matricula = models.DateTimeField('criado em: ',auto_now_add=True)
-    curso = models.ForeignKey(modelcursos,on_delete=models.CASCADE,related_name='matricula')
-    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='matricula')
-
-    notificacoes = models.BooleanField('deseja receber notificações do curso',default=True)
-
-    def __str__(self) -> str: # define um nome para o objeto
-        return f'{self.user} matriculado em {self.curso}'
-    
-    class Meta:
-
-        verbose_name = 'Matricula'
-        verbose_name_plural ='Matriculas'
-        #esta variavel serve para definir um unico objeto entre o usuario e o curso
-        unique_together = (('user','curso')) 
 
 
 #model que armazena os modulos do curso
@@ -130,6 +113,46 @@ class aulas_curso(models.Model):
         verbose_name = 'Aula curso'
         verbose_name_plural ='Aulas cursos'
 
+class materiais_curso(models.Model):
+    titulo = models.CharField('Titulo do material',max_length=100)
+    
+    material = models.FileField(upload_to='cursos/materiais',verbose_name='Material'
+    ,validators=[FileExtensionValidator(allowed_extensions=['pdf','doc','docx','txt','pptx'])])
+
+    criado_em= models.DateTimeField('criado em: ',auto_now_add=True)
+    atualizado_em= models.DateTimeField('atualizado em: ',auto_now=True)
+
+    curso = models.ForeignKey(modelcursos,on_delete=models.PROTECT,related_name='materiais')
+    
+
+    def __str__(self) -> str: # define um nome para o objeto
+        return self.titulo
+    
+    class Meta:
+
+        verbose_name = 'Materiais do curso'
+
+
+#model que armazena as matriculas dos cursos
+class matricula(models.Model):
+
+    data_matricula = models.DateTimeField('criado em: ',auto_now_add=True)
+    curso = models.ForeignKey(modelcursos,on_delete=models.CASCADE,related_name='matricula')
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='matricula')
+
+    notificacoes = models.BooleanField('deseja receber notificações do curso',blank=True,default=True)
+
+    def __str__(self) -> str: # define um nome para o objeto
+        return f'{self.user} matriculado em {self.curso}'
+    
+    class Meta:
+
+        verbose_name = 'Matricula'
+        verbose_name_plural ='Matriculas'
+        #esta variavel serve para definir um unico objeto entre o usuario e o curso
+        unique_together = (('user','curso')) 
+
+
 #model reponsavel por armazenar avisos do curso
 class avisos_curso(models.Model):
 
@@ -152,6 +175,12 @@ class avisos_curso(models.Model):
         ordering = ['-criado_em']
 
 
+"""
+Esta função serve para que ela seja disparada por um sinal 
+toda vez que for salvo um aviso no model avisos é disparado esta
+função que ira ser responsavel por enviar o aviso cadastrado aos
+alunos que estao matriculados no curso
+"""
 def enviar_aviso_email(instance, created, **kwargs):
     if created:
         template_name = 'cursos/aviso_curso_email.html'
@@ -164,6 +193,7 @@ def enviar_aviso_email(instance, created, **kwargs):
             if i.notificacoes:
                 send_mail_template(assunto,template_name,context,[i.user.email])
 
+#metodo responsavel por disparar o sinal para execultar a função acima
 models.signals.post_save.connect(enviar_aviso_email,sender = avisos_curso, dispatch_uid = 'enviar_aviso_email') 
 
     

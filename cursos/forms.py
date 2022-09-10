@@ -6,7 +6,7 @@ from django.conf import settings
 from django import forms
 from paginas.mail import send_mail_template
 
-from .models import modulo_curso,aulas_curso
+from .models import modulo_curso,aulas_curso,avisos_curso,materiais_curso
 from .funcoes_auxiliares import trata_link,verifica_link
 
 #form para entrar em contato com o criador do curso
@@ -53,4 +53,14 @@ class criar_aula_moduloform(forms.ModelForm):
                raise forms.ValidationError('Por favor, digite um link valido!!') 
 
 
+class avisos_cursoform(forms.ModelForm):
+     
+     class Meta:
+          model = avisos_curso
+          fields = ['titulo','assunto']
 
+class material_cursoform(forms.ModelForm):
+     
+     class Meta:
+          model = materiais_curso
+          fields = ['titulo','material']

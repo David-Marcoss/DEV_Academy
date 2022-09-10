@@ -9,8 +9,8 @@ from re import template
 from tokenize import group
 from urllib import request
 from django.views.generic import UpdateView,ListView,CreateView,DeleteView
-from .models import modelcursos,matricula,aulas_curso,modulo_curso,avisos_curso
-from .forms import contatocurso,criar_moduloform,criar_aula_moduloform
+from .models import *
+from .forms import *
 
 from django.shortcuts import render, get_object_or_404,redirect
 from django.urls import reverse_lazy
@@ -160,6 +160,7 @@ class Edit_cursoview(LoginRequiredMixin,UpdateView):
     
     #redireciona a pagina anterior que solicitou a edição
     def get_success_url(self):
+        messages.info(self.request,'Alterações salvas com sucesso!!')
         return self.request.GET.get('next', reverse_lazy('meus-cursos-criados'))
 
 
@@ -318,6 +319,7 @@ class Edit_moduloView(GroupRequiredMixin,UpdateView):
     
     #redireciona a pagina anterior que solicitou a edição
     def get_success_url(self):
+        messages.info(self.request,'Alterações salvas com sucesso!!')
         return self.request.GET.get('next', reverse_lazy('meus-cursos-criados'))
 
 
@@ -393,6 +395,8 @@ class Edit_aula_moduloView(GroupRequiredMixin,UpdateView):
     
     #redireciona a pagina anterior que solicitou a edição
     def get_success_url(self):
+        messages.info(self.request,'Alterações salvas com sucesso!!')
+
         return self.request.GET.get('next', reverse_lazy('meus-cursos-criados'))
 
 
@@ -435,6 +439,81 @@ def deletar_aula_moduloView(request,slug,pk):
     return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))
 
 
+@login_required
+@is_creator
+def cadastrar_material_curso(request,slug):
+
+    template_name = 'form.html'
+    form = material_cursoform(request.POST,request.FILES or None)
+    
+    if form.is_valid():
+        
+        form.instance.curso = request.curso
+        form.save()
+        
+        messages.info(request,'Material com Sucesso!!')
+        
+        return redirect(request.GET.get('next', reverse_lazy('meus-cursos-criados')))
+    
+    context = {'form': form,'titulo':'Cadastrar Material do Curso','botao':'Cadastrar'}
+
+    return render(request,template_name,context)
+
+#View responsavel por editar um material do curso
+class Edit_materialView(GroupRequiredMixin,UpdateView):
+    
+    group_required = u'professor'
+    template_name = 'form.html'
+    model = materiais_curso
+    fields = ['titulo','material']
+
+    def get_object(self, queryset = None):
+
+       curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
+       object = get_object_or_404(materiais_curso,id = self.kwargs['pk'])
+
+       return object
+
+    def get_context_data(self, *args,**kwargs):
+        context = super().get_context_data(*args,**kwargs)
+        context['titulo'] = 'Editar Material do curso'
+        context['botao'] = 'Salvar Alterações'
+
+        return context
+    
+    #redireciona a pagina anterior que solicitou a edição
+    def get_success_url(self):
+        
+        messages.info(self.request,'Alterações salvas com sucesso!!')
+
+        return self.request.GET.get('next', reverse_lazy('meus-cursos-criados'))
+
+@login_required
+@is_creator
+def deletar_material_cursoView(request,slug,pk):
+
+    material = get_object_or_404(materiais_curso,id = pk)
+
+    material.delete()
+    messages.info(request,'Material excluido com sucesso!!')
+    
+
+    #redireciona para pagina que solicitou a operação
+    return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))
+
+
+
+class Ver_materiais_curso(ListView):
+    template_name = 'cursos/materiais_curso.html'
+    model = materiais_curso
+
+    def get_queryset(self, queryset = None):
+        curso = get_object_or_404(modelcursos, slug = self.kwargs['slug'])
+
+        return curso.materiais.all()
+
+
+
 def aulaView(request,pk):
     template_name = 'cursos/aula.html'
 
@@ -444,30 +523,26 @@ def aulaView(request,pk):
 
     return render(request,template_name,context)
 
-
-class Enviar_aviso(CreateView):
+@login_required
+@is_creator
+def Enviar_aviso(request,slug):
 
     template_name = 'form.html'
-    model = avisos_curso
-    fields = ['titulo','assunto']
-
-    success_url =  reverse_lazy('home')
-
-    def form_valid(self, form):
-
-        form.instance.curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'])
+    form = avisos_cursoform(request.POST or None)
     
+    if form.is_valid():
+        
+        form.instance.curso = request.curso
         form.save()
+        
+        messages.info(request,'Aviso enviado com Sucesso!!')
+        
+        return redirect(request.GET.get('next', reverse_lazy('meus-cursos-criados')))
+    
+    context = {'form': form,'titulo':'Enviar Aviso','botao':'Enviar'}
 
-        return super().form_valid(form)
+    return render(request,template_name,context)
 
-    def get_context_data(self, *args,**kwargs):
-
-        context = super().get_context_data(*args,**kwargs)
-        context['titulo'] = 'Enviar Aviso'
-        context['botao'] = 'Enviar'
-
-        return context
 
 class Ver_avisos_curso(ListView):
     template_name = 'cursos/avisos_curso.html'
