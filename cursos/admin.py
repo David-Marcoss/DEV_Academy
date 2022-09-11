@@ -3,7 +3,7 @@ import site
 from django.contrib import admin
 
 # Register your models here.
-from .models import modelcursos,matricula,categoria_curso,modulo_curso,aulas_curso
+from .models import *
 
 class cusosadmin(admin.ModelAdmin): #faz a customização dos models
 
@@ -13,7 +13,5 @@ class cusosadmin(admin.ModelAdmin): #faz a customização dos models
 
 admin.site.register(modelcursos,cusosadmin) #adciona tabela cursos no admin
 
-admin.site.register(matricula) #adciona tabela cursos no admin
-admin.site.register(categoria_curso) #adciona tabela categorias no admin
-admin.site.register(modulo_curso)
-admin.site.register(aulas_curso)
+admin.site.register([matricula,categoria_curso
+,modulo_curso,aulas_curso,avisos_curso,materiais_curso]) #adciona tabela cursos no admin

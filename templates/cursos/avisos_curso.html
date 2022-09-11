@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{%block content %}
+
+<div class="container">
+        <h1>Avisos do curso</h1>
+
+        {% for i in object_list %}
+
+            <h3>{{i.titulo}}</h3>
+            <p>{{ i.assunto| linebreaks }}</p>
+
+            {% empty %}
+                <h2>Não ha Avisos!</h2>
+        
+        {% endfor %}
+</div>
+
+{% endblock %}
