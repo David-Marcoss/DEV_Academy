@@ -301,7 +301,7 @@ class ver_modulos_cursoView(GroupRequiredMixin,ListView):
 class Edit_moduloView(GroupRequiredMixin,UpdateView):
     
     group_required = u'professor'
-    template_name = 'form.html'
+    template_name = 'cursos/dashboard/form.html'
     model = modulo_curso
     fields = ['titulo']
 
@@ -314,6 +314,8 @@ class Edit_moduloView(GroupRequiredMixin,UpdateView):
 
     def get_context_data(self, *args,**kwargs):
         context = super().get_context_data(*args,**kwargs)
+        curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
+        context['curso'] = curso
         context['titulo'] = 'Editar Modulo'
         context['botao'] = 'Salvar Alterações'
 

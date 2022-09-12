@@ -12,12 +12,12 @@
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link bi bi-filter-circle" id="detalhes_dash" aria-current="page" href="#">
+    <a class="nav-link bi bi-filter-circle" id="detalhes_dash" aria-current="page" href="{% url 'detalhesView_dash' curso.slug %}">
         Detalhes
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link bi bi-journal-plus" id="Modulos_dash" aria-current="page" href="#">
+    <a class="nav-link bi bi-journal-plus" id="Modulos_dash" aria-current="page" href="{% url 'modulos-curso' curso.slug %}">
         Módulos
     </a>
 </li>
