@@ -15,6 +15,7 @@ from unicodedata import name
 from django.db import models
 from django.forms import CharField
 
+
 from accounts.models import User
 from paginas.mail import send_mail_template
 
@@ -58,6 +59,19 @@ class modelcursos(models.Model):
     def __str__(self) -> str: # define um nome para o objeto
         return self.nome
     
+    def get_modulos(self):
+        return self.modulo.all()
+    
+    def get_numero_aulas(self):
+        num = 0
+        for i in self.get_modulos():
+            num += i.aulas.all().count()
+        
+        return num
+    
+    def get_num_alunos_matriculados(self):
+        return self.matricula.all().count()
+    
     class Meta:
 
         verbose_name = 'Curso'
@@ -81,6 +95,9 @@ class modulo_curso(models.Model):
 
     def __str__(self) -> str: # define um nome para o objeto
         return self.titulo
+    
+    def get_aulas(self):
+        return self.aulas.all()
     
     class Meta:
 
