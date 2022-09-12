@@ -1,0 +1,99 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% get_media_prefix %}
+
+{%block content_sidebar %}
+    <li class="border-top my-3"></li>
+    <p class="bi bi-journals text-center"> {{ curso.nome }}</p>
+    <li class="nav-item">
+        <a class="nav-link bi bi-file-earmark-plus" id="Aula_dash" aria-current="page" href="#">
+            Aulas
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-filter-circle" id="detalhes_dash" aria-current="page" href="#">
+            Detalhes
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-journal-plus" id="Modulos_dash" aria-current="page" href="#">
+            Módulos
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-bar-chart" id="estatisticaAula_dash" aria-current="page" href="#">
+            Estatística
+        </a>
+    </li>
+{% endblock%}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+    <h2>Curso - {{ curso.nome }}</h2>
+
+</div>
+
+<div class="container-fluid text-center">
+
+    <div class="card">
+
+        <div class="card-header">
+            <h4 class="pt-2">Módulos</h4>
+        </div>
+
+        <div class="card-body">
+            {% if object_list %}
+                <div class="p-4">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Numero do Modulo</th>
+                                <th scope="col">Titulo</th>
+                                <th scope="col">Data de criacao</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+            
+                        {% for modulo in object_list %}
+            
+                            <tbody>
+                                <tr>
+                                    <td>{{modulo.numero_modulo}}</td>
+                                    <td>{{modulo.titulo}}</td>
+                                    <td>{{modulo.criado_em}}</td>
+                                    <td>
+                                        <a href="{% url 'excluir-modulo-curso' curso.slug  modulo.id %}?next={{ request.path }}" type="button" data-bs-toggle="tooltip" data-bs-title="Excluir o Módulo" class="btn btn-group bi bi-trash3"></a>
+
+                                        <a href="{% url 'editar-modulo-curso' curso.slug  modulo.id %}?next={{ request.path }}" type="button" data-bs-toggle="tooltip" data-bs-title="Editar o Módulo" class="btn btn-group bi bi-pencil-square"></a>
+                                        
+                                        <a href="{% url 'aulas-modulo-curso' curso.slug  modulo.id %}" type="button" data-bs-toggle="tooltip" data-bs-title="Ver aulas do Módulo" class="btn btn-group bi bi-arrow-bar-right"></a>
+                                    </td>
+                                </tr>
+            
+                            </tbody>
+            
+                        {% endfor %}
+                        
+                    </table>
+                </div>
+                
+            {% else %}
+                <h2> Não Há Modulos cadastradas neste curso!!</h2>
+            {% endif%}
+        </div>
+        <div class="text-center p-4">
+            <a href="{% url 'criar-modulo-curso' curso.slug %}?next={{ request.path }}" class="btn btn-success">
+                Criar modulo</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const activeDiv = document.getElementById('Modulos_dash');
+    activeDiv.classList.add('active');
+    console.log(activeDiv)
+</script>
+
+{% endblock %}

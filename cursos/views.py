@@ -281,7 +281,7 @@ def cadastrar_modulo_cursoView(request,slug):
 class ver_modulos_cursoView(GroupRequiredMixin,ListView):
     
     group_required = u'professor'
-    template_name = 'cursos/modulos_curso.html'
+    template_name = 'cursos/dashboard/modulos_curso.html'
     model = modulo_curso
     
     def get_queryset(self, queryset = None):
@@ -556,4 +556,23 @@ class Ver_avisos_curso(ListView):
 
         return curso.avisos.all()
     
+@login_required
+def conteudo_view(request):
     
+    template_name = "cursos/dashboard/conteudo.html"
+    cursos = request.user.modelcursos_set.all()
+
+    context = {'cursos': cursos, 'curso_selecionado': False}
+
+    return render(request, template_name, context)
+
+
+@login_required
+def detalhesView_dash(request, slug):
+
+    template_name = "cursos/dashboard/detalhes.html"
+    curso = get_object_or_404(modelcursos, slug=slug)
+
+    context = {'curso': curso, 'curso_selecionado': False}
+
+    return render(request, template_name, context)

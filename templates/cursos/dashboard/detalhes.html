@@ -1,0 +1,58 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% get_media_prefix %}
+
+{%block content_sidebar %}
+    <li class="border-top my-3"></li>
+    <p class="bi bi-journals text-center"> {{ curso.nome }}</p>
+    <li class="nav-item">
+        <a class="nav-link bi bi-file-earmark-plus" id="addAula_dash" aria-current="page" href="#">
+            Aulas
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-filter-circle" id="detalhes_dash" aria-current="page" href="#">
+            Detalhes
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-journal-plus" id="addModulos_dash" aria-current="page" href="{% url 'modulos-curso' curso.slug %}">
+            Módulos
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-bar-chart" id="estatisticaAula_dash" aria-current="page" href="#">
+            Estatística
+        </a>
+    </li>
+{% endblock%}
+
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+    <h2>{{ curso.nome }}</h2>
+    <!-- <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar" class="align-text-bottom"></span>
+            This week
+        </button>
+    </div> -->
+</div>
+
+<div class="container-fluid">
+
+    
+</div>
+
+<script>
+    const activeDiv = document.getElementById('detalhes_dash');
+    activeDiv.classList.add('active');
+    console.log(activeDiv)
+</script>
+
+{% endblock %}

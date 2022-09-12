@@ -1,0 +1,82 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% get_media_prefix %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+    <h2>Conteúdo</h2>
+    <!-- <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar" class="align-text-bottom"></span>
+            This week
+        </button>
+    </div> -->
+</div>
+
+<div class="container-fluid">
+
+    <div class="card col-12">
+        {% if cursos %}
+
+        <div class="card-header">
+            <h3 class="pt-1">Cursos Cadastrados</h3>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Quantidade de alunos</th>
+                        <th scope="col">Data de criacao</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+
+                {% for c in cursos %}
+
+                <tbody>
+                    <tr>
+                        <th scope="row">{{c.id}}</th>
+                        <td>{{c.nome}}</td>
+                        <td>*</td>
+                        <td>{{c.criado_em}}</td>
+                        <td>
+                            <a href="{% url 'detalhesView_dash' c.slug %}" type="button"
+                                class="btn btn-group bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-title="Edite o curso" >
+                            </a>
+                            <a href="{% url 'detalhes-curso' c.slug %}" type="button" class="btn btn-group bi bi-arrow-bar-right" data-bs-toggle="tooltip" data-bs-title="Veja os detalhes do curso">
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+                {% endfor %}
+
+            </table>
+            {% else %}
+            <div class="text-center p-4">
+                <h2>Usuario não possui Cursos criados!</h2>
+
+            </div>
+
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    const activeDiv = document.getElementById('conteudo_dash');
+    activeDiv.classList.add('active');
+    console.log(activeDiv)
+</script>
+
+{% endblock %}

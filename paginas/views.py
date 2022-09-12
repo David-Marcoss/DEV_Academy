@@ -25,4 +25,4 @@ class homeview(TemplateView):
         return context
     
 class dashview(TemplateView):
-    template_name = "dashboard.html"
+    template_name = "paginas/home_dash.html"

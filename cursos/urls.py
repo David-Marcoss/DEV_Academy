@@ -26,4 +26,6 @@ urlpatterns = [
     path('cursos/materiais/<str:slug>/',Ver_materiais_curso.as_view(),name='materiais-curso'),
     path('cursos/enviar-aviso/<str:slug>/',Enviar_aviso,name='enviar-aviso'),
     path('cursos/avisos/<str:slug>/',Ver_avisos_curso.as_view(),name='avisos-curso'),
+    path('conteudo_view', conteudo_view, name='conteudo_view'),
+    path('detalhesView_dash/<str:slug>/', detalhesView_dash, name='detalhesView_dash'),
 ]
