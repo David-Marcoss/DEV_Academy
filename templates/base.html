@@ -64,9 +64,13 @@
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                     <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
                 </form>
-    
+
                 {%if request.user.is_authenticated %}
-    
+                
+                    {%if request.user.is_Teacher %}
+                        <a href="{% url 'dashview' %}" class="btn btn-primary text-white me-2">Área do Professor</a>
+                    {% endif %}
+
                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
                         aria-expanded="false">
