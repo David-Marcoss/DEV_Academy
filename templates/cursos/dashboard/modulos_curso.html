@@ -63,7 +63,26 @@
                                     <td>{{modulo.titulo}}</td>
                                     <td>{{modulo.criado_em}}</td>
                                     <td>
-                                        <a href="{% url 'excluir-modulo-curso' curso.slug  modulo.id %}?next={{ request.path }}" type="button" data-bs-toggle="tooltip" data-bs-title="Excluir o Módulo" class="btn btn-group bi bi-trash3"></a>
+                                        <!-- <a href="{% url 'excluir-modulo-curso' curso.slug  modulo.id %}?next={{ request.path }}" type="button" data-bs-toggle="tooltip" data-bs-title="Excluir o Módulo" class="btn btn-group bi bi-trash3"></a> -->
+                                        <a type="button" data-bs-title="Excluir o Módulo" class="btn btn-group bi bi-trash3" data-bs-toggle="modal" data-bs-target="#ModalExcluir{{ modulo.id }}"></a>
+
+                                        <div class="modal fade" id="ModalExcluir{{ modulo.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Exclusão do módulo: {{modulo.titulo}}</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Tem certeza que deseja remover esse módulo?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Voltar</button>
+                                                        <a href="{% url 'excluir-modulo-curso' curso.slug  modulo.id %}?next={{ request.path }}" type="button" data-bs-toggle="tooltip" data-bs-title="Excluir o Módulo" class="btn btn-danger">Excluir o Módulo</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <a href="{% url 'editar-modulo-curso' curso.slug  modulo.id %}?next={{ request.path }}" type="button" data-bs-toggle="tooltip" data-bs-title="Editar o Módulo" class="btn btn-group bi bi-pencil-square"></a>
                                         
