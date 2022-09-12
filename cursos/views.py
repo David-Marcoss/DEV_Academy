@@ -258,7 +258,7 @@ o curso pode realizar esta operação
 @is_creator
 def cadastrar_modulo_cursoView(request,slug):
 
-    template_name = 'form.html'
+    template_name = 'cursos/dashboard/form.html'
     form = criar_moduloform(request.POST or None)
 
     curso = request.curso
@@ -272,8 +272,7 @@ def cadastrar_modulo_cursoView(request,slug):
         
         return redirect(request.GET.get('next', reverse_lazy('meus-cursos-criados')))
         
-    
-    context = {'form': form,'titulo':'Cadastrar Modulo do Curso','botao':'Cadastrar'}
+    context = {'form': form, 'curso': curso, 'titulo': 'Cadastrar Modulo do Curso', 'botao': 'Cadastrar'}
 
     return render(request,template_name,context)
 
