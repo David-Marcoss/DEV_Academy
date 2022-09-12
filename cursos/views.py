@@ -42,7 +42,7 @@ from django.contrib.auth.decorators import login_required
 
 from accounts.models import User
 
-from .decorator import is_creator
+from .decorator import is_creator,matriculado
 
 # Create your views here.
 
@@ -69,6 +69,7 @@ def detalhes_cursoview(request,slug):
     
     course = get_object_or_404(modelcursos, slug=slug) #função busca um elemento de uma tabela
     criador = get_object_or_404(User, username = course.user)
+    
     if str(request.user) != "AnonymousUser":
         matriculado = matricula.objects.filter(user = request.user,curso = course).exists()
     else:
@@ -365,7 +366,7 @@ def cadastrar_aula_modulo_cursoView(request,slug,pk):
     if form.is_valid():
         
         form.instance.modulo = modulo
-        form.instance.numero_aula = modulo.aulas.all().count() + 1
+        form.instance.numero_aula = request.curso.get_numero_aulas() + 1 
         form.save()
         
         messages.info(request,'Aula Criado com Sucesso!!')
@@ -519,8 +520,9 @@ class Ver_materiais_curso(ListView):
         return curso.materiais.all()
 
 
-
-def aulaView(request,pk):
+@login_required
+@matriculado
+def aulaView(request,slug,pk):
     template_name = 'cursos/aula.html'
 
     aula = get_object_or_404(aulas_curso,id = pk)
