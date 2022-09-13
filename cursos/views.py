@@ -530,9 +530,10 @@ class Ver_materiais_curso(ListView):
 def aulaView(request,slug,pk):
     template_name = 'cursos/aula.html'
 
-    aula = get_object_or_404(aulas_curso,id = pk)
+    aula = get_object_or_404(aulas_curso, id=pk)
+    curso = get_object_or_404(modelcursos, slug=slug)
 
-    context = {'aula':aula}
+    context = {'aula': aula, 'curso': curso}
 
     return render(request,template_name,context)
 
