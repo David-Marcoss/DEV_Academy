@@ -52,7 +52,7 @@ class modelcursos(models.Model):
     atualizado_em= models.DateTimeField('atualizado em: ',auto_now=True)
 
     #cria uma chave estrangeira para associar usuario ao curso
-    user = models.ForeignKey(User,on_delete=models.PROTECT)
+    user = models.ForeignKey(User,on_delete=models.PROTECT,related_name='cursos')
     categoria = models.ForeignKey(categoria_curso,on_delete=models.CASCADE)
 
 
@@ -71,6 +71,9 @@ class modelcursos(models.Model):
     
     def get_num_alunos_matriculados(self):
         return self.matricula.all().count()
+    
+    def get_materiais_curso(self):
+        return self.materiais.all()
     
     class Meta:
 

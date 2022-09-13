@@ -26,6 +26,12 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.username}"
+    
+    def get_num_cursos(self):
+        if self.is_Teacher:
+            return self.cursos.all().count()
+        else:
+            return None
 
 
 """

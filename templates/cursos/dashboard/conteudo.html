@@ -55,7 +55,7 @@
                     <tr>
                         <th scope="row">{{c.id}}</th>
                         <td>{{c.nome}}</td>
-                        <td>*</td>
+                        <td>{{c.get_num_alunos_matriculados}}</td>
                         <td>{{c.criado_em}}</td>
                         <td>
                             <a href="{% url 'detalhesView_dash' c.slug %}" type="button"

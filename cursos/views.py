@@ -242,7 +242,7 @@ class Meus_cursos_criados_view(GroupRequiredMixin,ListView):
     #get_queryset serve para perlonalizar os objetos buscado no listView
     def get_queryset(self, queryset = None):
 
-        self.object_list = self.request.user.modelcursos_set.all()
+        self.object_list = self.request.user.cursos.all()
 
         return self.object_list
 
@@ -571,7 +571,7 @@ class Ver_avisos_curso(ListView):
 def conteudo_view(request):
     
     template_name = "cursos/dashboard/conteudo.html"
-    cursos = request.user.modelcursos_set.all()
+    cursos = request.user.cursos.all()
 
     context = {'cursos': cursos, 'curso_selecionado': False}
 
@@ -660,4 +660,24 @@ def aulaView_dash(request, slug, pk):
 
     context = {'aula': aula, 'curso': curso}
     
+    return render(request, template_name, context)
+
+
+class materiais_cursodash(ListView):
+    template_name = 'cursos/dashboard/materiais_curso.html'
+    model = materiais_curso
+
+    def get_queryset(self, queryset = None):
+        curso = get_object_or_404(modelcursos, slug = self.kwargs['slug'])
+
+        return curso.materiais.all()
+
+@login_required
+@is_creator
+def materiais_cursodash(request, slug):
+    template_name = 'cursos/dashboard/materiais_curso.html'
+    curso = request.curso
+
+    context = {'curso': curso, 'curso_selecionado': False}
+
     return render(request, template_name, context)
