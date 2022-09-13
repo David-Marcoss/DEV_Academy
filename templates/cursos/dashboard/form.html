@@ -4,34 +4,41 @@
 {% get_media_prefix %}
 
 {%block content_sidebar %}
-<li class="border-top my-3"></li>
-<p class="bi bi-journals text-center"> {{ curso.nome }}</p>
-<li class="nav-item">
-    <a class="nav-link bi bi-file-earmark-plus" id="Aula_dash" aria-current="page" href="#">
-        Aulas
-    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link bi bi-filter-circle" id="detalhes_dash" aria-current="page" href="{% url 'detalhesView_dash' curso.slug %}">
-        Detalhes
-    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link bi bi-journal-plus" id="Modulos_dash" aria-current="page" href="{% url 'modulos-curso' curso.slug %}">
-        Módulos
-    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link bi bi-bar-chart" id="estatisticaAula_dash" aria-current="page" href="#">
-        Estatística
-    </a>
-</li>
+{% if not need_ %}
+    <li class="border-top my-3"></li>
+    <p class="bi bi-journals text-center"> {{ curso.nome }}</p>
+    <li class="nav-item">
+        <a class="nav-link bi bi-file-earmark-plus" id="Aula_dash" aria-current="page"
+            href="{% url 'aulasView_dash' curso.slug %}">
+            Aulas
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-filter-circle" id="detalhes_dash" aria-current="page"
+            href="{% url 'detalhesView_dash' curso.slug %}">
+            Detalhes
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-journal-plus" id="Modulos_dash" aria-current="page"
+            href="{% url 'modulos-curso' curso.slug %}">
+            Módulos
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-bar-chart" id="estatisticaAula_dash" aria-current="page" href="#">
+            Estatística
+        </a>
+    </li>
+{% endif%}
 {% endblock%}
 
 {% block content %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-
+    
+    {% if not need_ %}
     <h2>Curso - {{ curso.nome }}</h2>
+    {% endif%}
 
 </div>
 
@@ -73,11 +80,5 @@
     </div>
 
 </div>
-
-<script>
-    const activeDiv = document.getElementById('Modulos_dash');
-    activeDiv.classList.add('active');
-    console.log(activeDiv)
-</script>
 
 {% endblock %}

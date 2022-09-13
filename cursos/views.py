@@ -359,7 +359,7 @@ o curso pode realizar esta operação
 @is_creator
 def cadastrar_aula_modulo_cursoView(request,slug,pk):
 
-    template_name = 'form.html'
+    template_name = 'cursos/dashboard/form.html'
     form = criar_aula_moduloform(request.POST or None)
     
     modulo = get_object_or_404(modulo_curso,id = pk,curso = request.curso)
@@ -374,7 +374,8 @@ def cadastrar_aula_modulo_cursoView(request,slug,pk):
         
         return redirect(request.GET.get('next', reverse_lazy('meus-cursos-criados')))
     
-    context = {'form': form,'titulo':'Cadastrar aula no Modulo','botao':'Cadastrar'}
+    context = {'form': form, 'titulo': 'Cadastrar aula no Modulo',
+               'botao': 'Cadastrar', 'curso': request.curso}
 
     return render(request,template_name,context)
 
@@ -382,7 +383,7 @@ def cadastrar_aula_modulo_cursoView(request,slug,pk):
 class Edit_aula_moduloView(GroupRequiredMixin,UpdateView):
     
     group_required = u'professor'
-    template_name = 'form.html'
+    template_name = 'cursos/dashboard/form.html'
     model = aulas_curso
     form_class= criar_aula_moduloform
     
@@ -396,6 +397,8 @@ class Edit_aula_moduloView(GroupRequiredMixin,UpdateView):
 
     def get_context_data(self, *args,**kwargs):
         context = super().get_context_data(*args,**kwargs)
+        context['curso'] = get_object_or_404(
+            modelcursos, slug=self.kwargs['slug'], user=self.request.user)
         context['titulo'] = 'Editar Aula'
         context['botao'] = 'Salvar Alterações'
 
@@ -412,7 +415,7 @@ class Edit_aula_moduloView(GroupRequiredMixin,UpdateView):
 class ver_aulas_modulos_cursoView(GroupRequiredMixin,ListView):
     
     group_required = u'professor'
-    template_name = 'cursos/aulas_modulo_curso.html'
+    template_name = 'cursos/dashboard/aulas_modulo_curso.html'
     model = aulas_curso
     
     def get_queryset(self, queryset = None):
@@ -424,6 +427,7 @@ class ver_aulas_modulos_cursoView(GroupRequiredMixin,ListView):
     
     def get_context_data(self, *args,**kwargs):
         context = super().get_context_data(*args,**kwargs)
+        context['curso'] = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
         context['modulo'] = get_object_or_404(modulo_curso,id = self.kwargs['pk'])
 
         return context
@@ -581,4 +585,78 @@ def detalhesView_dash(request, slug):
 
     context = {'curso': curso, 'curso_selecionado': False}
 
+    return render(request, template_name, context)
+
+
+@login_required
+def visualizarAulas_dash(request, slug):
+
+    template_name = "cursos/dashboard/aulas_curso.html"
+    curso = get_object_or_404(modelcursos, slug=slug)
+
+    context = {'curso': curso, 'curso_selecionado': False}
+
+    return render(request, template_name, context)
+
+
+class CadastroCurso_dash(GroupRequiredMixin, CreateView):
+
+    group_required = u'professor'
+    model = modelcursos
+    """
+    utilizando o CreateView não é nescessario criar um formulario para o model
+    pois ele ja cria o formulario automaticamente com base nas fields definidas
+    form = cadastrocurso
+    
+    """
+    fields = ['nome', 'descricao', 'sobre_curso',
+              'data_inicio', 'image', 'categoria']
+
+    template_name = 'cursos/dashboard/form.html'
+
+    success_url = reverse_lazy('cursos')
+
+    """
+    for_valid serve para rescrever função de validação do CreateView, para isso basta
+    passar o form do createview, para acessar atributos do form usa: form.instance.atributo
+    e para salvar form utiliza o metodo return super().form_valid(form)
+    
+    """
+
+    def get_form(self, form_class=None):
+        form = super(CadastroCurso_dash, self).get_form(form_class)
+        form.fields['data_inicio'].widget = DateInput()
+        return form
+
+    def form_valid(self, form):
+
+        slug_curso = slug(form.instance.nome) + '-' + \
+            self.request.user.username + '-' + f'{random.randint(0,1000)}'
+
+        form.instance.slug = slug_curso
+        form.instance.user = self.request.user
+
+        form.save()
+
+        return super().form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+
+        context = super().get_context_data(*args, **kwargs)
+        context['titulo'] = 'Criar Curso'
+        context['botao'] = 'Criar'
+        context['need_'] = True
+
+        return context
+    
+
+@login_required
+def aulaView_dash(request, slug, pk):
+    template_name = 'cursos/dashboard/aula_view.html'
+
+    aula = get_object_or_404(aulas_curso, id=pk)
+    curso = get_object_or_404(modelcursos, slug=slug)
+
+    context = {'aula': aula, 'curso': curso}
+    
     return render(request, template_name, context)

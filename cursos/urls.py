@@ -28,4 +28,8 @@ urlpatterns = [
     path('cursos/avisos/<str:slug>/',Ver_avisos_curso.as_view(),name='avisos-curso'),
     path('conteudo_view', conteudo_view, name='conteudo_view'),
     path('detalhesView_dash/<str:slug>/', detalhesView_dash, name='detalhesView_dash'),
+    path('aulasView_dash/<str:slug>/', visualizarAulas_dash, name='aulasView_dash'),
+    path('cursos/cadastrar_dash/', CadastroCurso_dash.as_view(), name='cadastrar-curso-dash'),
+    path('cursos/modulos-curso/aula_dash/<str:slug>/<int:pk>/',aulaView_dash,name='ver-aula-dash'),
 ]
+

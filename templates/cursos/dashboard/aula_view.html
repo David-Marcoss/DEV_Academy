@@ -1,0 +1,55 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% get_media_prefix %}
+
+{%block content_sidebar %}
+<li class="border-top my-3"></li>
+<p class="bi bi-journals text-center"> {{ curso.nome }}</p>
+<li class="nav-item">
+    <a class="nav-link bi bi-file-earmark-plus" id="Aula_dash" aria-current="page"
+        href="{% url 'aulasView_dash' curso.slug %}">
+        Aulas
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link bi bi-filter-circle" id="detalhes_dash" aria-current="page"
+        href="{% url 'detalhesView_dash' curso.slug %}">
+        Detalhes
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link bi bi-journal-plus" id="Modulos_dash" aria-current="page"
+        href="{% url 'modulos-curso' curso.slug %}">
+        Módulos
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link bi bi-bar-chart" id="estatisticaAula_dash" aria-current="page" href="#">
+        Estatística
+    </a>
+</li>
+{% endblock%}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h2>Aula - {{aula.titulo}}</h2>
+
+</div>
+
+<div class="container-fluid">
+
+    <div class="text-center mt-3">
+    
+        <iframe width="100%" height="720" src="{{aula.video}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
+            encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+</div>
+
+<script>
+    const activeDiv = document.getElementById('Aula_dash');
+    activeDiv.classList.add('active');
+    console.log(activeDiv)
+</script>
+
+{% endblock %}

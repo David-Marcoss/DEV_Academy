@@ -1,0 +1,158 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% get_media_prefix %}
+
+{%block content_sidebar %}
+    <li class="border-top my-3"></li>
+    <p class="bi bi-journals text-center"> {{ curso.nome }}</p>
+    <li class="nav-item">
+        <a class="nav-link bi bi-file-earmark-plus" id="Aula_dash" aria-current="page"
+            href="{% url 'aulasView_dash' curso.slug %}">
+            Aulas
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-filter-circle" id="detalhes_dash" aria-current="page"
+            href="{% url 'detalhesView_dash' curso.slug %}">
+            Detalhes
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-journal-plus" id="Modulos_dash" aria-current="page"
+            href="{% url 'modulos-curso' curso.slug %}">
+            Módulos
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-bar-chart" id="estatisticaAula_dash" aria-current="page" href="#">
+            Estatística
+        </a>
+    </li>
+{% endblock%}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+    <h2>Curso - {{ curso.nome }}</h2>
+
+</div>
+
+<div class="container-fluid">
+
+    {% if curso.get_modulos %}
+
+        <div class="row">
+            {% for modulo in curso.get_modulos %}
+
+                <div class="col-12 p-3">
+                    
+                    <div class="card">
+            
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-10 text-center">
+                                    <h5 class="pt-2">Módulo {{modulo.numero_modulo}}: {{ modulo }}</h5>
+                                </div>
+                                <div class="col-1 text-end">
+                                    <a href="{% url 'editar-modulo-curso' curso.slug  modulo.id %}?next={{ request.path }}" type="button"
+                                        data-bs-toggle="tooltip" data-bs-title="Edite o módulo" class="btn btn-group bi bi-pencil-square"></a>
+                                    <a href="{% url 'criar-aula-modulo' curso.slug  modulo.id %}?next={{ request.path }}" type="button"
+                                        data-bs-toggle="tooltip" data-bs-title="Adicione uma nova aula" class="btn btn-group bi bi-plus-circle"></a>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="card-body text-center">
+
+                            {% if modulo.get_aulas %}
+            
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Numero Aula</th>
+                                            <th scope="col">Titulo</th>
+                                            <th scope="col">Link da aula</th>
+                                            <th scope="col">Data de criacao</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                
+                                    {% for aula in modulo.get_aulas %}
+                                
+                                        <tbody>
+                                            <tr>
+                                                <td>{{aula.numero_aula}}</td>
+                                                <td>{{aula.titulo}}</td>
+                                                <td>{{aula.video}}</td>
+                                                <td>{{aula.criado_em}}</td>
+                                                <td>
+                                    
+                                                    <a type="button" data-bs-title="Excluir a Aula" class="btn btn-group bi bi-trash3"
+                                                        data-bs-toggle="modal" data-bs-target="#ModalExcluir{{ modulo.id }}"></a>
+                                    
+                                                    <div class="modal fade" id="ModalExcluir{{ modulo.id }}" tabindex="-1"
+                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Exclusão da aula: {{aula.titulo}}</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Tem certeza que deseja remover essa aula?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Voltar</button>
+                                                                    <a href="{% url 'deletar-aula-modulo-curso' modulo.curso.slug  aula.id %}?next={{ request.path }}"
+                                                                        type="button" class="btn btn-danger">Excluir a Aula</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                    
+                                                    <a href="{% url 'edit-aula-modulo-curso' modulo.curso.slug  aula.id %}?next={{ request.path }}"
+                                                        data-bs-toggle="tooltip" data-bs-title="Editar a aula" type="button" class="btn btn-group bi bi-pencil-square"></a>
+                                    
+                                                    <a href="{% url 'ver-aula-dash' modulo.curso.slug aula.id %}" type="button"
+                                                        data-bs-toggle="tooltip" data-bs-title="Ver a aula" class="btn btn-group bi bi-arrow-bar-right"></a>
+                                    
+                                                </td>
+                                            </tr>
+                                    
+                                        </tbody>
+
+                                    {% endfor %}
+                                
+                                </table>
+                            {% else %}
+                            
+                                <h4 class="text-center">Não Há Aulas cadastradas neste modulo!!</h4>
+                            
+                            {% endif %}
+                        </div>
+            
+                    </div>
+
+                </div>
+            
+            {% endfor %}
+
+        </div>
+    
+    {% else %}
+    
+        <h2 class="text-center">Não Há Modulos cadastradas neste curso!!</h2>
+
+    {% endif %}
+
+</div>
+
+<script>
+    const activeDiv = document.getElementById('Aula_dash');
+    activeDiv.classList.add('active');
+    console.log(activeDiv)
+</script>
+
+{% endblock %}

@@ -38,7 +38,7 @@
     </div> -->
   </header>
 
-  <div class="container-fluid">
+  <div class="container-fluid pb-4">
     <div class="row">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
         <div class="container pt-5">
@@ -92,7 +92,7 @@
         </div>
       </nav>
 
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 
         <!-- Ajustar css, serve para informar mensagens-->
         {% if messages %}
@@ -109,13 +109,12 @@
           
         {%block content %} {% endblock%}
 
-      </main>
+      </div>
     </div>
   </div>
 
 
   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'js/dashboard.js' %}"></script>
   <script src="{% static 'js/sidebars.js' %}"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"

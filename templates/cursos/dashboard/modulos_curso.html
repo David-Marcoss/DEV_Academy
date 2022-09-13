@@ -6,17 +6,20 @@
     <li class="border-top my-3"></li>
     <p class="bi bi-journals text-center"> {{ curso.nome }}</p>
     <li class="nav-item">
-        <a class="nav-link bi bi-file-earmark-plus" id="Aula_dash" aria-current="page" href="#">
+        <a class="nav-link bi bi-file-earmark-plus" id="Aula_dash" aria-current="page"
+            href="{% url 'aulasView_dash' curso.slug %}">
             Aulas
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link bi bi-filter-circle" id="detalhes_dash" aria-current="page" href="{% url 'detalhesView_dash' curso.slug %}">
+        <a class="nav-link bi bi-filter-circle" id="detalhes_dash" aria-current="page"
+            href="{% url 'detalhesView_dash' curso.slug %}">
             Detalhes
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link bi bi-journal-plus" id="Modulos_dash" aria-current="page" href="{% url 'modulos-curso' curso.slug %}">
+        <a class="nav-link bi bi-journal-plus" id="Modulos_dash" aria-current="page"
+            href="{% url 'modulos-curso' curso.slug %}">
             Módulos
         </a>
     </li>
