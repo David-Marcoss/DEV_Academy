@@ -1,0 +1,9 @@
+.accordion-button:not(.collapsed) {
+    color: inherit;
+    background: rgba(33, 37, 41);
+    color: white;
+}
+
+.accordion-button:not(.collapsed)::after {
+    filter: brightness(0%) invert(70%);
+}
