@@ -62,7 +62,7 @@
 
                                         <a href="{% url 'editar-modulo-curso' curso.slug  modulo.id %}?next={{ request.path }}" type="button" data-bs-toggle="tooltip" data-bs-title="Editar o Módulo" class="btn btn-group bi bi-pencil-square"></a>
                                         
-                                        <a href="{% url 'aulasView_dash' curso.slug %}" type="button" data-bs-toggle="tooltip" data-bs-title="Ver aulas do Módulo" class="btn btn-group bi bi-arrow-bar-right"></a>
+                                        <a href="{% url 'aulas-modulo-curso' curso.slug  modulo.id %}" type="button" data-bs-toggle="tooltip" data-bs-title="Ver aulas do Módulo" class="btn btn-group bi bi-arrow-bar-right"></a>
                                     </td>
                                 </tr>
             

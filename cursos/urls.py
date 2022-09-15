@@ -18,6 +18,7 @@ urlpatterns = [
     path('cursos/criar-aula-modulo/<str:slug>/<int:pk>/',cadastrar_aula_modulo_cursoView,name='criar-aula-modulo'),
     path('cursos/modulos-curso/editar-aula/<str:slug>/<int:pk>/',Edit_aula_moduloView.as_view(),name='edit-aula-modulo-curso'),
     path('cursos/modulos-curso/excluir-aula/<str:slug>/<int:pk>/',deletar_aula_moduloView,name='deletar-aula-modulo-curso'),
+    path('cursos/modulos-curso/aulas/<str:slug>/<int:pk>/',ver_aulas_modulos_cursoView.as_view(),name='aulas-modulo-curso'),
     path('cursos/modulos-curso/aula/<str:slug>/<int:pk>/',aulaView,name='ver-aula'),
     path('cursos/cadastrar-material/<str:slug>/',cadastrar_material_curso,name='cadastrar-material'),
     path('cursos/editar-material/<str:slug>/<int:pk>/',Edit_materialView.as_view(),name='editar-material'),

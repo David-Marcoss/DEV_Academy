@@ -453,6 +453,29 @@ def deletar_aula_moduloView(request,slug,pk):
     #redireciona para pagina que solicitou a operação
     return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))
 
+"""
+view responsavel por mostrar aulas de um modulo especifico,
+acessivel apenas pelo criador do curso
+"""
+class ver_aulas_modulos_cursoView(GroupRequiredMixin,ListView):
+    
+    group_required = u'professor'
+    template_name = 'cursos/dashboard/aulas_modulo_curso.html'
+    model = aulas_curso
+    
+    def get_queryset(self, queryset = None):
+
+        curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
+        modulo = get_object_or_404(modulo_curso,id = self.kwargs['pk'],curso = curso)
+ 
+        return modulo.aulas.all()
+    
+    def get_context_data(self, *args,**kwargs):
+        context = super().get_context_data(*args,**kwargs)
+        context['curso'] = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
+        context['modulo'] = get_object_or_404(modulo_curso,id = self.kwargs['pk'])
+
+        return context
 
 """
 view responsavel pela vizualização de uma aula do curso,
@@ -622,8 +645,11 @@ def detalhesView_dash(request, slug):
 
     return render(request, template_name, context)
 
-
-#View responsavel por listar aulas do curso no dashboard do curso
+"""
+View responsavel por listar aulas pertencentes a cada modulo
+do curso no dashboard do curso, acessivel apenas pelo criador
+do curso
+"""
 @login_required
 @is_creator
 def visualizarAulas_dash(request, slug):
