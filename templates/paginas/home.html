@@ -74,7 +74,7 @@
                 <div class="col-lg-4">
                     <img src="{% get_media_prefix %}{{ Prof_01.imageperfil }}" alt="mdo" width="140" height="140" class="rounded-circle">
         
-                    <h2 class="fw-normal">{{ Prof_01.nome }}</h2>
+                    <h2 class="fw-normal">{{ Prof_01.nome|default:Prof_01.username }}</h2>
                     <p>Some representative placeholder content for the three columns of text below the carousel. This is
                         the first
                         column.</p>
@@ -101,7 +101,7 @@
             <div class="col-lg-4">
                 <img src="{% get_media_prefix %}{{ Prof_02.imageperfil }}" alt="mdo" width="140" height="140" class="rounded-circle">
     
-                <h2 class="fw-normal">{{ Prof_02.nome }}</h2>
+                <h2 class="fw-normal">{{ Prof_02.nome|default:Prof_02.username }}</h2>
                 <p>Another exciting bit of representative placeholder content. This time, we've moved on to the
                     second column.
                 </p>
@@ -127,7 +127,7 @@
             <div class="col-lg-4">
                 <img src="{% get_media_prefix %}{{ Prof_03.imageperfil }}" alt="mdo" width="140" height="140" class="rounded-circle">
     
-                <h2 class="fw-normal">{{ Prof_03.nome }}</h2>
+                <h2 class="fw-normal">{{ Prof_03.nome|default:Prof_03.username }}</h2>
                 <p>And lastly this, the third column of representative placeholder content.</p>
                 <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->

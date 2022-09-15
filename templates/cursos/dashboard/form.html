@@ -4,19 +4,14 @@
 {% get_media_prefix %}
 
 {%block content_sidebar %}
+
 {% if not need_ %}
     <li class="border-top my-3"></li>
     <p class="bi bi-journals text-center"> {{ curso.nome }}</p>
     <li class="nav-item">
-        <a class="nav-link bi bi-file-earmark-plus" id="Aula_dash" aria-current="page"
-            href="{% url 'aulasView_dash' curso.slug %}">
-            Aulas
-        </a>
-    </li>
-    <li class="nav-item">
         <a class="nav-link bi bi-filter-circle" id="detalhes_dash" aria-current="page"
             href="{% url 'detalhesView_dash' curso.slug %}">
-            Detalhes
+            Imformações do Curso
         </a>
     </li>
     <li class="nav-item">
@@ -26,13 +21,19 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link bi bi-bar-chart" id="estatisticaAula_dash" aria-current="page" href="#">
-            Estatística
+        <a class="nav-link bi bi-file-earmark-plus" id="Aula_dash" aria-current="page"
+            href="{% url 'aulasView_dash' curso.slug %}">
+            Aulas
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link bi bi-exclamation-triangle" id="estatisticaAula_dash" aria-current="page" href="#">
-            Criar Alertas
+        <a class="nav-link bi bi-bar-chart" id="estatisticaAula_dash" aria-current="page" href="{% url 'materiais-cursodash' curso.slug %}">
+            Materiais do Curso
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-exclamation-triangle" id="estatisticaAula_dash" aria-current="page" href="{% url 'enviar-aviso' curso.slug %}?next={{ request.path }}">
+            Enviar avisos para os alunos
         </a>
     </li>
 {% endif%}
@@ -68,11 +69,12 @@
                         <div class="mb-3">
                             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                             {% render_field field class="form-control" %}
+                            {{field.errors}}
                         </div>
                         {% endfor %}
                 
                     </div>
-                
+
                     <div class="text-center">
                         <button class="btn btn-danger" onclick="window.open(document.referrer,'_self');">Voltar</button>
                         <button class="btn btn-primary" type="submit">{{ botao }}</button>

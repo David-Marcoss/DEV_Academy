@@ -7,6 +7,7 @@ from pipes import Template
 from pyexpat import model
 from re import template
 from tokenize import group
+from typing import Tuple
 from urllib import request
 from django.views.generic import UpdateView,ListView,CreateView,DeleteView
 
@@ -50,6 +51,7 @@ from .decorator import is_creator,matriculado
 class DateInput(forms.DateInput):
     input_type = 'date'
 
+# View responsavel por listar todos os cursos da plataforma
 class cursosview(ListView):
 
     model = modelcursos
@@ -63,7 +65,7 @@ class cursosview(ListView):
 
         return context
 
-# @login_required
+# View responsavel pela visualização da pagina do curso
 def detalhes_cursoview(request,slug):
     context = {}
     
@@ -92,7 +94,12 @@ def detalhes_cursoview(request,slug):
     
     return render(request, template_name, context)
 
+"""
+View responsavel pelo Cadastro dos curso da plataforma,
+acessivel apenas pelos usuarios pertencentes ao grupo
+professor
 
+"""
 class CadastroCursoview(GroupRequiredMixin,CreateView):
     
     group_required = u'professor'
@@ -141,6 +148,10 @@ class CadastroCursoview(GroupRequiredMixin,CreateView):
         return context
         
 
+"""
+View responsavel pela Edição dos dados do Curso,
+acessivel apenas pelo criador do curso
+"""
 class Edit_cursoview(LoginRequiredMixin,UpdateView):
     
     login_url = reverse_lazy('login')
@@ -188,7 +199,8 @@ def matriculaview(request,slug):
     #redireciona para pagina que solicitou a operação
     return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))
 
-#este metodo cancela a matricula do user no curso
+
+#metodo responsavel por realizar cancelamento de matricula do usuario no curso
 @login_required
 def Cancelar_matriculaview(request,pk):
     
@@ -280,7 +292,65 @@ def cadastrar_modulo_cursoView(request,slug):
 
     return render(request,template_name,context)
 
-# view responsavel por mostrar lista de modulos do curso
+"""
+View responsavel por editar um modulo do curso,
+acessivel apenas pelo criador do curso
+"""
+class Edit_moduloView(GroupRequiredMixin,UpdateView):
+    
+    group_required = u'professor'
+    template_name = 'cursos/dashboard/form.html'
+    model = modulo_curso
+    fields = ['titulo']
+
+    def get_object(self, queryset = None):
+
+       curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
+       object = get_object_or_404(modulo_curso,id=self.kwargs['pk'])
+
+       return object
+
+    def get_context_data(self, *args,**kwargs):
+        context = super().get_context_data(*args,**kwargs)
+        curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
+        context['curso'] = curso
+        context['titulo'] = 'Editar Modulo'
+        context['botao'] = 'Salvar Alterações'
+        context['need_']= False
+
+        return context
+    
+    #redireciona a pagina anterior que solicitou a edição
+    def get_success_url(self):
+        messages.info(self.request,'Alterações salvas com sucesso!!')
+        return self.request.GET.get('next', reverse_lazy('meus-cursos-criados'))
+
+
+"""
+este metodo responsavel por excluir modulo do curso, so é possivel
+excluir se o modulo não possuir aulas cadastradas, acessivel apenas
+pelo criador
+"""
+@login_required
+@is_creator
+def deletar_modulo_cursoView(request,slug,pk):
+    modulo = get_object_or_404(modulo_curso,id = pk,curso = request.curso)
+
+    if modulo.aulas.all():
+        messages.info(request,'Não é possivel excluir modulo com aulas cadastradas!!')
+    else:    
+        modulo.delete()
+        messages.info(request,'Modulo excluido com sucesso!!')
+    
+
+    #redireciona para pagina que solicitou a operação
+    return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))
+
+
+"""
+view responsavel por mostrar lista de modulos do curso,
+acessivel apenas pelo criador do curso
+"""
 class ver_modulos_cursoView(GroupRequiredMixin,ListView):
     
     group_required = u'professor'
@@ -300,55 +370,6 @@ class ver_modulos_cursoView(GroupRequiredMixin,ListView):
         context['curso'] = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
 
         return context
-
-#View responsavel por editar um modulo do curso
-class Edit_moduloView(GroupRequiredMixin,UpdateView):
-    
-    group_required = u'professor'
-    template_name = 'cursos/dashboard/form.html'
-    model = modulo_curso
-    fields = ['titulo']
-
-    def get_object(self, queryset = None):
-
-       curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
-       object = get_object_or_404(modulo_curso,id = self.kwargs['pk'],curso = curso)
-
-       return object
-
-    def get_context_data(self, *args,**kwargs):
-        context = super().get_context_data(*args,**kwargs)
-        curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
-        context['curso'] = curso
-        context['titulo'] = 'Editar Modulo'
-        context['botao'] = 'Salvar Alterações'
-
-        return context
-    
-    #redireciona a pagina anterior que solicitou a edição
-    def get_success_url(self):
-        messages.info(self.request,'Alterações salvas com sucesso!!')
-        return self.request.GET.get('next', reverse_lazy('meus-cursos-criados'))
-
-
-"""
-este metodo responsavel por excluir modulo do curso, so é possivel
-excluir se o modulo não possuir aulas cadastradas
-"""
-@login_required
-@is_creator
-def deletar_modulo_cursoView(request,slug,pk):
-    modulo = get_object_or_404(modulo_curso,id = pk,curso = request.curso)
-
-    if modulo.aulas.all():
-        messages.info(request,'Não é possivel excluir modulo com aulas cadastradas!!')
-    else:    
-        modulo.delete()
-        messages.info(request,'Modulo excluido com sucesso!!')
-    
-
-    #redireciona para pagina que solicitou a operação
-    return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))
 
     
 """
@@ -379,7 +400,10 @@ def cadastrar_aula_modulo_cursoView(request,slug,pk):
 
     return render(request,template_name,context)
 
-#View responsavel por editar aula do modulo do curso
+"""
+faz o edição de uma aula no modulo no curso somente o usuario que criou
+o curso pode realizar esta operação
+"""
 class Edit_aula_moduloView(GroupRequiredMixin,UpdateView):
     
     group_required = u'professor'
@@ -401,6 +425,7 @@ class Edit_aula_moduloView(GroupRequiredMixin,UpdateView):
             modelcursos, slug=self.kwargs['slug'], user=self.request.user)
         context['titulo'] = 'Editar Aula'
         context['botao'] = 'Salvar Alterações'
+        context['need_'] = False
 
         return context
     
@@ -410,33 +435,11 @@ class Edit_aula_moduloView(GroupRequiredMixin,UpdateView):
 
         return self.request.GET.get('next', reverse_lazy('meus-cursos-criados'))
 
-
-#view responsavel por mostrar aulas de um modulo
-class ver_aulas_modulos_cursoView(GroupRequiredMixin,ListView):
-    
-    group_required = u'professor'
-    template_name = 'cursos/dashboard/aulas_modulo_curso.html'
-    model = aulas_curso
-    
-    def get_queryset(self, queryset = None):
-
-        curso = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
-        modulo = get_object_or_404(modulo_curso,id = self.kwargs['pk'],curso = curso)
- 
-        return modulo.aulas.all()
-    
-    def get_context_data(self, *args,**kwargs):
-        context = super().get_context_data(*args,**kwargs)
-        context['curso'] = get_object_or_404(modelcursos,slug = self.kwargs['slug'],user = self.request.user)
-        context['modulo'] = get_object_or_404(modulo_curso,id = self.kwargs['pk'])
-
-        return context
-    
+   
 """
 este metodo responsavel por excluir aula do modulo do curso, so é possivel
 excluir se o modulo não possuir aulas cadastradas
 """
-
 @login_required
 @is_creator
 def deletar_aula_moduloView(request,slug,pk):
@@ -451,11 +454,32 @@ def deletar_aula_moduloView(request,slug,pk):
     return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))
 
 
+"""
+view responsavel pela vizualização de uma aula do curso,
+por usuarios matriculados no curso
+"""
+@login_required
+@matriculado
+def aulaView(request,slug,pk):
+    template_name = 'cursos/aula.html'
+
+    aula = get_object_or_404(aulas_curso, id=pk)
+    curso = get_object_or_404(modelcursos, slug=slug)
+
+    context = {'aula': aula, 'curso': curso}
+
+    return render(request,template_name,context)
+
+
+"""
+view responsavel pelo cadastro de um material do curso,
+acessivel apenas pelo criador do curos
+"""
 @login_required
 @is_creator
 def cadastrar_material_curso(request,slug):
 
-    template_name = 'form.html'
+    template_name = 'cursos/dashboard/form.html'
     form = material_cursoform(request.POST,request.FILES or None)
     
     if form.is_valid():
@@ -467,15 +491,19 @@ def cadastrar_material_curso(request,slug):
         
         return redirect(request.GET.get('next', reverse_lazy('meus-cursos-criados')))
     
-    context = {'form': form,'titulo':'Cadastrar Material do Curso','botao':'Cadastrar'}
+    context = {'form': form,'titulo':'Cadastrar Material do Curso','botao':'Cadastrar','need_': False}
 
     return render(request,template_name,context)
 
-#View responsavel por editar um material do curso
+
+"""
+view responsavel pela edição de um material do curso,
+acessivel apenas pelo criador do curos
+"""
 class Edit_materialView(GroupRequiredMixin,UpdateView):
     
     group_required = u'professor'
-    template_name = 'form.html'
+    template_name = 'cursos/dashboard/form.html'
     model = materiais_curso
     fields = ['titulo','material']
 
@@ -490,6 +518,7 @@ class Edit_materialView(GroupRequiredMixin,UpdateView):
         context = super().get_context_data(*args,**kwargs)
         context['titulo'] = 'Editar Material do curso'
         context['botao'] = 'Salvar Alterações'
+        context['need_'] = True
 
         return context
     
@@ -500,6 +529,10 @@ class Edit_materialView(GroupRequiredMixin,UpdateView):
 
         return self.request.GET.get('next', reverse_lazy('meus-cursos-criados'))
 
+"""
+view responsavel pela exclusao de um material do curso,
+acessivel apenas pelo criador do curos
+"""
 @login_required
 @is_creator
 def deletar_material_cursoView(request,slug,pk):
@@ -515,6 +548,10 @@ def deletar_material_cursoView(request,slug,pk):
 
 
 
+"""
+view responsavel pela vizualização dos materiais do curso,
+por usuarios matriculados no curso
+"""
 class Ver_materiais_curso(ListView):
     template_name = 'cursos/materiais_curso.html'
     model = materiais_curso
@@ -524,49 +561,46 @@ class Ver_materiais_curso(ListView):
 
         return curso.materiais.all()
 
-
-@login_required
-@matriculado
-def aulaView(request,slug,pk):
-    template_name = 'cursos/aula.html'
-
-    aula = get_object_or_404(aulas_curso, id=pk)
-    curso = get_object_or_404(modelcursos, slug=slug)
-
-    context = {'aula': aula, 'curso': curso}
-
-    return render(request,template_name,context)
-
+"""
+View responsavel por enviar um aviso do curso,
+acessivel apenas para o criador do curso
+"""
 @login_required
 @is_creator
 def Enviar_aviso(request,slug):
 
-    template_name = 'form.html'
+    template_name = 'cursos/dashboard/form.html'
     form = avisos_cursoform(request.POST or None)
+    curso = request.curso
     
     if form.is_valid():
         
-        form.instance.curso = request.curso
+        form.instance.curso = curso
         form.save()
         
         messages.info(request,'Aviso enviado com Sucesso!!')
         
         return redirect(request.GET.get('next', reverse_lazy('meus-cursos-criados')))
     
-    context = {'form': form,'titulo':'Enviar Aviso','botao':'Enviar'}
+    context = {'form': form, 'curso':curso, 'titulo':'Enviar Aviso','botao':'Enviar','need_': False}
 
     return render(request,template_name,context)
 
 
-class Ver_avisos_curso(ListView):
+"""
+View responsavel por listar Avisos do curso,
+acessivel apenas para os alunos matriculados no curso
+"""
+@login_required
+@matriculado
+def Ver_avisos_curso(request,slug):
     template_name = 'cursos/avisos_curso.html'
-    model = avisos_curso
-
-    def get_queryset(self, queryset = None):
-        curso = get_object_or_404(modelcursos, slug = self.kwargs['slug'])
-
-        return curso.avisos.all()
     
+    curso = get_object_or_404(modelcursos, slug = slug)
+
+    return render(request,template_name,context={'avisos': curso.get_avisos() })
+
+#View responsavel por listar cursos do usuario no dashboard    
 @login_required
 def conteudo_view(request):
     
@@ -579,17 +613,19 @@ def conteudo_view(request):
 
 
 @login_required
+@is_creator
 def detalhesView_dash(request, slug):
 
     template_name = "cursos/dashboard/detalhes.html"
-    curso = get_object_or_404(modelcursos, slug=slug)
 
-    context = {'curso': curso, 'curso_selecionado': False}
+    context = {'curso': request.curso, 'curso_selecionado': False}
 
     return render(request, template_name, context)
 
 
+#View responsavel por listar aulas do curso no dashboard do curso
 @login_required
+@is_creator
 def visualizarAulas_dash(request, slug):
 
     template_name = "cursos/dashboard/aulas_curso.html"
@@ -600,78 +636,32 @@ def visualizarAulas_dash(request, slug):
     return render(request, template_name, context)
 
 
-class CadastroCurso_dash(GroupRequiredMixin, CreateView):
-
-    group_required = u'professor'
-    model = modelcursos
-    """
-    utilizando o CreateView não é nescessario criar um formulario para o model
-    pois ele ja cria o formulario automaticamente com base nas fields definidas
-    form = cadastrocurso
-    
-    """
-    fields = ['nome', 'descricao', 'sobre_curso',
-              'data_inicio', 'image', 'categoria']
-
-    template_name = 'cursos/dashboard/form.html'
-
-    success_url = reverse_lazy('cursos')
-
-    """
-    for_valid serve para rescrever função de validação do CreateView, para isso basta
-    passar o form do createview, para acessar atributos do form usa: form.instance.atributo
-    e para salvar form utiliza o metodo return super().form_valid(form)
-    
-    """
-
-    def get_form(self, form_class=None):
-        form = super(CadastroCurso_dash, self).get_form(form_class)
-        form.fields['data_inicio'].widget = DateInput()
-        return form
-
-    def form_valid(self, form):
-
-        slug_curso = slug(form.instance.nome) + '-' + \
-            self.request.user.username + '-' + f'{random.randint(0,1000)}'
-
-        form.instance.slug = slug_curso
-        form.instance.user = self.request.user
-
-        form.save()
-
-        return super().form_valid(form)
-
-    def get_context_data(self, *args, **kwargs):
-
-        context = super().get_context_data(*args, **kwargs)
-        context['titulo'] = 'Criar Curso'
-        context['botao'] = 'Criar'
-        context['need_'] = True
-
-        return context
-    
-
+#View responsavel pela visualizaçãp de uma aula no dashboard do curso
 @login_required
+@is_creator
 def aulaView_dash(request, slug, pk):
     template_name = 'cursos/dashboard/aula_view.html'
 
     aula = get_object_or_404(aulas_curso, id=pk)
-    curso = get_object_or_404(modelcursos, slug=slug)
+    curso = request.curso
 
     context = {'aula': aula, 'curso': curso}
     
     return render(request, template_name, context)
 
 
-class materiais_cursodash(ListView):
-    template_name = 'cursos/dashboard/materiais_curso.html'
-    model = materiais_curso
 
-    def get_queryset(self, queryset = None):
-        curso = get_object_or_404(modelcursos, slug = self.kwargs['slug'])
+class CadastroCurso_dash(CadastroCursoview):
 
-        return curso.materiais.all()
+    template_name = 'cursos/dashboard/form.html'
 
+    def get_context_data(self, *args, **kwargs):
+
+        context = super().get_context_data(*args, **kwargs)
+        context['need_'] = True
+
+        return context
+    
 @login_required
 @is_creator
 def materiais_cursodash(request, slug):

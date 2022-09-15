@@ -211,7 +211,7 @@ def perfilview(request):
     
     if user.is_Teacher:
         tipo_user = 'Professor'
-        cursos = user.modelcursos_set.all()
+        cursos = user.cursos.all()
     else:
         tipo_user = 'Aluno'
 

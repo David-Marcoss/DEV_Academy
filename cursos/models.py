@@ -75,6 +75,9 @@ class modelcursos(models.Model):
     def get_materiais_curso(self):
         return self.materiais.all()
     
+    def get_avisos(self):
+        return self.avisos.all()
+    
     class Meta:
 
         verbose_name = 'Curso'
