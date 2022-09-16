@@ -6,6 +6,11 @@ from accounts.models import User
 
 from .models import modelcursos,matricula
 
+
+"""
+decorador que permite que apenas o usuario que criou o
+curso tenha acesso a determinada view
+"""
 def is_creator(view_func):
     
     def _wrapper(request,*args,**kargs):
@@ -17,6 +22,11 @@ def is_creator(view_func):
     
     return _wrapper
 
+"""
+decorador que permite que apenas o usuario que criou o
+curso e os alunos matriculados no curso tenha acesso 
+a determinada view
+"""
 def matriculado(view_func):
     
     def _wrapper(request,*args,**kargs):

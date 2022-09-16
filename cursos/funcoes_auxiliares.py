@@ -1,27 +1,33 @@
-from .models import aulas_curso,modelcursos
+from .models import modulo_curso
 
+""" 
+insere numero da aula no model aula, essa
+operação é realizada quando é inserida uma
+nova aula, ou quando é excluida uma aula
 
-def quantidade_aulas(modulo):
-    aulas  = aulas_curso.objects.filter(id = modulo)
-    list_aulas= []
-    
-    for i in aulas:
-        list_aulas.append(i)
+"""
+def atualiza_numero_aulas(curso):
+    num_aula = 0
 
-    return aulas
+    for modulos in curso.get_modulos():
+        for aulas in modulos.get_aulas():
+            num_aula += 1 
+            aulas.numero_aula = num_aula
+            aulas.save()
 
-def retorna_aulas_curso(slug):
+""" 
+insere numero do modulo no model aula, essa
+operação é realizada quando é inserida um
+novo modulo, ou quando é excluida um modulo
 
-    curso = modelcursos.objects.get(slug=slug)
+"""
+def atualiza_numero_modulo(curso):
+    num_modulo = 0
 
-    modulos = curso.modulo.all()
-    
-    aulas_curso = {}
-
-    for i in modulos:
-        aulas_curso[i] = quantidade_aulas(i.id)
-    
-    return aulas_curso
+    for modulo in curso.get_modulos():
+        num_modulo += 1 
+        modulo.numero_modulo = num_modulo
+        modulo.save()
 
 
 """

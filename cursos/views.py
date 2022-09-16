@@ -1,14 +1,3 @@
-from dataclasses import fields
-from email.mime import image
-import http
-from http.client import HTTPResponse
-from multiprocessing import context
-from pipes import Template
-from pyexpat import model
-from re import template
-from tokenize import group
-from typing import Tuple
-from urllib import request
 from django.views.generic import UpdateView,ListView,CreateView,DeleteView
 
 from .models import *
@@ -29,7 +18,6 @@ este é uma app padrao do django que serve para enviar mensagens para os templat
 para indicar que alguma ação foi realizada
 """
 from django.contrib import messages
-from django import forms
 
 """
 serve para apenas permitir acesso a view se o usuario for pertencente ao grupo predefinio
@@ -44,7 +32,7 @@ from django.contrib.auth.decorators import login_required
 from accounts.models import User
 
 from .decorator import is_creator,matriculado
-
+from .funcoes_auxiliares import atualiza_numero_aulas,atualiza_numero_modulo
 # Create your views here.
 
 
@@ -281,8 +269,8 @@ def cadastrar_modulo_cursoView(request,slug):
 
     if form.is_valid():
         form.instance.curso = curso
-        form.instance.numero_modulo = curso.modulo.all().count() + 1
         form.save()
+        atualiza_numero_modulo(curso)
         
         messages.info(request,'Modulo Criado com Sucesso!!')
         
@@ -340,6 +328,7 @@ def deletar_modulo_cursoView(request,slug,pk):
         messages.info(request,'Não é possivel excluir modulo com aulas cadastradas!!')
     else:    
         modulo.delete()
+        atualiza_numero_modulo(request.curso)
         messages.info(request,'Modulo excluido com sucesso!!')
     
 
@@ -388,8 +377,9 @@ def cadastrar_aula_modulo_cursoView(request,slug,pk):
     if form.is_valid():
         
         form.instance.modulo = modulo
-        form.instance.numero_aula = request.curso.get_numero_aulas() + 1 
         form.save()
+
+        atualiza_numero_aulas(request.curso)
         
         messages.info(request,'Aula Criado com Sucesso!!')
         
@@ -447,6 +437,8 @@ def deletar_aula_moduloView(request,slug,pk):
     aula = get_object_or_404(aulas_curso,id = pk)
 
     aula.delete()
+    atualiza_numero_aulas(request.curso)
+    
     messages.info(request,'Aula excluida com sucesso!!')
     
 

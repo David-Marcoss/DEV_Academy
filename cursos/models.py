@@ -62,6 +62,7 @@ class modelcursos(models.Model):
     def get_modulos(self):
         return self.modulo.all()
     
+    #retorna o numero total de aulas do curso
     def get_numero_aulas(self):
         num = 0
         for i in self.get_modulos():
