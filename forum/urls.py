@@ -1,6 +1,8 @@
 from django.urls import path
 
+from forum.views import forumView
+
 urlpatterns = [
-    #path('contato/',contatoview.as_view(),name='contato'),
+    path('<str:slug>/',forumView,name='forum-curso'),
 
 ]

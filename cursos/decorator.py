@@ -33,9 +33,11 @@ def matriculado(view_func):
         slug = kargs['slug']
         
         curso = get_object_or_404(modelcursos,slug = slug)
+        request.curso = curso
         
         if not matricula.objects.filter(curso=curso,user=request.user).exists() and not curso.user == request.user:
             messages.info(request,'Para acessar aulas e materiais do curso voce precia se increver no curso!!')
+            
             return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))
 
         return view_func(request,*args,**kargs)

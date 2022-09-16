@@ -7,7 +7,7 @@ from cursos.models import modelcursos
 class Forum(models.Model):
     
     titulo = models.CharField('titulo',max_length=100,blank=True,default=f'Forum do Curso')
-    curso = models.ForeignKey(modelcursos,on_delete=models.PROTECT,verbose_name='forum')
+    curso = models.OneToOneField(modelcursos,on_delete=models.PROTECT,related_name='forum')
 
     criado_em= models.DateTimeField('criado em: ',auto_now_add=True)
     atualizado_em= models.DateTimeField('atualizado em: ',auto_now=True)
@@ -15,8 +15,12 @@ class Forum(models.Model):
     def __str__(self) -> str: # define um nome para o objeto
         return self.titulo
     
+    def get_topicos(self):
+        return self.topicos.all()
+
     class Meta:
         verbose_name = 'Forum do curso'
+    
 
 
 class Topicos(models.Model):
@@ -29,8 +33,8 @@ class Topicos(models.Model):
     num_respostas = models.IntegerField('Numero de respostas',blank=True,default=0)
     visualizacoes = models.IntegerField('Visualisações',blank=True,default=0)
 
-    forum = models.ForeignKey(Forum,on_delete=models.PROTECT,verbose_name='topicos')
-    autor = models.ForeignKey(User,on_delete=models.PROTECT,verbose_name='autor')
+    forum = models.ForeignKey(Forum,on_delete=models.PROTECT,related_name='topicos')
+    autor = models.ForeignKey(User,on_delete=models.PROTECT,related_name='autor_t')
 
 
     criado_em= models.DateTimeField('criado em: ',auto_now_add=True)
@@ -38,6 +42,10 @@ class Topicos(models.Model):
 
     def __str__(self) -> str: # define um nome para o objeto
         return self.titulo
+    
+    def get_respostas(self):
+        return self.respostas.all()
+    
     
     class Meta:
         verbose_name = 'Tópico'
@@ -49,8 +57,8 @@ class Respostas(models.Model):
     resposta = models.TextField('Resposta')
     like = models.IntegerField("Numero de Likes",blank=True,default=0)
 
-    topico = models.ForeignKey(Topicos,on_delete=models.PROTECT,verbose_name='respostas')
-    autor = models.ForeignKey(User,on_delete=models.PROTECT,verbose_name='autor')
+    topico = models.ForeignKey(Topicos,on_delete=models.PROTECT,related_name='respostas')
+    autor = models.ForeignKey(User,on_delete=models.PROTECT,related_name='autor_r')
 
     criado_em= models.DateTimeField('criado em: ',auto_now_add=True)
     atualizado_em= models.DateTimeField('atualizado em: ',auto_now=True)

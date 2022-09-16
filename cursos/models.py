@@ -1,6 +1,7 @@
 
 from django.db import models
 
+
 from accounts.models import User
 from paginas.mail import send_mail_template
 
