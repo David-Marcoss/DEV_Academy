@@ -1,20 +1,5 @@
-from cgitb import text
-from copyreg import dispatch_table
-from curses.ascii import NUL
-from distutils.command.upload import upload
-from distutils.text_file import TextFile
-from email.mime import image
-from enum import unique
-from pickle import TRUE
-from pyexpat import model
-from tabnanny import verbose
-from telnetlib import STATUS
-from typing import OrderedDict
-from typing_extensions import Self
-from unicodedata import name
-from django.db import models
-from django.forms import CharField
 
+from django.db import models
 
 from accounts.models import User
 from paginas.mail import send_mail_template

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     
     'paginas.apps.paginasConfig',
     'cursos.apps.CursosConfig',
+    'forum.apps.ForumConfig',
     'accounts.apps.AccountsConfig',
 ]
 
