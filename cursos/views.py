@@ -504,17 +504,18 @@ def cadastrar_material_curso(request,slug):
 
     template_name = 'cursos/dashboard/form.html'
     form = material_cursoform(request.POST,request.FILES or None)
+    curso = request.curso
     
     if form.is_valid():
         
-        form.instance.curso = request.curso
+        form.instance.curso = curso
         form.save()
         
         messages.info(request,'Material com Sucesso!!')
         
         return redirect(request.GET.get('next', reverse_lazy('meus-cursos-criados')))
     
-    context = {'form': form,'titulo':'Cadastrar Material do Curso','botao':'Cadastrar','need_': False}
+    context = {'form': form,'curso': curso,'titulo':'Cadastrar Material do Curso','botao':'Cadastrar','need_': False}
 
     return render(request,template_name,context)
 

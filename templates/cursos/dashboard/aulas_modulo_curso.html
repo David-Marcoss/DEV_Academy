@@ -84,6 +84,11 @@
                 {% else %}
                 <h2> Não Há Aulas cadastradas neste modulo!!</h2>
                 {% endif %}
+
+                <div class="text-center p-4">
+                    <a href="{% url 'criar-aula-modulo' curso.slug  modulo.id %}?next={{ request.path }}" class="btn btn-success">
+                        Crastrar Aula</a>
+                </div>
             </div>
 
         </div>
