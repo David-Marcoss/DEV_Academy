@@ -46,7 +46,6 @@ class Topicos(models.Model):
     def get_respostas(self):
         return self.respostas.all()
     
-    
     class Meta:
         verbose_name = 'Tópico'
         verbose_name_plural = 'Tópicos'
@@ -69,7 +68,7 @@ class Respostas(models.Model):
     class Meta:
         verbose_name = 'Resposta'
         verbose_name_plural = 'Respostas'
-        ordering = ['atualizado_em']
+        ordering = ['criado_em']
 
 
 
