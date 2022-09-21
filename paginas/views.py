@@ -1,7 +1,9 @@
 from django.views.generic import TemplateView
-from cursos.models import modelcursos
+from cursos.models import categoria_curso, modelcursos
 from accounts.models import User
 from braces.views import GroupRequiredMixin
+
+from django.shortcuts import get_list_or_404
 
 # Create your views here.
 
@@ -19,10 +21,43 @@ class homeview(TemplateView):
     
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        
+        # Professores
         allProf = User.objects.all().filter(is_Teacher=True).values()
         context['Prof_01'] = allProf[:1][0] if allProf[:1] else None
         context['Prof_02'] = allProf[1:2][0] if allProf[1:2] else None
         context['Prof_03'] = allProf[2:3][0] if allProf[2:3] else None
+        
+        # Categorias
+        allCategorias = categoria_curso.objects.all()
+        context['firstCategorias'] = allCategorias.values()[0:1][0] if allCategorias.values()[0:1] else None
+        context['secondCategorias'] = allCategorias.values()[1:2][0] if allCategorias.values()[1:2] else None
+        context['thirdCategorias'] = allCategorias.values()[2:3][0] if allCategorias.values()[2:3] else None
+        context['fourthCategorias'] = allCategorias.values()[3:4][0] if allCategorias.values()[3:4] else None
+        context['fifthCategorias'] = allCategorias.values()[4:5][0] if allCategorias.values()[4:5] else None
+        context['sixthCategorias'] = allCategorias.values()[5:6][0] if allCategorias.values()[5:6] else None
+        
+        # Cursos por categoria
+        context['categoria01'] = modelcursos.objects.all().filter(
+            categoria=allCategorias[0:1][0].id).values() if allCategorias.values()[0:1] else None
+        context['categoria02'] = modelcursos.objects.all().filter(
+            categoria=allCategorias[1:2][0].id).values() if allCategorias.values()[1:2] else None
+        context['categoria03'] = modelcursos.objects.all().filter(
+            categoria=allCategorias[2:3][0].id).values() if allCategorias.values()[2:3] else None
+        context['categoria04'] = modelcursos.objects.all().filter(
+            categoria=allCategorias[3:4][0].id).values() if allCategorias.values()[3:4] else None
+        context['categoria05'] = modelcursos.objects.all().filter(
+            categoria=allCategorias[4:5][0].id).values() if allCategorias.values()[4:5] else None
+        context['categoria06'] = modelcursos.objects.all().filter(
+            categoria=allCategorias[5:6][0].id).values() if allCategorias.values()[5:6] else None
+        
+        # context['categoria01'] = modelcursos.objects.all().filter(categoria=allCategorias[0:1][0].id).values()
+        # context['categoria02'] = modelcursos.objects.all().filter(categoria=allCategorias[1:2][0].id).values()
+        # context['categoria03'] = modelcursos.objects.all().filter(categoria=allCategorias[2:3][0].id).values()
+        # context['categoria04'] = modelcursos.objects.all().filter(categoria=allCategorias[3:4][0].id).values()
+        # context['categoria05'] = modelcursos.objects.all().filter(categoria=allCategorias[4:5][0].id).values()
+        # context['categoria06'] = modelcursos.objects.all().filter(categoria=allCategorias[5:6][0].id).values()
+
         return context
 
 class dashview(GroupRequiredMixin, TemplateView):

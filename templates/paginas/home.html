@@ -161,106 +161,279 @@
 
             <nav>
                 <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
-                    <button class="nav-link active" id="nav-python-tab" data-bs-toggle="tab" data-bs-target="#nav-python"
-                        type="button" role="tab" aria-controls="nav-python" aria-selected="false">Python</button>
-                    <button class="nav-link" id="nav-java-tab" data-bs-toggle="tab" data-bs-target="#nav-java" type="button"
-                        role="tab" aria-controls="nav-java" aria-selected="false">Java</button>
-                    <button class="nav-link" id="nav-ruby-tab" data-bs-toggle="tab" data-bs-target="#nav-ruby"
-                        type="button" role="tab" aria-controls="nav-ruby" aria-selected="true">Ruby</button>
+                    {% if firstCategorias and categoria01 %}
+                    <button class="nav-link active" id="nav-{{firstCategorias.categoria}}-tab" data-bs-toggle="tab" data-bs-target="#nav-{{firstCategorias.categoria}}"
+                        type="button" role="tab" aria-controls="nav-{{firstCategorias.categoria}}" aria-selected="false">{{firstCategorias.categoria}}</button>
+                    {% endif %}
+                    {% if secondCategorias and categoria02 %}
+                    <button class="nav-link" id="nav-{{secondCategorias.categoria}}-tab" data-bs-toggle="tab" data-bs-target="#nav-{{secondCategorias.categoria}}"
+                        type="button" role="tab" aria-controls="nav-{{secondCategorias.categoria}}" aria-selected="false">{{secondCategorias.categoria}}</button>
+                    {% endif %}
+                    {% if thirdCategorias and categoria03 %}
+                    <button class="nav-link" id="nav-{{thirdCategorias.categoria}}-tab" data-bs-toggle="tab" data-bs-target="#nav-{{thirdCategorias.categoria}}"
+                        type="button" role="tab" aria-controls="nav-{{thirdCategorias.categoria}}" aria-selected="false">{{thirdCategorias.categoria}}</button>
+                    {% endif %}
+                    {% if fourthCategorias and categoria04 %}
+                    <button class="nav-link" id="nav-{{fourthCategorias.categoria}}-tab" data-bs-toggle="tab" data-bs-target="#nav-{{fourthCategorias.categoria}}"
+                        type="button" role="tab" aria-controls="nav-{{fourthCategorias.categoria}}" aria-selected="false">{{fourthCategorias.categoria}}</button>
+                    {% endif %}
+                    {% if fifthCategorias and categoria05 %}
+                    <button class="nav-link" id="nav-{{fifthCategorias.categoria}}-tab" data-bs-toggle="tab" data-bs-target="#nav-{{fifthCategorias.categoria}}"
+                        type="button" role="tab" aria-controls="nav-{{fifthCategorias.categoria}}" aria-selected="false">{{fifthCategorias.categoria}}</button>
+                    {% endif %}
+                    {% if sixthCategorias and categoria06 %}
+                    <button class="nav-link" id="nav-{{sixthCategorias.categoria}}-tab" data-bs-toggle="tab" data-bs-target="#nav-{{sixthCategorias.categoria}}"
+                        type="button" role="tab" aria-controls="nav-{{sixthCategorias.categoria}}" aria-selected="false">{{sixthCategorias.categoria}}</button>
+                    {% endif %}
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-python" role="tabpanel" aria-labelledby="nav-python-tab">
+                
+                {% if firstCategorias and categoria01 %}
+                <div class="tab-pane fade show active" id="nav-{{firstCategorias.categoria}}" role="tabpanel" aria-labelledby="nav-{{firstCategorias.categoria}}-tab">
                     <div class="splide" role="group" aria-label="Splide Basic HTML Example">
                         <div class="card-group">
                             <div class="splide__track">
                                 <ul class="splide__list">
+                                    {% for curso in categoria01 %}
                                     <li class="splide__slide">
                                         <div class="card">
-                                            <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%" height="180px"
-                                                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
-                                                preserveAspectRatio="xMidYMid slice" focusable="false">
-                                                <title>Placeholder</title>
-                                                <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
-                                            </svg>
+                                            {% if curso.image %}
+                                            
+                                            <a href="{% url 'detalhes-curso' curso.slug %}"><img src="{% get_media_prefix %}{{ curso.image }}" alt="{{curso.nome}}"
+                                                    class="img-fluid rounded" /></a>
+                                            
+                                            {%else %}
+                                            
+                                            <a href="{% url 'detalhes-curso' curso.slug %}"><img src="{% static 'img/curso_capa.png' %}" alt=""
+                                                    class="img-fluid rounded" /></a>
+                                            
+                                            {%endif%}
                                             <div class="card-body">
-                                                <h5 class="card-title">Título do card</h5>
-                                                <p class="card-text">Este é um card maior com suporte a texto embaixo, que funciona como uma introdução a um
-                                                    conteúdo adicional. Este conteúdo é um pouco maior, para demonstração.</p>
+                                                <h5 class="card-title">{{curso.nome}}</h5>
+                                                <p class="card-text">{{ curso.descricao }}</p>
                                             </div>
                                             <div class="card-footer">
-                                                <small class="text-muted">Atualizados 3 minutos atrás</small>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                
+                                                    <div class="btn-group">
+                                                        <a href="{% url 'detalhes-curso' curso.slug %}" class="btn btn-sm btn-outline-secondary">View</a>
+                                                        <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button> -->
+                                                        {% if curso.user == request.user %}
+                                                        <a href="{% url 'edit-curso' curso.id %}?next={{ request.path }}"
+                                                            class="btn btn-sm btn-outline-secondary">Edit</a>
+                                                        {% endif %}
+                                                    </div>
+                                                
+                                                    <small class="text-muted">9 mins</small>
+                                                </div>
                                             </div>
                                         </div>
                                     </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="nav-java" role="tabpanel" aria-labelledby="nav-java-tab">
-                    <div class="tab-pane fade show active" id="nav-python" role="tabpanel" aria-labelledby="nav-python-tab">
+                {% endif %}
+
+                {% if secondCategorias and categoria02 %}
+                <div class="tab-pane fade" id="nav-{{secondCategorias.categoria}}" role="tabpanel" aria-labelledby="nav-{{secondCategorias.categoria}}-tab">
+                    <div class="tab-pane fade show active" id="nav-{{firstCategorias.categoria}}" role="tabpanel" aria-labelledby="nav-{{firstCategorias.categoria}}-tab">
                         <div class="splide" role="group" aria-label="Splide Basic HTML Example">
                             <div class="card-group">
                                 <div class="splide__track">
                                     <ul class="splide__list">
+                                        {% for curso in categoria02 %}
                                         <li class="splide__slide">
                                             <div class="card">
-                                                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%"
-                                                    height="180px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
-                                                    preserveAspectRatio="xMidYMid slice" focusable="false">
-                                                    <title>Placeholder</title>
-                                                    <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
-                                                </svg>
+                                                {% if curso.image %}
+                                                
+                                                <a href="{% url 'detalhes-curso' curso.slug %}"><img src="{% get_media_prefix %}{{ curso.image }}" alt="{{curso.nome}}"
+                                                        class="img-fluid rounded" /></a>
+                                                
+                                                {%else %}
+                                                
+                                                <a href="{% url 'detalhes-curso' curso.slug %}"><img src="{% static 'img/curso_capa.png' %}" alt=""
+                                                        class="img-fluid rounded" /></a>
+                                                
+                                                {%endif%}
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Título do card</h5>
-                                                    <p class="card-text">Este é um card maior com suporte a texto embaixo, que funciona como uma introdução
-                                                        a um
-                                                        conteúdo adicional. Este conteúdo é um pouco maior, para demonstração.</p>
+                                                    <h5 class="card-title">{{curso.nome}}</h5>
+                                                    <p class="card-text">{{ curso.descricao }}</p>
                                                 </div>
                                                 <div class="card-footer">
                                                     <small class="text-muted">Atualizados 3 minutos atrás</small>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="nav-ruby" role="tabpanel" aria-labelledby="nav-ruby-tab">
-                    <div class="tab-pane fade show active" id="nav-python" role="tabpanel" aria-labelledby="nav-python-tab">
+                {% endif %}
+
+                {% if thirdCategorias and categoria03 %}
+                <div class="tab-pane fade" id="nav-{{thirdCategorias.categoria}}" role="tabpanel" aria-labelledby="nav-{{thirdCategorias.categoria}}-tab">
+                    <div class="tab-pane fade show active" id="nav-{{firstCategorias.categoria}}" role="tabpanel" aria-labelledby="nav-{{firstCategorias.categoria}}-tab">
                         <div class="splide" role="group" aria-label="Splide Basic HTML Example">
                             <div class="card-group">
                                 <div class="splide__track">
                                     <ul class="splide__list">
+                                        {% for curso in categoria03 %}
                                         <li class="splide__slide">
                                             <div class="card">
-                                                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="100%"
-                                                    height="180px" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
-                                                    preserveAspectRatio="xMidYMid slice" focusable="false">
-                                                    <title>Placeholder</title>
-                                                    <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text>
-                                                </svg>
+                                                {% if curso.image %}
+                                                
+                                                <a href="{% url 'detalhes-curso' curso.slug %}"><img src="{% get_media_prefix %}{{ curso.image }}" alt="{{curso.nome}}"
+                                                        class="img-fluid rounded" /></a>
+                                                
+                                                {%else %}
+                                                
+                                                <a href="{% url 'detalhes-curso' curso.slug %}"><img src="{% static 'img/curso_capa.png' %}" alt=""
+                                                        class="img-fluid rounded" /></a>
+                                                
+                                                {%endif%}
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Título do card</h5>
-                                                    <p class="card-text">Este é um card maior com suporte a texto embaixo, que funciona como uma introdução
-                                                        a um
-                                                        conteúdo adicional. Este conteúdo é um pouco maior, para demonstração.</p>
+                                                    <h5 class="card-title">{{curso.nome}}</h5>
+                                                    <p class="card-text">{{ curso.descricao }}</p>
                                                 </div>
                                                 <div class="card-footer">
                                                     <small class="text-muted">Atualizados 3 minutos atrás</small>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>        
+                {% endif %}
+
+                {% if fourthCategorias and categoria04 %}
+                <div class="tab-pane fade" id="nav-{{fourthCategorias.categoria}}" role="tabpanel" aria-labelledby="nav-{{fourthCategorias.categoria}}-tab">
+                    <div class="tab-pane fade show active" id="nav-{{firstCategorias.categoria}}" role="tabpanel" aria-labelledby="nav-{{firstCategorias.categoria}}-tab">
+                        <div class="splide" role="group" aria-label="Splide Basic HTML Example">
+                            <div class="card-group">
+                                <div class="splide__track">
+                                    <ul class="splide__list">
+                                        {% for curso in categoria04 %}
+                                        <li class="splide__slide">
+                                            <div class="card">
+                                                {% if curso.image %}
+                                                
+                                                <a href="{% url 'detalhes-curso' curso.slug %}"><img src="{% get_media_prefix %}{{ curso.image }}" alt="{{curso.nome}}"
+                                                        class="img-fluid rounded" /></a>
+                                                
+                                                {%else %}
+                                                
+                                                <a href="{% url 'detalhes-curso' curso.slug %}"><img src="{% static 'img/curso_capa.png' %}" alt=""
+                                                        class="img-fluid rounded" /></a>
+                                                
+                                                {%endif%}
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{curso.nome}}</h5>
+                                                    <p class="card-text">{{ curso.descricao }}</p>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <small class="text-muted">Atualizados 3 minutos atrás</small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if fifthCategorias and categoria05 %}
+                <div class="tab-pane fade" id="nav-{{fifthCategorias.categoria}}" role="tabpanel" aria-labelledby="nav-{{fifthCategorias.categoria}}-tab">
+                    <div class="tab-pane fade show active" id="nav-{{firstCategorias.categoria}}" role="tabpanel" aria-labelledby="nav-{{firstCategorias.categoria}}-tab">
+                        <div class="splide" role="group" aria-label="Splide Basic HTML Example">
+                            <div class="card-group">
+                                <div class="splide__track">
+                                    <ul class="splide__list">
+                                        {% for curso in categoria05 %}
+                                        <li class="splide__slide">
+                                            <div class="card">
+                                                {% if curso.image %}
+                                                
+                                                <a href="{% url 'detalhes-curso' curso.slug %}"><img src="{% get_media_prefix %}{{ curso.image }}" alt="{{curso.nome}}"
+                                                        class="img-fluid rounded" /></a>
+                                                
+                                                {%else %}
+                                                
+                                                <a href="{% url 'detalhes-curso' curso.slug %}"><img src="{% static 'img/curso_capa.png' %}" alt=""
+                                                        class="img-fluid rounded" /></a>
+                                                
+                                                {%endif%}
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{curso.nome}}</h5>
+                                                    <p class="card-text">{{ curso.descricao }}</p>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <small class="text-muted">Atualizados 3 minutos atrás</small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if sixthCategorias and categoria06 %}
+                <div class="tab-pane fade" id="nav-{{sixthCategorias.categoria}}" role="tabpanel" aria-labelledby="nav-{{sixthCategorias.categoria}}-tab">
+                    <div class="tab-pane fade show active" id="nav-{{firstCategorias.categoria}}" role="tabpanel" aria-labelledby="nav-{{firstCategorias.categoria}}-tab">
+                        <div class="splide" role="group" aria-label="Splide Basic HTML Example">
+                            <div class="card-group">
+                                <div class="splide__track">
+                                    <ul class="splide__list">
+                                        {% for curso in categoria06 %}
+                                        <li class="splide__slide">
+                                            <div class="card">
+                                                {% if curso.image %}
+                                                
+                                                <a href="{% url 'detalhes-curso' curso.slug %}"><img src="{% get_media_prefix %}{{ curso.image }}" alt="{{curso.nome}}"
+                                                        class="img-fluid rounded" /></a>
+                                                
+                                                {%else %}
+                                                
+                                                <a href="{% url 'detalhes-curso' curso.slug %}"><img src="{% static 'img/curso_capa.png' %}" alt=""
+                                                        class="img-fluid rounded" /></a>
+                                                
+                                                {%endif%}
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{curso.nome}}</h5>
+                                                    <p class="card-text">{{ curso.descricao }}</p>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <small class="text-muted">Atualizados 3 minutos atrás</small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
         </div>
 
 
