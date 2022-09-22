@@ -41,7 +41,7 @@
                                 {{ curso.nome | linebreaks }}
                             </h4>
                             <p class="lead text-muted">
-                                {{ curso.descricao| linebreaks }}
+                                {{ curso.descricao|truncatewords:40}}
                             </p>
                         </div>
                         <div class="card-footer">
@@ -71,62 +71,34 @@
             {% endfor %}
         
         </div>
+        {% if object_list %}
+            <ul class="pagination pagination-sm pagination-circle justify-content-center mb-0">
+                
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link has-icon" href="?page={{ page_obj.previous_page_number }}"><i class="material-icons">Anterior</i></a>
+                    </li>
+                {% endif %}
+                {% for page in paginator.page_range %}
+                    {% if page == page_obj.number %}
+                        <li class="page-item active"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+                    {% endif %}
+                
+                {%endfor%}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link has-icon" href="?page={{ page_obj.next_page_number }}"><i class="material-icons">Proxima</i></a>
+                    </li>
+                {% endif %}
+                
+            </ul>
+
+        {% endif %}
     </div>
+
 </div>
-
-<!-- <div class="container">
-
-    {% for curso in object_list %}
-
-    <div class="pure-g-r content-ribbon">
-
-        <div class="pure-u-1-3">
-            <div class="l-box">
-
-                <a href="{% url 'detalhes-curso' curso.slug %}">
-
-                    {% if curso.image %}
-
-                    <img src="{{ curso.image.url }}" alt="{{curso.nome}}" />
-
-                    {%else %}
-
-                    <img src="{% static 'img/curso_capa.png' %}" alt="" />
-
-                    {%endif%}
-
-                </a>
-
-            </div>
-
-        </div>
-
-        <div class="pure-u-2-3">
-            <div class="l-box">
-                <h4 class="content-subhead"><a href="{% url 'detalhes-curso' curso.slug %}" title="{{ curso.nome }}"></a>{{curso.nome}}</h4>
-
-                {{ curso.descricao | linebreaks }} #linelinebreaks comando em django para formatar texto
-
-
-            </div>
-
-        </div>
-
-    </div>
-
-    {% empty %}
-
-    <div class="pure-g-r content-ribbon">
-        <div class="pure-u-1">
-            <div class="l-box">
-                <h4 class="content-subhead">Não ha cursos disponíveis</h4>
-
-            </div>
-        </div>
-    </div>
-
-
-    {% endfor %}
-</div> -->
 
 {% endblock %}

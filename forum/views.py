@@ -5,10 +5,11 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from django.views.generic import UpdateView,ListView,CreateView,DeleteView
 
 from accounts.models import User
 from cursos.decorator import is_creator,matriculado
+
+from django.core.paginator import Paginator
 
 from .models import *
 from .forms import *
@@ -19,13 +20,19 @@ from .forms import *
 def forumView(request,slug):
 
     template_name = 'cursos/forum/forum.html'
-    context = {}
-    curso = request.curso
     
-    context['curso'] = curso
-    context['forum'] = Forum.objects.get(curso=curso)
+    curso = request.curso
+    forum = Forum.objects.get(curso=curso)
+    
+    #define a quantidade de itens por pagina
+    paginator = Paginator(forum.get_topicos(),10)
 
-    return render(request,template_name,context)
+    #pega atravez da url o numero da pagina atual
+    page_number = request.GET.get('page')
+    #pega os objetos da pagina passada
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request,template_name,context = {'curso':curso,'forum':forum,'page_obj':page_obj,'paginator':paginator})
 
 
 @login_required

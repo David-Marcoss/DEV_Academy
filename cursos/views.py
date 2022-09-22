@@ -44,6 +44,7 @@ class cursosview(ListView):
 
     model = modelcursos
     template_name = 'cursos/cursos.html'
+    paginate_by = 9
 
     def get_context_data(self, *args,**kwargs):
 
