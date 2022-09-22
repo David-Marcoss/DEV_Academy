@@ -44,12 +44,12 @@
                                 <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden scroll;">
                                     <div class="simplebar-content" style="padding: 16px;">
                                         <nav class="nav nav-pills nav-gap-y-1 flex-column">
-                                            <a href="#" class="nav-link nav-link-faded has-icon active">All Threads</a>
-                                            <a href="#" class="nav-link nav-link-faded has-icon">Popular this week</a>
-                                            <a href="#" class="nav-link nav-link-faded has-icon">Popular all time</a>
-                                            <a href="#" class="nav-link nav-link-faded has-icon">Solved</a>
-                                            <a href="#" class="nav-link nav-link-faded has-icon">Unsolved</a>
-                                            <a href="#" class="nav-link nav-link-faded has-icon">No replies yet</a>
+                                            <a href="?ordering=all" class="nav-link nav-link-faded has-icon active">Todos os Tópicos</a>
+                                            <a href="?ordering=meus topicos" class="nav-link nav-link-faded has-icon">Meus Tópicos</a>
+                                            <a href="?ordering=populares" class="nav-link nav-link-faded has-icon">Populares</a>
+                                            <a href="?ordering=recentes" class="nav-link nav-link-faded has-icon">Recentes</a>
+                                            <a href="?ordering=antigos" class="nav-link nav-link-faded has-icon">Antigos</a>
+                                            <a href="?ordering=nao respondidos" class="nav-link nav-link-faded has-icon">Não respondidos</a>
                                         </nav>
                                     </div>
                                 </div>
@@ -73,11 +73,11 @@
             <div class="inner-main-header">
                 <a class="nav-link nav-icon rounded-circle nav-link-faded mr-3 d-md-none" href="#" data-toggle="inner-sidebar"><i class="material-icons">arrow_forward_ios</i></a>
                 <select class="custom-select custom-select-sm w-auto mr-1">
-                    <option selected="">Latest</option>
+                    <option value="3">Meus Topicos</option>
+                    <option selected="">Recentes</option>
                     <option value="1">Popular</option>
-                    <option value="3">Solved</option>
-                    <option value="3">Unsolved</option>
-                    <option value="3">No Replies Yet</option>
+                    <option value="3">Antigos</option>
+                    <option value="3">Não respondidos</option>
                 </select>
                 <span class="input-icon input-icon-sm ml-auto w-auto">
                     <input type="text" class="form-control form-control-sm bg-gray-200 border-gray-200 shadow-none mb-4 mt-4" placeholder="Search forum" />
@@ -127,21 +127,23 @@
                         
                         {% if page_obj.has_previous %}
                             <li class="page-item">
-                                <a class="page-link has-icon" href="?page={{ page_obj.previous_page_number }}"><i class="material-icons">Anterior</i></a>
+                                <a class="page-link has-icon" 
+                                href="?page={{ page_obj.previous_page_number }}{%if request.GET.ordering%}&ordering={{request.GET.ordering}}{%endif%}"><i class="material-icons">Anterior</i></a>
                             </li>
                         {% endif %}
                         {% for page in paginator.page_range %}
                             {% if page == page_obj.number %}
-                                <li class="page-item active"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+                                <li class="page-item active"><a class="page-link" href="?page={{page}}{%if request.GET.ordering%}&ordering={{request.GET.ordering}}{%endif%}">{{page}}</a></li>
                             {% else %}
-                                <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+                                <li class="page-item"><a class="page-link" href="?page={{page}}{%if request.GET.ordering%}&ordering={{request.GET.ordering}}{%endif%}">
+                                {{page}}</a></li>
                             {% endif %}
                         
                         {%endfor%}
 
                         {% if page_obj.has_next %}
                             <li class="page-item">
-                                <a class="page-link has-icon" href="?page={{ page_obj.next_page_number }}"><i class="material-icons">Proxima</i></a>
+                                <a class="page-link has-icon" href="?page={{ page_obj.next_page_number }}{%if request.GET.ordering%}&ordering={{request.GET.ordering}}{%endif%}"><i class="material-icons">Proxima</i></a>
                             </li>
                         {% endif %}
                         

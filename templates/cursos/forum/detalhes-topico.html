@@ -26,12 +26,10 @@
                             <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden scroll;">
                                 <div class="simplebar-content" style="padding: 16px;">
                                     <nav class="nav nav-pills nav-gap-y-1 flex-column">
-                                        <a href="#" class="nav-link nav-link-faded has-icon active">All Threads</a>
-                                        <a href="#" class="nav-link nav-link-faded has-icon">Popular this week</a>
-                                        <a href="#" class="nav-link nav-link-faded has-icon">Popular all time</a>
-                                        <a href="#" class="nav-link nav-link-faded has-icon">Solved</a>
-                                        <a href="#" class="nav-link nav-link-faded has-icon">Unsolved</a>
-                                        <a href="#" class="nav-link nav-link-faded has-icon">No replies yet</a>
+                                        <a href="?ordering=recentes" class="nav-link nav-link-faded has-icon">Recentes</a>
+                                        <a href="?ordering=antigas" class="nav-link nav-link-faded has-icon">Antigas</a>
+                                        <a href="?ordering=mais curtidas" class="nav-link nav-link-faded has-icon">Mais curtidas</a>
+
                                     </nav>
                                 </div>
                             </div>
@@ -87,7 +85,7 @@
         </div>
         <div class="card mb-2">
             <div class="card-body">
-                {% for resposta in topico.get_respostas %}
+                {% for resposta in respostas %}
                 <div class="media forum-item">
                     <a href="javascript:void(0)" class="card-link">
                         {% if resposta.autor.imageperfil %}            
@@ -106,7 +104,6 @@
                             <p>{{resposta.resposta|linebreaksbr}}</p>
                         </div>
                         <a href="{% url 'like-resposta' curso.slug resposta.id%}?next={{ request.path }}"><button class="btn btn-xs text-muted has-icon"><i class="fa fa-heart" aria-hidden="true"></i> {{resposta.like}}</button></a>
-                        <a href="javascript:void(0)" class="text-muted small">Reply</a>
                     </div>
                 </div>
 

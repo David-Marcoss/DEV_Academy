@@ -23,10 +23,31 @@ def forumView(request,slug):
     
     curso = request.curso
     forum = Forum.objects.get(curso=curso)
-    
-    #define a quantidade de itens por pagina
-    paginator = Paginator(forum.get_topicos(),10)
+    topicos = forum.get_topicos()
+    ordering = request.GET.get('ordering')
 
+    """
+    atraves do parametro ordering passado pela URL
+    determino como vai ser listado os topicos
+    """
+    if  ordering == 'recentes':
+        topicos = topicos.order_by('-criado_em')
+    
+    elif ordering == 'populares':
+        topicos = topicos.order_by('-num_respostas')
+    
+    elif ordering == 'nao respondidos':
+        topicos = topicos.filter(num_respostas=0)
+    
+    elif ordering == 'meus topicos':
+        topicos = topicos.filter(autor=request.user)
+    
+    elif ordering == 'antigos':
+        topicos = topicos.order_by('criado_em')
+
+
+    #define a quantidade de itens por pagina
+    paginator = Paginator(topicos,10)
     #pega atravez da url o numero da pagina atual
     page_number = request.GET.get('page')
     #pega os objetos da pagina passada
@@ -43,13 +64,25 @@ def detalhes_topicoView(request,slug,pk):
     context = {}
 
     topico = Topicos.objects.get(id = pk)
+    respostas = topico.get_respostas()
+    ordering = request.GET.get('ordering')
 
     if request.user != topico.autor:
         topico.visualizacoes += 1
         topico.save() 
+
+    if  ordering == 'recentes':
+        respostas = respostas.order_by('-criado_em')
+    
+    elif ordering == 'antigas':
+        respostas = respostas.order_by('criado_em')
+
+    elif ordering == 'mais curtidas':
+        respostas = respostas.order_by('-like')
         
     
     context['topico'] = topico
+    context['respostas'] = respostas
     context['curso'] = request.curso
 
     return render(request,template_name,context)
@@ -103,7 +136,18 @@ def responder_topicoView(request,slug,pk):
 @matriculado
 def like_respostaView(request,slug,pk):
     resposta = get_object_or_404(Respostas,id=pk)
-    resposta.like += 1
-    resposta.save()
+
+    if like.objects.filter(resposta = resposta,user=request.user).exists():
+        Like = like.objects.get(resposta = resposta,user=request.user)
+        Like.delete()
+
+        resposta.like -= 1
+        resposta.save()
+    else:
+       Like = like(resposta = resposta,user=request.user)
+       Like.save()
+
+       resposta.like += 1
+       resposta.save()
 
     return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))

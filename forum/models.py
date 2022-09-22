@@ -70,5 +70,17 @@ class Respostas(models.Model):
         verbose_name_plural = 'Respostas'
         ordering = ['criado_em']
 
+class like(models.Model):
+
+    resposta = models.ForeignKey(Respostas,on_delete=models.PROTECT,related_name='like_r')
+    user = models.ForeignKey(User,on_delete=models.PROTECT,related_name='like')
+
+    def __str__(self) -> str: # define um nome para o objeto
+        return self.user + ' like ' + self.resposta
+        
+    class Meta:
+        verbose_name = 'Like'
+        verbose_name_plural = 'Likes'
+
 
 
