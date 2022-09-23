@@ -120,7 +120,7 @@ def responder_topicoView(request,slug,pk):
         form.instance.autor = request.user
         form.save()
 
-        topico.num_respostas += 1
+        topico.num_respostas= topico.respostas.all().count() 
         topico.save() 
 
         #messages.info(request,'Topico Criado com Sucesso!!')
@@ -151,3 +151,11 @@ def like_respostaView(request,slug,pk):
        resposta.save()
 
     return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))
+
+@login_required
+def deletar_topicoView(request,pk,slug):
+    topico = get_object_or_404(Topicos,id=pk,autor=request.user)
+    forum = topico.forum
+    topico.delete()
+
+    return redirect('forum-curso',slug=slug)

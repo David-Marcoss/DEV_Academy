@@ -50,8 +50,11 @@
 {% block conteudo %}
 
     <div class="inner-main-body p-2 p-sm-3">
-        <a href="#" class="btn btn-light btn-sm mb-3 has-icon" onclick="window.open(document.referrer,'_self');" ><i class="fa fa-arrow-left mr-2"></i>Back</a>
-        <div class="card mb-2">
+        <a href="#" class="btn btn-light btn-sm mb-3 has-icon" onclick="window.open(document.referrer,'_self');" ><i class="fa fa-arrow-left mr-2"></i>Voltar</a>
+        {% if topico.autor == request.user %}
+            <a href="{% url 'deletar-topico' curso.slug topico.id %}?next={{ request.path }}" class="btn btn-danger btn-sm mb-3 has-icon " onclick="window.open(document.referrer,'_self');" ><i></i>Excluir Tópico</a>
+        {% endif %}
+            <div class="card mb-2">
             <div class="card-body">
                 <div class="media forum-item">
                     <a href="javascript:void(0)" class="card-link">
