@@ -46,7 +46,6 @@ class Topicos(models.Model):
     def get_respostas(self):
         return self.respostas.all()
     
-    
     class Meta:
         verbose_name = 'Tópico'
         verbose_name_plural = 'Tópicos'
@@ -69,7 +68,19 @@ class Respostas(models.Model):
     class Meta:
         verbose_name = 'Resposta'
         verbose_name_plural = 'Respostas'
-        ordering = ['atualizado_em']
+        ordering = ['criado_em']
+
+class like(models.Model):
+
+    resposta = models.ForeignKey(Respostas,on_delete=models.PROTECT,related_name='like_r')
+    user = models.ForeignKey(User,on_delete=models.PROTECT,related_name='like')
+
+    def __str__(self) -> str: # define um nome para o objeto
+        return self.user + ' like ' + self.resposta
+        
+    class Meta:
+        verbose_name = 'Like'
+        verbose_name_plural = 'Likes'
 
 
 
