@@ -23,12 +23,16 @@ class homeview(TemplateView):
         context = super().get_context_data(*args, **kwargs)
         
         # Professores
-        allProf = User.objects.all().filter(is_Teacher=True).values()
+        allProf = User.objects.filter(is_Teacher=True).values()
         context['Prof_01'] = allProf[:1][0] if allProf[:1] else None
         context['Prof_02'] = allProf[1:2][0] if allProf[1:2] else None
         context['Prof_03'] = allProf[2:3][0] if allProf[2:3] else None
         
         # Categorias
+        """
+            Preferir mandar variaveis que contem as seis primeiras categorias do que pegar de cada curso
+            a categoria que eles pertecem.
+        """
         allCategorias = categoria_curso.objects.all()
         context['firstCategorias'] = allCategorias.values()[0:1][0] if allCategorias.values()[0:1] else None
         context['secondCategorias'] = allCategorias.values()[1:2][0] if allCategorias.values()[1:2] else None
@@ -38,25 +42,18 @@ class homeview(TemplateView):
         context['sixthCategorias'] = allCategorias.values()[5:6][0] if allCategorias.values()[5:6] else None
         
         # Cursos por categoria
-        context['categoria01'] = modelcursos.objects.all().filter(
-            categoria=allCategorias[0:1][0].id).values() if allCategorias.values()[0:1] else None
-        context['categoria02'] = modelcursos.objects.all().filter(
-            categoria=allCategorias[1:2][0].id).values() if allCategorias.values()[1:2] else None
-        context['categoria03'] = modelcursos.objects.all().filter(
-            categoria=allCategorias[2:3][0].id).values() if allCategorias.values()[2:3] else None
-        context['categoria04'] = modelcursos.objects.all().filter(
-            categoria=allCategorias[3:4][0].id).values() if allCategorias.values()[3:4] else None
-        context['categoria05'] = modelcursos.objects.all().filter(
-            categoria=allCategorias[4:5][0].id).values() if allCategorias.values()[4:5] else None
-        context['categoria06'] = modelcursos.objects.all().filter(
-            categoria=allCategorias[5:6][0].id).values() if allCategorias.values()[5:6] else None
+        context['categoria01'] = modelcursos.objects.filter(categoria=1)[:8]
+        context['categoria02'] = modelcursos.objects.filter(categoria=2)[:8]
+        context['categoria03'] = modelcursos.objects.filter(categoria=3)[:8]
+        context['categoria04'] = modelcursos.objects.filter(categoria=4)[:8]
+        context['categoria05'] = modelcursos.objects.filter(categoria=5)[:8]
+        context['categoria06'] = modelcursos.objects.filter(categoria=6)[:8]
         
-        # context['categoria01'] = modelcursos.objects.all().filter(categoria=allCategorias[0:1][0].id).values()
-        # context['categoria02'] = modelcursos.objects.all().filter(categoria=allCategorias[1:2][0].id).values()
-        # context['categoria03'] = modelcursos.objects.all().filter(categoria=allCategorias[2:3][0].id).values()
-        # context['categoria04'] = modelcursos.objects.all().filter(categoria=allCategorias[3:4][0].id).values()
-        # context['categoria05'] = modelcursos.objects.all().filter(categoria=allCategorias[4:5][0].id).values()
-        # context['categoria06'] = modelcursos.objects.all().filter(categoria=allCategorias[5:6][0].id).values()
+        # Cursos mais assistidos
+        context['maisAssistidos'] = modelcursos.objects.annotate(num_matricula=Count('matricula')).order_by('-num_matricula')
+        
+        # Categorias da plataforma
+        context['prin_categorias'] = categoria_curso.objects.all()[:8]
 
         return context
 
