@@ -2,6 +2,7 @@ from django.views.generic import TemplateView
 from cursos.models import categoria_curso, modelcursos
 from accounts.models import User
 from braces.views import GroupRequiredMixin
+from django.db.models import Count
 
 from django.shortcuts import get_list_or_404
 
