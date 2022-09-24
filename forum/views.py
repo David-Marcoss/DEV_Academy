@@ -13,6 +13,7 @@ from django.core.paginator import Paginator
 
 from .models import *
 from .forms import *
+from django.db.models import Q
 
 
 @login_required
@@ -24,7 +25,15 @@ def forumView(request,slug):
     curso = request.curso
     forum = Forum.objects.get(curso=curso)
     topicos = forum.get_topicos()
+
+    busca = request.GET.get("Busca")
+    
+    if busca:
+        topicos = topicos.filter( Q(titulo__icontains = busca ) | Q(autor__nome__icontains = busca ) 
+        | Q(assunto__icontains = busca ))
+
     ordering = request.GET.get('ordering')
+
 
     """
     atraves do parametro ordering passado pela URL

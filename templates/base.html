@@ -65,8 +65,9 @@
                     <li><a href="{% url 'contato' %}" class="nav-link px-2 link-dark">Contato</a></li>
                 </ul>
         
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                    <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action = "{% url 'search' %}"  method = "get">
+                    <input name = "Busca" type="search" class="form-control" placeholder="{%if request.GET.Busca %}
+                    Search: {{request.GET.Busca}} {%else%} Search... {%endif%}" aria-label="Search">
                 </form>
 
                 {%if request.user.is_authenticated %}

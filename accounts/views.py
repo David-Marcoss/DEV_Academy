@@ -1,15 +1,7 @@
-from cgitb import reset
-import email
-from multiprocessing import context
-from pipes import Template
-from re import template
-import re
-from typing_extensions import Self
-from unicodedata import name
-from urllib import request
+
 from django.shortcuts import render, redirect
 
-from django.views.generic import CreateView,TemplateView,UpdateView
+from django.views.generic import UpdateView
 
 # o django por padrao ja possui um model e um form para cadastro de usuarios
 from django.contrib.auth.forms import PasswordChangeForm,SetPasswordForm  #form padrao para alteração de senha
@@ -24,9 +16,8 @@ from DMS_cursos.settings import LOGIN_REDIRECT_URL
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 
-from cursos.models import modelcursos
 
-from .forms import UserChangeForm, UserCreationForm,Redefinir_senhaForm
+from .forms import UserCreationForm,Redefinir_senhaForm
 
 from .models import User,redefinir_senha
 
@@ -34,6 +25,8 @@ from paginas.funcoes_auxiliares import generate_hash_key
 
 from datetime import datetime
 from paginas.funcoes_auxiliares import compara_tempo
+
+from django.contrib import messages
 
 """
 request é outra forma de renderizar um template e manipular o template
@@ -49,49 +42,55 @@ manipular os dados do form
 
 """
 def cadastroview(request):
+    if not request.user.is_authenticated: 
+        template_name = "cadastro.html"
 
-    template_name = "cadastro.html"
+        if request.method == 'POST': # verifica se o meto de formulario é post
+            
+            # requeste armazena os dados preencidos pelo ususario
+            form = UserCreationForm(request.POST, request.FILES)
 
-    if request.method == 'POST': # verifica se o meto de formulario é post
-        
-        # requeste armazena os dados preencidos pelo ususario
-        form = UserCreationForm(request.POST, request.FILES)
+            if form.is_valid(): #verifica se o formulario é valido
 
-        if form.is_valid(): #verifica se o formulario é valido
+                user = form.save(commit=False) # salva os dados do form no banco
 
-            user = form.save(commit=False) # salva os dados do form no banco
+                #vrifica qual é o tipo de usuario
+                if form.cleaned_data['tipo_user'] == '1':
+                    grupo = get_object_or_404(Group,name='aluno')
+                    
+                    user.is_Teacher = False
+                    user = form.save()  # salva os dados do form no banco
 
-            #vrifica qual é o tipo de usuario
-            if form.cleaned_data['tipo_user'] == '1':
-                grupo = get_object_or_404(Group,name='aluno')
+                else:
+                    grupo = get_object_or_404(Group,name='professor')
+
+                    user.is_Teacher = True
+                    user = form.save()  # salva os dados do form no banco
+
+                #salva usuario ao grupo espesifico
+                user.groups.add(grupo)
+
                 
-                user.is_Teacher = False
-                user = form.save()  # salva os dados do form no banco
+                user = authenticate(username = user.username,password = form.cleaned_data['password1'])
+                
+                login(request,user)
+                
+                messages.info(request,"Cadastro concluido com Sucesso !!!")
+                
+                return redirect('home')
+        
+        
+        else:
+            form = UserCreationForm()
 
-            else:
-                grupo = get_object_or_404(Group,name='professor')
 
-                user.is_Teacher = True
-                user = form.save()  # salva os dados do form no banco
+        context = { 'form':  form ,'titulo': 'Criar Conta','submit' : 'Cadastrar-se'}
 
-            #salva usuario ao grupo espesifico
-            user.groups.add(grupo)
-
-            
-            user = authenticate(username = user.username,password = form.cleaned_data['password1'])
-            
-            login(request,user)
-
-            return redirect('home')
-    
+        return render(request,template_name,context)
     
     else:
-        form = UserCreationForm()
-
-
-    context = { 'form':  form ,'titulo': 'Criar Conta','submit' : 'Cadastrar-se'}
-
-    return render(request,template_name,context)
+        messages.info(request,"Não é possivel fazer cadastro se o usuario já está autenticado !!!")
+        return redirect(reverse_lazy('home'))
 
 
 """
@@ -181,8 +180,9 @@ def reset_passwordview(request,key):
 
             form.save()
 
-            success = True
-            success_msg = 'Senha redefinida com sucesso!!'
+            messages.info(request,"Sua senha foi redefinida com sucesso!!")
+
+            return redirect(reverse_lazy('login'))
         
     context['success'] = success
     context['form'] = form
@@ -247,6 +247,10 @@ def UserpasswordUpdate(request):
 
         if form.is_valid():
             form.save()
+            
+            messages.info(request,"Sua senha foi redefinida com sucesso!!")
+
+            return redirect(reverse_lazy('perfil'))
     
 
     context = {'form' : form,'titulo':'Editar Senha','botao':'Salvar Alterações'}
