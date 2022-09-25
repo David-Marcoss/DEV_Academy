@@ -51,7 +51,7 @@ class homeview(TemplateView):
         context['categoria06'] = modelcursos.objects.filter(categoria=6)[:8]
         
         # Cursos mais assistidos
-        context['maisAssistidos'] = modelcursos.objects.annotate(num_matricula=Count('matricula')).order_by('-num_matricula')
+        context['maisAssistidos'] = modelcursos.objects.annotate(num_matricula=Count('matricula')).order_by('-num_matricula')[:10]
         
         # Categorias da plataforma
         context['prin_categorias'] = categoria_curso.objects.all()[:8]
