@@ -634,8 +634,31 @@ def conteudo_view(request):
 def detalhesView_dash(request, slug):
 
     template_name = "cursos/dashboard/detalhes.html"
+    
+    object_curso = get_object_or_404(modelcursos, slug=slug,user = request.user)
+    form_info = edit_curso_dash(instance=object_curso)
+    form_image = edit_curso_image_dash(instance=object_curso)
+    
+    if request.method == "POST":
+        if request.POST.get("form_type") == 'formOne':
+            form = edit_curso_dash(request.POST, instance=object_curso)
 
-    context = {'curso': request.curso, 'curso_selecionado': False}
+            if form.is_valid():
+                form.save()
+                return redirect("detalhesView_dash", slug=slug)
+                
+        elif request.POST.get("form_type")== 'formTwo':
+            form = edit_curso_image_dash(request.POST, request.FILES, instance=object_curso)
+
+            if form.is_valid():
+                form.save()
+                return redirect("detalhesView_dash", slug=slug)
+
+    context = {'curso': request.curso,
+               'curso_selecionado': False,
+               'form': form_info,
+               'form_image': form_image,
+               'botao': 'Salvar Alterações'}
 
     return render(request, template_name, context)
 
