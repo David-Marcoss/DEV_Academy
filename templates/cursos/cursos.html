@@ -23,17 +23,20 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             
             {% for curso in object_list %}
-                <div class="card-group">
+                <div class="col">
                     <div class="card shadow-sm">
 
                         {% if curso.image %}
 
-                            <a class="text-center" href="{% url 'detalhes-curso' curso.slug %}" ><img class="img-thumbnail" src="{{ curso.image.url }}" alt="{{curso.nome}}"
-                                style="height: 25rem;" width="100%" /></a>
+                            <a class="text-center" href="{% url 'detalhes-curso' curso.slug %}" >
+                                <img class="img-fluid rounded p-3" src="{{ curso.image.url }}" alt="{{curso.nome}}" />
+                            </a>
 
                         {%else %}
                         
-                            <a href="{% url 'detalhes-curso' curso.slug %}" ><img src="{% static 'img/curso_capa.png' %}" alt="" width="100%" style="height: 25rem;"/></a>
+                            <a href="{% url 'detalhes-curso' curso.slug %}" >
+                                <img class="img-fluid rounded p-3" src="{% static 'img/curso_capa.png' %}"  alt=""/>
+                            </a>
                         
                         {%endif%}
 
