@@ -1,7 +1,6 @@
 
 from django.db import models
 
-
 from accounts.models import User
 from paginas.mail import send_mail_template
 
@@ -206,5 +205,3 @@ def enviar_aviso_email(instance, created, **kwargs):
 
 #metodo responsavel por disparar o sinal para execultar a função acima
 models.signals.post_save.connect(enviar_aviso_email,sender = avisos_curso, dispatch_uid = 'enviar_aviso_email') 
-
-    

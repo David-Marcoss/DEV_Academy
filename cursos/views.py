@@ -2,6 +2,7 @@ from django.views.generic import UpdateView,ListView,CreateView,DeleteView
 
 from .models import *
 from .forms import *
+from forum.models import Forum
 
 from django import forms
 
@@ -125,6 +126,9 @@ class CadastroCursoview(GroupRequiredMixin,CreateView):
         form.instance.user = self.request.user
 
         form.save()
+
+        forum = Forum(curso = form.instance,titulo=f"Forum {form.instance.nome}")
+        forum.save()
 
         return super().form_valid(form)
 

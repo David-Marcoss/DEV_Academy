@@ -13,6 +13,7 @@ from django.core.paginator import Paginator
 
 from .models import *
 from .forms import *
+from django.db.models import Q
 
 
 @login_required
@@ -24,7 +25,15 @@ def forumView(request,slug):
     curso = request.curso
     forum = Forum.objects.get(curso=curso)
     topicos = forum.get_topicos()
+
+    busca = request.GET.get("Busca")
+    
+    if busca:
+        topicos = topicos.filter( Q(titulo__icontains = busca ) | Q(autor__nome__icontains = busca ) 
+        | Q(assunto__icontains = busca ))
+
     ordering = request.GET.get('ordering')
+
 
     """
     atraves do parametro ordering passado pela URL
@@ -120,7 +129,7 @@ def responder_topicoView(request,slug,pk):
         form.instance.autor = request.user
         form.save()
 
-        topico.num_respostas += 1
+        topico.num_respostas= topico.respostas.all().count() 
         topico.save() 
 
         #messages.info(request,'Topico Criado com Sucesso!!')
@@ -151,3 +160,11 @@ def like_respostaView(request,slug,pk):
        resposta.save()
 
     return redirect(request.GET.get('next', reverse_lazy('meus-cursos-matriculados')))
+
+@login_required
+def deletar_topicoView(request,pk,slug):
+    topico = get_object_or_404(Topicos,id=pk,autor=request.user)
+    forum = topico.forum
+    topico.delete()
+
+    return redirect('forum-curso',slug=slug)

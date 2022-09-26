@@ -4,7 +4,10 @@ from accounts.models import User
 from braces.views import GroupRequiredMixin
 from django.db.models import Count
 
-from django.shortcuts import get_list_or_404
+from django.shortcuts import get_list_or_404,render, get_object_or_404,redirect
+from django.urls import reverse_lazy
+from cursos.models import modelcursos
+from django.db.models import Q
 
 # Create your views here.
 
@@ -61,3 +64,19 @@ class homeview(TemplateView):
 class dashview(GroupRequiredMixin, TemplateView):
     group_required = u'professor'
     template_name = "paginas/home_dash.html"
+
+
+def searchView(request):
+
+    template_name = 'cursos/cursos.html'
+
+    busca = request.GET.get("Busca")
+
+    object_list = modelcursos.objects.filter(
+        Q(nome__icontains = busca ) | Q(user__nome__icontains = busca ) 
+        | Q(categoria__categoria__icontains = busca )  
+
+    )
+
+    return render(request,template_name,context={'object_list':object_list,'titulo':f"Resutados para a busca: {busca}"})
+
