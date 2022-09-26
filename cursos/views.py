@@ -482,8 +482,9 @@ def aulaView(request,slug,pk):
     aula = get_object_or_404(aulas_curso, id=pk)
     curso = get_object_or_404(modelcursos, slug=slug)
     materiais = curso.materiais.all()
-
-    context = {'aula': aula, 'curso': curso, 'materiais': materiais}
+    avisos = avisos_curso.objects.filter(curso=curso)[:8]
+    
+    context = {'aula': aula, 'curso': curso, 'materiais': materiais, 'avisos': avisos}
 
     return render(request,template_name,context)
 

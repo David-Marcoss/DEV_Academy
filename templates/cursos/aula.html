@@ -18,7 +18,7 @@
 
     <div class="row">
         <div class="col-1"></div>
-        <div class="col-7 text-bg-dark rounded-3">
+        <div class="col-7 bg-light rounded-3">
 
             <div class="text-center mt-3">
             
@@ -27,22 +27,75 @@
             </div>
             
             {% if aula.sobre_aula%}
-            <div class="row pt-3">
-                <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
-                    <h1 class="display-4 fw-bold lh-1"><strong>Sobre a aula:</strong></h1>
-                    <p class="lead">{{ aula.sobre_aula|linebreaks }}</p>
-                </div>
-                <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
-                    <h1 class="display-4 fw-bold lh-1"><strong>Materias do Curso:</strong></h1>
-                    <ul>
-                        {% for i in materiais %}
-                            <li><a class="alert-link" href="{{ i.material.url }}" type="download" target="_blank">{{i.titulo}}</a></li>
-                        {% empty %}
-                        <p class="lead">Não ha materiais disponiveis!</p>
+            <div class="row p-3 bg-white">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button"
+                            role="tab" aria-controls="home-tab-pane" aria-selected="true">Visão geral</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button"
+                            role="tab" aria-controls="profile-tab-pane" aria-selected="false">Avisos</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button"
+                            role="tab" aria-controls="contact-tab-pane" aria-selected="false">Ferramentas de aprendizado</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane"
+                            type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false">Fórum</button>
+                    </li>
+                </ul>
+                <div class="tab-content pt-4" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                        <div class="p-3 p-lg-5 pt-lg-3">
+                            <h1 class="display-6 fw-bold lh-1"><strong>Sobre a aula:</strong></h1>
+                            <p class="lead">{{ aula.sobre_aula|linebreaks }}</p>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                        <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                            <div class="text-center">
+                                <h1 class="bi bi-exclamation-triangle"></h1>
+                            </div>
+                            <div class="list-group list-group-flush border-bottom scrollarea">
+                                {% for i in avisos %}
+                                    <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                                        <div class="d-flex w-100 align-items-center justify-content-between">
+                                            <strong class="mb-1">{{i.titulo}}</strong>
+                                            <small>{{i.criado_em}}</small>
+                                        </div>
+                                        <div class="col-10 p-2 mb-1 small" style="height: 8rem; overflow-y: scroll;">
+                                            <strong>Assunto: </strong>{{i.assunto}}
+                                        </div>
+                                    </a>
+                                {% empty %}
+                                    <p class="lead">Não ha materiais disponiveis!</p>
+                                
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+                        <div class="p-3 p-lg-5 pt-lg-3">
+                            <h1 class="display-6 fw-bold lh-1"><strong>Materias do Curso:</strong></h1>
+                            <ul>
+                                {% for i in materiais %}
+                                <li><a class="alert-link" href="{{ i.material.url }}" type="download" target="_blank">{{i.titulo}}</a></li>
+                                {% empty %}
+                                <p class="lead">Não ha materiais disponiveis!</p>
                         
-                        {% endfor %}
-                    </ul>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
+                        123123 FoRUM
+                    </div>
                 </div>
+
+                
+                
             </div>
             {%endif%}
         
