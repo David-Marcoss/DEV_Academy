@@ -111,25 +111,52 @@
                     aria-controls="pills-company" aria-selected="true">Visão Geral</a>
             </li>
 
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-product-tab" data-toggle="pill" href="#pills-product" role="tab"
-                    aria-controls="pills-product" aria-selected="false">Materiais Auxiliares</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-news-tab" data-toggle="pill" href="#pills-news" role="tab"
-                    aria-controls="pills-news" aria-selected="false">Avisos</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" href="{% url 'forum-curso' course.slug %}" aria-selected="false">Fórum</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-forum-tab" data-toggle="pill" href="#pills-forum" role="tab"
-                    aria-controls="pills-forum" aria-selected="false">Fórum_02</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
-                    aria-controls="pills-contact" aria-selected="false">Contato</a>
-            </li>
+            {% if matriculado %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-product-tab" data-toggle="pill" href="#pills-product" role="tab"
+                        aria-controls="pills-product" aria-selected="false">Materiais Auxiliares</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-news-tab" data-toggle="pill" href="#pills-news" role="tab"
+                        aria-controls="pills-news" aria-selected="false">Avisos</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" href="{% url 'forum-curso' course.slug %}" aria-selected="false">Fórum</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-forum-tab" data-toggle="pill" href="#pills-forum" role="tab"
+                        aria-controls="pills-forum" aria-selected="false">Fórum_02</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
+                        aria-controls="pills-contact" aria-selected="false">Contato</a>
+                </li>
+            {% else %}
+                <li class="nav-item" role="presentation">
+                    <a class="bi bi-lock nav-link disabled" id="pills-product-tab" data-toggle="pill" href="#pills-product" role="tab"
+                        aria-controls="pills-product" aria-selected="false">Materiais Auxiliares2</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="bi bi-lock nav-link disabled" id="pills-news-tab" data-toggle="pill" href="#pills-news" role="tab" aria-controls="pills-news"
+                        aria-selected="false">Avisos2</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="bi bi-lock nav-link disabled" href="{% url 'forum-curso' course.slug %}" aria-selected="false">Fórum</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="bi bi-lock nav-link disabled" id="pills-forum-tab" data-toggle="pill" href="#pills-forum" role="tab"
+                        aria-controls="pills-forum" aria-selected="false">Fórum_02</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="bi bi-lock nav-link disabled" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
+                        aria-controls="pills-contact" aria-selected="false">Contato</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a type="button" class="bi bi-info-circle nav-link" data-toggle="tooltip" data-placement="right"
+                        title="Inscreva-se no curso para liberar os conteudos.">
+                    </a>
+                </li>
+            {% endif %}
         </ul>
 
 
@@ -152,6 +179,7 @@
                         </div>
                     </div>
 
+                    {% if matriculado %}
                     <div class="p-5 mb-4 rounded-3">
                         <div class="container-fluid">
                             <h1 class="display-5 fw-bold lh-1 mb-4">Conteúdo do curso</h1>
@@ -170,7 +198,7 @@
                                         {%for aula in modulos.get_aulas%}
 
                                         <div id="panelsStayOpen-collapseOne-{{ modulos.id }}"
-                                            class="accordion-collapse collapse show"
+                                            class="accordion-collapse collapse"
                                             aria-labelledby="panelsStayOpen-headingOne">
                                             <div class="accordion-body">
 
@@ -202,7 +230,7 @@
                                         </div>
                                         {% empty %}
                                         <div id="panelsStayOpen-collapseOne-{{ modulos.id }}"
-                                            class="accordion-collapse collapse show"
+                                            class="accordion-collapse collapse"
                                             aria-labelledby="panelsStayOpen-headingOne">
                                             <div class="accordion-body">
 
@@ -234,6 +262,7 @@
 
                         </div>
                     </div>
+                    {% endif %}
 
 
                     <div class="p-5 mb-4 bg-light rounded-3">
