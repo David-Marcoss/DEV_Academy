@@ -24,7 +24,7 @@
             
             {% for curso in object_list %}
                 <div class="col">
-                    <div class="card shadow-sm">
+                    <div class="card shadow-sm" id="card_Cursos">
 
                         {% if curso.image %}
 
@@ -40,7 +40,7 @@
                         
                         {%endif%}
 
-                        <div class="card-body">
+                        <div class="card-body" id="card-body_Cursos">
                             <h4 class="fw-light text-center">
                                 {{ curso.nome | linebreaks }}
                             </h4>
