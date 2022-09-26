@@ -5,8 +5,7 @@
 
 {%block content %}
 
-<div class="modal fade" id="ModalDesinscrever" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="ModalDesinscrever" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -18,9 +17,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Voltar</button>
-                <a href="{% url 'cancelar-matricula' course.id %}?next={{ request.path }}"
-                    type="button" data-bs-toggle="tooltip" data-bs-title="Excluir o Módulo"
-                    class="btn btn-danger">Sim, tenho certeza!</a>
+                <a href="{% url 'cancelar-matricula' course.id %}?next={{ request.path }}" type="button"
+                    data-bs-toggle="tooltip" data-bs-title="Excluir o Módulo" class="btn btn-danger">Sim, tenho
+                    certeza!</a>
             </div>
         </div>
     </div>
@@ -31,11 +30,9 @@
         <div class="row py-lg-5">
             <div class="col-2">
                 {% if course.image %}
-                <img src="{{ course.image.url }}" alt="" class="img-fluid rounded" alt=""
-                    loading="lazy" />
+                <img src="{{ course.image.url }}" alt="" class="img-fluid rounded" alt="" loading="lazy" />
                 {% else %}
-                <img src="{% static 'img/curso_capa.png' %}" alt="" class="img-fluid rounded" alt=""
-                    loading="lazy" />
+                <img src="{% static 'img/curso_capa.png' %}" alt="" class="img-fluid rounded" alt="" loading="lazy" />
                 {% endif %}
             </div>
             <div class="col-10">
@@ -53,25 +50,25 @@
                     <div class="col-2">
                         <p class="text-white">Seu Estado</p>
                         {%if request.user.is_authenticated %}
-                            {% if matriculado %}
-                            <p class="h5">
-                                <a href="" data-bs-toggle="modal" data-bs-target="#ModalDesinscrever">
-                                    <span class="badge text-bg-success">Inscrito</span>
-                                </a>
-                            </p>
-                            {% else %}
-                            <p class="h5">
-                                <a href="{% url 'matricula' course.slug %}?next={{ request.path }}">
-                                    <span class="badge text-bg-danger">Inscreva-se</span>
-                                </a>
-                            </p>
-                            {% endif %}
+                        {% if matriculado %}
+                        <p class="h5">
+                            <a href="" data-bs-toggle="modal" data-bs-target="#ModalDesinscrever">
+                                <span class="badge text-bg-success">Inscrito</span>
+                            </a>
+                        </p>
                         {% else %}
-                            <p class="h5">
-                                <a href="{% url 'login' %}?next={{ request.path }}">
-                                    <span class="badge text-bg-danger">Inscreva-se</span>
-                                </a>
-                            </p>
+                        <p class="h5">
+                            <a href="{% url 'matricula' course.slug %}?next={{ request.path }}">
+                                <span class="badge text-bg-danger">Inscreva-se</span>
+                            </a>
+                        </p>
+                        {% endif %}
+                        {% else %}
+                        <p class="h5">
+                            <a href="{% url 'login' %}?next={{ request.path }}">
+                                <span class="badge text-bg-danger">Inscreva-se</span>
+                            </a>
+                        </p>
                         {% endif %}
                     </div>
                     <div style="display: inline-flex; width: 25px; height: 75px;">
@@ -87,12 +84,12 @@
                         <hr style="margin: 0px 0px 0px 1px; border-left:2.5px solid #000;">
                     </div>
                     <div class="col-2">
-                        <p class="text-white" >Alunos inscritos</p>
+                        <p class="text-white">Alunos inscritos</p>
                         <p class="h5">
                             <span class="badge text-bg-warning">
                                 <span>{{course.get_num_alunos_matriculados}}</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill"
-                                    viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-star-fill" viewBox="0 0 16 16">
                                     <path
                                         d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
                                 </svg>
@@ -106,193 +103,220 @@
 </section>
 
 <div class="tabs-to-dropdown">
-    <div class="nav-wrapper d-flex align-items-center justify-content-between">
-      <ul class="nav nav-pills d-none d-md-flex" id="pills-tab" role="tablist">
-        
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="pills-company-tab" data-toggle="pill" href="#pills-company" role="tab" aria-controls="pills-company" aria-selected="true">Visão Geral</a>
-        </li>
-        
-        <li class="nav-item" role="presentation">
-          <a class="nav-link" id="pills-product-tab" data-toggle="pill" href="#pills-product" role="tab" aria-controls="pills-product" aria-selected="false">Materiais Auxiliares</a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link" id="pills-news-tab" data-toggle="pill" href="#pills-news" role="tab" aria-controls="pills-news" aria-selected="false">Avisos</a>
-        </li>
-        <li class="nav-item" role="presentation">
-            <a class="nav-link" href="{% url 'forum-curso' course.slug %}" aria-selected="false">Fórum</a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contato</a>
-        </li>
-      </ul>
-  
-      
-    </div>
-   
-    <div class="tab-content" id="pills-tabContent">
-      <div class="tab-pane fade show active" id="pills-company" role="tabpanel" aria-labelledby="pills-company-tab">
-        <div class="container-fluid">
+    <div class="nav-wrapper d-flex align-items-center justify-content-center">
+        <ul class="nav nav-pills d-none d-md-flex" id="pills-tab" role="tablist">
 
-            <div class="container">
-                <div class="p-5 mb-4 bg-light rounded-3">
-                    <div class="container-fluid py-5">
-                        <div>
-                            <h1 class="display-5 fw-bold lh-1 mb-3">Descrição</h1>
-                            <p>
-                                {{ course.sobre_curso|linebreaks }}
-                            </p>
-            
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="pills-company-tab" data-toggle="pill" href="#pills-company" role="tab"
+                    aria-controls="pills-company" aria-selected="true">Visão Geral</a>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="pills-product-tab" data-toggle="pill" href="#pills-product" role="tab"
+                    aria-controls="pills-product" aria-selected="false">Materiais Auxiliares</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="pills-news-tab" data-toggle="pill" href="#pills-news" role="tab"
+                    aria-controls="pills-news" aria-selected="false">Avisos</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" href="{% url 'forum-curso' course.slug %}" aria-selected="false">Fórum</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="pills-forum-tab" data-toggle="pill" href="#pills-forum" role="tab"
+                    aria-controls="pills-forum" aria-selected="false">Fórum_02</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
+                    aria-controls="pills-contact" aria-selected="false">Contato</a>
+            </li>
+        </ul>
+
+
+    </div>
+
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-company" role="tabpanel" aria-labelledby="pills-company-tab">
+            <div class="container-fluid">
+
+                <div class="container">
+                    <div class="p-5 mb-4 bg-light rounded-3">
+                        <div class="container-fluid py-5">
+                            <div>
+                                <h1 class="display-5 fw-bold lh-1 mb-3">Descrição</h1>
+                                <p>
+                                    {{ course.sobre_curso|linebreaks }}
+                                </p>
+
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="p-5 mb-4 rounded-3">
-                    <div class="container-fluid">
-                        <h1 class="display-5 fw-bold lh-1 mb-4">Conteúdo do curso</h1>
-                        <div>
-                            {% for modulos in course.get_modulos %}
+
+                    <div class="p-5 mb-4 rounded-3">
+                        <div class="container-fluid">
+                            <h1 class="display-5 fw-bold lh-1 mb-4">Conteúdo do curso</h1>
+                            <div>
+                                {% for modulos in course.get_modulos %}
                                 <div class="accordion" id="accordionPanelsStayOpenExample">
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#panelsStayOpen-collapseOne-{{ modulos.id }}" aria-expanded="false"
-                                                aria-controls="panelsStayOpen-collapseOne">
+                                                data-bs-target="#panelsStayOpen-collapseOne-{{ modulos.id }}"
+                                                aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
                                                 Modulo {{modulos.numero_modulo}}: {{ modulos }}
                                             </button>
                                         </h2>
-                                        
+
                                         {%for aula in modulos.get_aulas%}
-                                        
-                                            <div id="panelsStayOpen-collapseOne-{{ modulos.id }}" class="accordion-collapse collapse show"
-                                                aria-labelledby="panelsStayOpen-headingOne">
-                                                <div class="accordion-body">
-                                                    
-                                                    <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
-                                                        <div class="list-group list-group-flush border-bottom scrollarea">
-                                                            <a href="{% url 'ver-aula' course.slug aula.id %}?next={{ request.path }}" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-                                                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                                                    <strong class="mb-1">{{aula.numero_aula}}. {{aula}}</strong>
-                                                                    <small><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                                                                            class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
-                                                                            <path fill-rule="evenodd"
-                                                                                d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
-                                                                        </svg></small>
-                                                                </div>
-                                                                <div class="col-10 mb-1 small">{{aula.sobre_aula|truncatewords:20}}</div>
-                                                            </a>
-                                                            
-                                                        </div>
+
+                                        <div id="panelsStayOpen-collapseOne-{{ modulos.id }}"
+                                            class="accordion-collapse collapse show"
+                                            aria-labelledby="panelsStayOpen-headingOne">
+                                            <div class="accordion-body">
+
+                                                <div
+                                                    class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                                                    <div class="list-group list-group-flush border-bottom scrollarea">
+                                                        <a href="{% url 'ver-aula' course.slug aula.id %}?next={{ request.path }}"
+                                                            class="list-group-item list-group-item-action py-3 lh-sm"
+                                                            aria-current="true">
+                                                            <div
+                                                                class="d-flex w-100 align-items-center justify-content-between">
+                                                                <strong class="mb-1">{{aula.numero_aula}}.
+                                                                    {{aula}}</strong>
+                                                                <small><svg xmlns="http://www.w3.org/2000/svg"
+                                                                        width="25" height="25" fill="currentColor"
+                                                                        class="bi bi-arrow-right-circle"
+                                                                        viewBox="0 0 16 16">
+                                                                        <path fill-rule="evenodd"
+                                                                            d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                                                                    </svg></small>
+                                                            </div>
+                                                            <div class="col-10 mb-1 small">
+                                                                {{aula.sobre_aula|truncatewords:20}}</div>
+                                                        </a>
+
                                                     </div>
                                                 </div>
                                             </div>
-                                            {% empty %}
-                                                <div id="panelsStayOpen-collapseOne-{{ modulos.id }}" class="accordion-collapse collapse show"
-                                                aria-labelledby="panelsStayOpen-headingOne">
-                                                    <div class="accordion-body">
-                                                        
-                                                        <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
-                                                            <div class="list-group list-group-flush border-bottom scrollarea">
-                                                                <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-                                                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                                                        <strong class="mb-1">Aula Indisponivel</strong>
-                                                                    </div>
-                                                                    <div class="col-10 mb-1 small">As aulas deste modulo estarão disponiveis em breve!!</div>
-                                                                </a>
+                                        </div>
+                                        {% empty %}
+                                        <div id="panelsStayOpen-collapseOne-{{ modulos.id }}"
+                                            class="accordion-collapse collapse show"
+                                            aria-labelledby="panelsStayOpen-headingOne">
+                                            <div class="accordion-body">
+
+                                                <div
+                                                    class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                                                    <div class="list-group list-group-flush border-bottom scrollarea">
+                                                        <a href="#"
+                                                            class="list-group-item list-group-item-action py-3 lh-sm"
+                                                            aria-current="true">
+                                                            <div
+                                                                class="d-flex w-100 align-items-center justify-content-between">
+                                                                <strong class="mb-1">Aula Indisponivel</strong>
                                                             </div>
-                                                        </div>
+                                                            <div class="col-10 mb-1 small">As aulas deste modulo estarão
+                                                                disponiveis em breve!!</div>
+                                                        </a>
                                                     </div>
                                                 </div>
-                                         
-                                        {% endfor %} 
+                                            </div>
+                                        </div>
+
+                                        {% endfor %}
                                     </div>
                                 </div>
-                            {% empty %}
+                                {% empty %}
                                 <h3 class="display-6 lh-1 mb-5">Ainda não ha conteudo disponivel neste curso!!</h3>
-                            {% endfor %}
-                        </div>
-                        
-                    </div>
-                </div>
-            
-            
-                <div class="p-5 mb-4 bg-light rounded-3">
-                    <div class="container-fluid">
-                        <div>
-                            <h1 class="display-5 fw-bold lh-1 mb-3">Instrutor</h1>
-                            <div class="container">
-                                
-                                <div class="row py-lg-1">
-                                    <div class="col-2">
-                                        {% if criador.imageperfil %}
-                                            <img src="{{ criador.imageperfil.url }}" alt="mdo" class="img-fluid rounded">
-                                        {% else%}
-                                            <img src="https://github.com/mdo3.png" alt="mdo" class="img-fluid rounded">
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-3">
-                                        {% if criador.nome %}
-                                            <p> {{ criador.nome }} </p>
-                                        {% else %}
-                                            <p> {{ criador}} </p>
-                                        {%endif%}
-                                        <p>{{ criador.email }} </p>
-                                        <p>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-circle-fill"
-                                                viewBox="0 0 16 16">
-                                                <path
-                                                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
-                                            </svg>
-                                            <strong>{{criador.get_num_cursos}}</strong> Curso{{criador.get_num_cursos|pluralize}}
-                                        </p>
-                                    </div>
-                                </div>
-            
+                                {% endfor %}
                             </div>
-            
-                            <p class="fs-5">{{ criador.bio|linebreaks }} </p>
-                
+
                         </div>
                     </div>
-                </div>
-            
-            </div>
-          
-            
-        </div>
-      </div>
-      
-      <div class="tab-pane fade" id="pills-product" role="tabpanel" aria-labelledby="pills-product-tab">
-        <div class="container-fluid">
-            <div class="p-3 p-lg-5 pt-lg-3">
-                <h1 class="display-5 fw-bold lh-1 mb-3">Materiais Auxiliares</h1>
-                <ul>
-                    {% for i in course.get_materiais_curso %}
-                    <li><a class="alert-link" href="{{ i.material.url }}" type="download" target="_blank">{{i.titulo}}</a></li>
-                    {% empty %}
-                    <p class="lead">Não ha materiais disponiveis!</p>
-            
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-      </div>
 
-      <div class="tab-pane fade" id="pills-forum" role="tabpanel" aria-labelledby="pills-forum-tab">
-        <div class="container-fluid">
-            <h1>forum</h1>
-        </div>
-      </div>
 
-      <div class="tab-pane fade" id="pills-news" role="tabpanel" aria-labelledby="pills-news-tab">
-        <div class="container-fluid">
-            <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
-                <h1 class="display-5 fw-bold lh-1 mb-3">Avisos do Curso</h1>
-                <div class="text-center">
-                    <h1 class="bi bi-exclamation-triangle"></h1>
+                    <div class="p-5 mb-4 bg-light rounded-3">
+                        <div class="container-fluid">
+                            <div>
+                                <h1 class="display-5 fw-bold lh-1 mb-3">Instrutor</h1>
+                                <div class="container">
+
+                                    <div class="row py-lg-1">
+                                        <div class="col-2">
+                                            {% if criador.imageperfil %}
+                                            <img src="{{ criador.imageperfil.url }}" alt="mdo"
+                                                class="img-fluid rounded">
+                                            {% else%}
+                                            <img src="https://github.com/mdo3.png" alt="mdo" class="img-fluid rounded">
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-3">
+                                            {% if criador.nome %}
+                                            <p> {{ criador.nome }} </p>
+                                            {% else %}
+                                            <p> {{ criador}} </p>
+                                            {%endif%}
+                                            <p>{{ criador.email }} </p>
+                                            <p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-play-circle-fill"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
+                                                </svg>
+                                                <strong>{{criador.get_num_cursos}}</strong>
+                                                Curso{{criador.get_num_cursos|pluralize}}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <p class="fs-5">{{ criador.bio|linebreaks }} </p>
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="list-group list-group-flush border-bottom scrollarea">
-                    {% for i in course.get_avisos %}
+
+
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="pills-product" role="tabpanel" aria-labelledby="pills-product-tab">
+            <div class="container-fluid">
+                <div class="p-3 p-lg-5 pt-lg-3">
+                    <h1 class="display-5 fw-bold lh-1 mb-3">Materiais Auxiliares</h1>
+                    <ul>
+                        {% for i in course.get_materiais_curso %}
+                        <li><a class="alert-link" href="{{ i.material.url }}" type="download"
+                                target="_blank">{{i.titulo}}</a></li>
+                        {% empty %}
+                        <p class="lead">Não ha materiais disponiveis!</p>
+
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="pills-forum" role="tabpanel" aria-labelledby="pills-forum-tab">
+            <div class="container-fluid">
+                <h1>forum</h1>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="pills-news" role="tabpanel" aria-labelledby="pills-news-tab">
+            <div class="container-fluid">
+                <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                    <h1 class="display-5 fw-bold lh-1 mb-3">Avisos do Curso</h1>
+                    <div class="text-center">
+                        <h1 class="bi bi-exclamation-triangle"></h1>
+                    </div>
+                    <div class="list-group list-group-flush border-bottom scrollarea">
+                        {% for i in course.get_avisos %}
                         <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
                             <div class="d-flex w-100 align-items-center justify-content-between">
                                 <strong class="mb-1">{{i.titulo}}</strong>
@@ -302,142 +326,143 @@
                                 <strong>Assunto: </strong>{{i.assunto}}
                             </div>
                         </a>
-                    {% empty %}
+                        {% empty %}
                         <p class="lead">Não ha materiais disponiveis!</p>
-                    
-                    {% endfor %}
+
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-      </div>
-      <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-        <div class="container-fluid">
-            <h1 class="display-5 fw-bold lh-1 mb-3">Contato</h1>
-          <div class="container">
-            <div class="row align-items-center mb-5">
-                <div class="col-md-12 mx-auto col-lg-6">
-                    <form method="post">
-    
-                        <div class="text-center py-5">
-                            <h3>Tire sua dúvida sobre o Curso</h3>
+
+        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+            <div class="container-fluid">
+                <h1 class="display-5 fw-bold lh-1 mb-3">Contato</h1>
+                <div class="container">
+                    <div class="row align-items-center mb-5">
+                        <div class="col-md-12 mx-auto col-lg-6">
+                            <form method="post">
+
+                                <div class="text-center py-5">
+                                    <h3>Tire sua dúvida sobre o Curso</h3>
+                                </div>
+
+                                <div class="form-row">
+                                    {% csrf_token %}
+
+                                    {% for field in form %}
+                                    <div class="form-floating mb-3">
+                                        {% render_field field placeholder=field.label class="form-control" %}
+                                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    </div>
+
+                                    {% endfor %}
+
+                                </div>
+                                <button class="w-100 btn btn-lg btn-primary" type="submit">Enviar</button>
+                                <hr class="my-4">
+
+                                <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
+                            </form>
                         </div>
-    
-                        <div class="form-row">
-                            {% csrf_token %}
-    
-                            {% for field in form %}
-                            <div class="form-floating mb-3">
-                                {% render_field field placeholder=field.label class="form-control" %}
-                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            </div>
-    
-                            {% endfor %}
-    
-                        </div>
-                        <button class="w-100 btn btn-lg btn-primary" type="submit">Enviar</button>
-                        <hr class="my-4">
-    
-                        <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
-                    </form>
+                    </div>
                 </div>
+
             </div>
         </div>
-    
-        </div>
-      </div>
     </div>
 </div>
-    
+
 
 
 <style>
     :root {
-  --darkgreen: #005361;
-  --white: #fff;
-}
+        --darkgreen: #005361;
+        --white: #fff;
+    }
 
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
 
-body,
-.tabs-to-dropdown .dropdown-toggle,
-.tabs-to-dropdown .dropdown-item {
-  font-size: 1.3rem;
-}
+    body,
+    .tabs-to-dropdown .dropdown-toggle,
+    .tabs-to-dropdown .dropdown-item {
+        font-size: 1.3rem;
+    }
 
-.tabs-to-dropdown .nav-wrapper {
-  padding: 15px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.12);
-}
+    .tabs-to-dropdown .nav-wrapper {
+        padding: 15px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.12);
+    }
 
-.tabs-to-dropdown .nav-wrapper a {
-  color: var(--darkgreen);
-}
+    .tabs-to-dropdown .nav-wrapper a {
+        color: var(--darkgreen);
+    }
 
-.tabs-to-dropdown .nav-pills .nav-link.active {
-  background-color: var(--darkgreen);
-}
+    .tabs-to-dropdown .nav-pills .nav-link.active {
+        background-color: var(--darkgreen);
+    }
 
-.tabs-to-dropdown .nav-pills li:not(:last-child) {
-  margin-right: 30px;
-}
+    .tabs-to-dropdown .nav-pills li:not(:last-child) {
+        margin-right: 30px;
+    }
 
-.tabs-to-dropdown .tab-content .container-fluid {
-  max-width: 1250px;
-  padding-top: 70px;
-  padding-bottom: 70px;
-}
+    .tabs-to-dropdown .tab-content .container-fluid {
+        max-width: 1250px;
+        padding-top: 70px;
+        padding-bottom: 70px;
+    }
 
-.tabs-to-dropdown .dropdown-menu {
-  border: none;
-  box-shadow: 0px 5px 14px rgba(0, 0, 0, 0.08);
-}
+    .tabs-to-dropdown .dropdown-menu {
+        border: none;
+        box-shadow: 0px 5px 14px rgba(0, 0, 0, 0.08);
+    }
 
-.tabs-to-dropdown .dropdown-item {
-  padding: 14px 28px;
-}
+    .tabs-to-dropdown .dropdown-item {
+        padding: 14px 28px;
+    }
 
-.tabs-to-dropdown .dropdown-item:active {
-  color: var(--white);
-}
+    .tabs-to-dropdown .dropdown-item:active {
+        color: var(--white);
+    }
 
-@media (min-width: 1280px) {
-  .tabs-to-dropdown .nav-wrapper {
-    padding: 15px 30px;
-  }
-}
+    @media (min-width: 1280px) {
+        .tabs-to-dropdown .nav-wrapper {
+            padding: 15px 30px;
+        }
+    }
 
 
-/* FOOTER STYLES
+    /* FOOTER STYLES
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-.page-footer {
-  position: fixed;
-  right: 15px;
-  bottom: 20px;
-  display: flex;
-  align-items: center;
-  font-size: 1rem;
-  padding: 5px;
-  background: var(--white);
-}
+    .page-footer {
+        position: fixed;
+        right: 15px;
+        bottom: 20px;
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+        padding: 5px;
+        background: var(--white);
+    }
 
-.page-footer a {
-  margin-left: 4px;
-}
+    .page-footer a {
+        margin-left: 4px;
+    }
 </style>
 
 <script>
     const $tabsToDropdown = $(".tabs-to-dropdown");
 
-function generateDropdownMarkup(container) {
-  const $navWrapper = container.find(".nav-wrapper");
-  const $navPills = container.find(".nav-pills");
-  const firstTextLink = $navPills.find("li:first-child a").text();
-  const $items = $navPills.find("li");
-  const markup = `
+    function generateDropdownMarkup(container) {
+        const $navWrapper = container.find(".nav-wrapper");
+        const $navPills = container.find(".nav-pills");
+        const firstTextLink = $navPills.find("li:first-child a").text();
+        const $items = $navPills.find("li");
+        const markup = `
     <div class="dropdown d-md-none">
       <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         ${firstTextLink}
@@ -447,73 +472,73 @@ function generateDropdownMarkup(container) {
       </div>
     </div>
   `;
-  $navWrapper.prepend(markup);
-}
-
-function generateDropdownLinksMarkup(items) {
-  let markup = "";
-  items.each(function () {
-    const textLink = $(this).find("a").text();
-    markup += `<a class="dropdown-item" href="#">${textLink}</a>`;
-  });
-
-  return markup;
-}
-
-function showDropdownHandler(e) {
-  // works also
-  //const $this = $(this);
-  const $this = $(e.target);
-  const $dropdownToggle = $this.find(".dropdown-toggle");
-  const dropdownToggleText = $dropdownToggle.text().trim();
-  const $dropdownMenuLinks = $this.find(".dropdown-menu a");
-  const dNoneClass = "d-none";
-  $dropdownMenuLinks.each(function () {
-    const $this = $(this);
-    if ($this.text() == dropdownToggleText) {
-      $this.addClass(dNoneClass);
-    } else {
-      $this.removeClass(dNoneClass);
+        $navWrapper.prepend(markup);
     }
-  });
-}
 
-function clickHandler(e) {
-  e.preventDefault();
-  const $this = $(this);
-  const index = $this.index();
-  const text = $this.text();
-  $this.closest(".dropdown").find(".dropdown-toggle").text(`${text}`);
-  $this
-    .closest($tabsToDropdown)
-    .find(`.nav-pills li:eq(${index}) a`)
-    .tab("show");
-}
+    function generateDropdownLinksMarkup(items) {
+        let markup = "";
+        items.each(function () {
+            const textLink = $(this).find("a").text();
+            markup += `<a class="dropdown-item" href="#">${textLink}</a>`;
+        });
 
-function shownTabsHandler(e) {
-  // works also
-  //const $this = $(this);
-  const $this = $(e.target);
-  const index = $this.parent().index();
-  const $parent = $this.closest($tabsToDropdown);
-  const $targetDropdownLink = $parent.find(".dropdown-menu a").eq(index);
-  const targetDropdownLinkText = $targetDropdownLink.text();
-  $parent.find(".dropdown-toggle").text(targetDropdownLinkText);
-}
+        return markup;
+    }
 
-$tabsToDropdown.each(function () {
-  const $this = $(this);
-  const $pills = $this.find('a[data-toggle="pill"]');
+    function showDropdownHandler(e) {
+        // works also
+        //const $this = $(this);
+        const $this = $(e.target);
+        const $dropdownToggle = $this.find(".dropdown-toggle");
+        const dropdownToggleText = $dropdownToggle.text().trim();
+        const $dropdownMenuLinks = $this.find(".dropdown-menu a");
+        const dNoneClass = "d-none";
+        $dropdownMenuLinks.each(function () {
+            const $this = $(this);
+            if ($this.text() == dropdownToggleText) {
+                $this.addClass(dNoneClass);
+            } else {
+                $this.removeClass(dNoneClass);
+            }
+        });
+    }
 
-  generateDropdownMarkup($this);
+    function clickHandler(e) {
+        e.preventDefault();
+        const $this = $(this);
+        const index = $this.index();
+        const text = $this.text();
+        $this.closest(".dropdown").find(".dropdown-toggle").text(`${text}`);
+        $this
+            .closest($tabsToDropdown)
+            .find(`.nav-pills li:eq(${index}) a`)
+            .tab("show");
+    }
 
-  const $dropdown = $this.find(".dropdown");
-  const $dropdownLinks = $this.find(".dropdown-menu a");
+    function shownTabsHandler(e) {
+        // works also
+        //const $this = $(this);
+        const $this = $(e.target);
+        const index = $this.parent().index();
+        const $parent = $this.closest($tabsToDropdown);
+        const $targetDropdownLink = $parent.find(".dropdown-menu a").eq(index);
+        const targetDropdownLinkText = $targetDropdownLink.text();
+        $parent.find(".dropdown-toggle").text(targetDropdownLinkText);
+    }
 
-  $dropdown.on("show.bs.dropdown", showDropdownHandler);
-  $dropdownLinks.on("click", clickHandler);
-  $pills.on("shown.bs.tab", shownTabsHandler);
-});
+    $tabsToDropdown.each(function () {
+        const $this = $(this);
+        const $pills = $this.find('a[data-toggle="pill"]');
+
+        generateDropdownMarkup($this);
+
+        const $dropdown = $this.find(".dropdown");
+        const $dropdownLinks = $this.find(".dropdown-menu a");
+
+        $dropdown.on("show.bs.dropdown", showDropdownHandler);
+        $dropdownLinks.on("click", clickHandler);
+        $pills.on("shown.bs.tab", shownTabsHandler);
+    });
 
 </script>
 
