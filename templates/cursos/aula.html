@@ -3,15 +3,18 @@
 
 {%block content %}
 
-
-    <div class="container-fluid text-center p-2">
+    <div class="container-fluid pb-4 mt-4">
 
         <div class="row">
-            <div class="text-left mt-4">
-                <h1 class="fw-light"><strong> Aula {{aula.numero_aula}} - {{ aula }} </strong></h1>
+            <div class="col-1"></div>
+            <div class="col-8">
+                <div class="text-left mt-4">
+                    <h1 class="fw-light"><strong> Aula {{aula.numero_aula}} - {{ aula }} </strong></h1>
+                </div>
             </div>
         </div>
     </div>
+
 
 
 <div class="container-fluid pb-4">
@@ -122,7 +125,7 @@
                             <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
                                 <div class="list-group list-group-flush border-bottom scrollarea">
                                     <a href="{% url 'ver-aula' curso.slug aula.id %}?next={{ request.path }}"
-                                        class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                                        class="list-group-item list-group-item-action py-3 lh-sm" aria-current="False">
                                         <div class="d-flex w-100 align-items-center justify-content-between">
                                             <strong class="mb-1">{{aula.numero_aula}}. {{aula}}</strong>
                                             <small><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"

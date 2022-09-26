@@ -533,7 +533,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h4 class="fw-bold mb-0">{{category.categoria}}</h4>
+                        <a href="{% url 'cursos-categoria' category.categoria %}" style="text-decoration: none;"><h4 class="fw-bold mb-0">{{category.categoria}}</h4></a>
                         <p>{{ category.descricao }}</p>
                     </div>
                 </div>
