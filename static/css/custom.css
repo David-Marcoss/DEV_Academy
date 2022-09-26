@@ -22,5 +22,5 @@
 .splide__slide img {
     width: 350px;
     height: 350px;
-    object-fit: cover;
+    object-fit: contain;
 }
