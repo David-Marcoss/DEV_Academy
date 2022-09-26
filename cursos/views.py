@@ -605,6 +605,19 @@ def Enviar_aviso(request,slug):
     return render(request,template_name,context)
 
 
+@login_required
+@is_creator
+def Aviso_views(request, slug):
+
+    template_name = 'cursos/dashboard/tela_avisos_cursos.html'
+    curso = request.curso
+    
+    avisos = avisos_curso.objects.filter(curso=curso)
+
+    context = {'curso': curso, 'avisos_curso': avisos}
+
+    return render(request, template_name, context)
+
 """
 View responsavel por listar Avisos do curso,
 acessivel apenas para os alunos matriculados no curso

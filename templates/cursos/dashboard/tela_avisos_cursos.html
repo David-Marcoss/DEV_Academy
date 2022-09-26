@@ -1,0 +1,57 @@
+{% extends 'cursos/dashboard/detalhes.html' %}
+{% load static %}
+{% get_media_prefix %}
+
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+    <h2>Curso - {{ curso.nome }}</h2>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a href="{% url 'enviar-aviso' curso.slug %}?next={{ request.path }}" class="btn btn-lg btn-outline-success bi bi-plus-circle rounded-5"></a>
+        </div>
+    </div>
+
+</div>
+
+<div class="container-fluid">
+
+    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+
+        {% for aviso in avisos_curso %}
+        <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg">
+                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                    <div class="text-center">
+                        <h1 class="bi bi-exclamation-triangle"></h1>
+                        <h3 class="mt-5 mb-4 display-6 lh-1 fw-bold">{{aviso.titulo}}</h3>
+                    </div>
+                    <div style="height: 10rem; overflow-y: scroll;">
+                        <p class="fw-bold">{{aviso.assunto|linebreaks}}</p>
+                    </div>
+                    <ul class="d-flex list-unstyled mt-auto pt-4">
+                        <li class="me-auto">
+                            <img src="{% get_media_prefix %}{{ curso.image }}" alt="Bootstrap" class="rounded-circle" width="32" height="32">
+                        </li>
+                        <li class="d-flex align-items-center me-3">
+                            <div class="bi bi-calendar3 p-2"></div>
+                            <small><strong>Criado em: </strong>{{aviso.criado_em}}</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+    </div>
+
+</div>
+
+<script>
+    const activeDiv = document.getElementById('Avisos_dash');
+    activeDiv.classList.add('active');
+    console.log(activeDiv)
+</script>
+
+{% endblock %}

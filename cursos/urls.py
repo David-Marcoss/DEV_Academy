@@ -32,5 +32,6 @@ urlpatterns = [
     path('aulasView_dash/<str:slug>/', visualizarAulas_dash, name='aulasView_dash'),
     path('cursos/cadastrar_dash/', CadastroCurso_dash.as_view(), name='cadastrar-curso-dash'),
     path('cursos/modulos-curso/aula_dash/<str:slug>/<int:pk>/',aulaView_dash,name='ver-aula-dash'),
+    path('cursos/Aviso_views/<str:slug>/', Aviso_views, name='Aviso_views-curso'),
 ]
 
