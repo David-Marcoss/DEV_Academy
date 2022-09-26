@@ -39,7 +39,7 @@ class modelcursos(models.Model):
 
     #cria uma chave estrangeira para associar usuario ao curso
     user = models.ForeignKey(User,on_delete=models.PROTECT,related_name='cursos')
-    categoria = models.ForeignKey(categoria_curso,on_delete=models.CASCADE)
+    categoria = models.ForeignKey(categoria_curso,on_delete=models.CASCADE,related_name='cursos_c')
 
 
     def __str__(self) -> str: # define um nome para o objeto

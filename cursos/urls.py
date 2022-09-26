@@ -4,6 +4,7 @@ from .views import *
 
 urlpatterns = [
     path('cursos/',cursosview.as_view(),name='cursos'),
+    path('cursos/<str:cat>/',cursos_categoriaView,name='cursos-categoria'),
     path('cursos/detalhes/<str:slug>/',detalhes_cursoview,name='detalhes-curso'),
     path('cursos/cadastrar/',CadastroCursoview.as_view(),name='cadastrar-curso'),
     path('cursos/edit-curso/<int:pk>/',Edit_cursoview.as_view(),name='edit-curso'),
