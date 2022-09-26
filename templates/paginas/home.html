@@ -458,15 +458,12 @@
                     <p class="lead">Professores de todo o mundo lecionam a milhões de alunos na Dev Academy. Oferecemos as ferramentas e habilidades para ensinar
                     o que você ama.</p>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-<<<<<<< HEAD
-                        <a href="{% url 'cadastrar' %}"><button type="button" class="btn btn-dark text-white btn-lg px-4 me-md-2">Cadastre-se e comece a ensinar hoje mesmo</button></a>
-=======
+
                         {%if request.user.is_Teacher %}
                         <a type="button" href="{% url 'dashview' %}" class="btn btn-dark text-white btn-lg px-4 me-md-2">Comece a ensinar hoje mesmo</a>
                         {% else %}
                         <a type="button" href="{% url 'cadastrar' %}" class="btn btn-dark text-white btn-lg px-4 me-md-2">Comece a ensinar hoje mesmo</a>
                         {% endif %}
->>>>>>> rebase_back
                     </div>
                 </div>
             </div>
