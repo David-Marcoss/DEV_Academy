@@ -7,3 +7,13 @@
 .accordion-button:not(.collapsed)::after {
     filter: brightness(0%) invert(70%);
 }
+
+.card-body{
+    height: 8rem;
+    overflow-y: scroll;
+}
+
+.card-body img {
+    width: 100%;
+    height: 15rem;
+}

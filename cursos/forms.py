@@ -6,7 +6,7 @@ from django.conf import settings
 from django import forms
 from paginas.mail import send_mail_template
 
-from .models import modulo_curso,aulas_curso,avisos_curso,materiais_curso
+from .models import modelcursos, modulo_curso,aulas_curso,avisos_curso,materiais_curso
 from .funcoes_auxiliares import trata_link,verifica_link
 
 #form para entrar em contato com o criador do curso
@@ -64,3 +64,13 @@ class material_cursoform(forms.ModelForm):
      class Meta:
           model = materiais_curso
           fields = ['titulo','material']
+
+class edit_curso_dash(forms.ModelForm):
+     class Meta:
+          model = modelcursos
+          fields = ['nome','descricao','sobre_curso']
+
+class edit_curso_image_dash(forms.ModelForm):
+     class Meta:
+          model = modelcursos
+          fields = ['image']

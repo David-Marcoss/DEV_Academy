@@ -485,8 +485,10 @@ def aulaView(request,slug,pk):
 
     aula = get_object_or_404(aulas_curso, id=pk)
     curso = get_object_or_404(modelcursos, slug=slug)
-
-    context = {'aula': aula, 'curso': curso}
+    materiais = curso.materiais.all()
+    avisos = avisos_curso.objects.filter(curso=curso)[:8]
+    
+    context = {'aula': aula, 'curso': curso, 'materiais': materiais, 'avisos': avisos}
 
     return render(request,template_name,context)
 
@@ -608,6 +610,19 @@ def Enviar_aviso(request,slug):
     return render(request,template_name,context)
 
 
+@login_required
+@is_creator
+def Aviso_views(request, slug):
+
+    template_name = 'cursos/dashboard/tela_avisos_cursos.html'
+    curso = request.curso
+    
+    avisos = avisos_curso.objects.filter(curso=curso)
+
+    context = {'curso': curso, 'avisos_curso': avisos}
+
+    return render(request, template_name, context)
+
 """
 View responsavel por listar Avisos do curso,
 acessivel apenas para os alunos matriculados no curso
@@ -638,8 +653,31 @@ def conteudo_view(request):
 def detalhesView_dash(request, slug):
 
     template_name = "cursos/dashboard/detalhes.html"
+    
+    object_curso = get_object_or_404(modelcursos, slug=slug,user = request.user)
+    form_info = edit_curso_dash(instance=object_curso)
+    form_image = edit_curso_image_dash(instance=object_curso)
+    
+    if request.method == "POST":
+        if request.POST.get("form_type") == 'formOne':
+            form = edit_curso_dash(request.POST, instance=object_curso)
 
-    context = {'curso': request.curso, 'curso_selecionado': False}
+            if form.is_valid():
+                form.save()
+                return redirect("detalhesView_dash", slug=slug)
+                
+        elif request.POST.get("form_type")== 'formTwo':
+            form = edit_curso_image_dash(request.POST, request.FILES, instance=object_curso)
+
+            if form.is_valid():
+                form.save()
+                return redirect("detalhesView_dash", slug=slug)
+
+    context = {'curso': request.curso,
+               'curso_selecionado': False,
+               'form': form_info,
+               'form_image': form_image,
+               'botao': 'Salvar Alterações'}
 
     return render(request, template_name, context)
 

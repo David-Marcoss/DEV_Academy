@@ -10,6 +10,7 @@ from django.core.validators import FileExtensionValidator
 #model que armazena as categorias dos cursos
 class categoria_curso(models.Model):
     categoria = models.CharField('Categoria do curso',max_length=100)
+    descricao = models.TextField('descrição breve',blank=True) #blank indica que o campo nao é obrigatorio
 
     def __str__(self) -> str: # define um nome para o objeto
         return self.categoria
