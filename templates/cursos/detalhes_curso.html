@@ -111,7 +111,7 @@
                     aria-controls="pills-company" aria-selected="true">Visão Geral</a>
             </li>
 
-            {% if matriculado %}
+            {% if matriculado or request.user == course.user %}
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="pills-product-tab" data-toggle="pill" href="#pills-product" role="tab"
                         aria-controls="pills-product" aria-selected="false">Materiais Auxiliares</a>
@@ -179,7 +179,6 @@
                         </div>
                     </div>
 
-                    {% if matriculado %}
                     <div class="p-5 mb-4 rounded-3">
                         <div class="container-fluid">
                             <h1 class="display-5 fw-bold lh-1 mb-4">Conteúdo do curso</h1>
@@ -262,7 +261,6 @@
 
                         </div>
                     </div>
-                    {% endif %}
 
 
                     <div class="p-5 mb-4 bg-light rounded-3">
@@ -356,7 +354,7 @@
                             </div>
                         </a>
                         {% empty %}
-                        <p class="lead">Não ha materiais disponiveis!</p>
+                        <p class="lead">Sem Avisos!</p>
 
                         {% endfor %}
                     </div>
