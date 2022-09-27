@@ -100,7 +100,7 @@ def detalhes_topicoView(request,slug,pk):
 @login_required
 @matriculado
 def criar_topicoView(request,slug,pk):
-    template_name = 'form.html'
+    template_name = 'form_noclass.html'
     form = Topicoform(request.POST or None)
 
     if form.is_valid():
