@@ -33,6 +33,15 @@ class UserChangeForm(auth_forms.UserChangeForm):
 #form para cadastro de usuario
 class UserCreationForm(auth_forms.UserCreationForm):
     
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'class': 'form-control'})
+        self.fields['nome'].widget.attrs.update({'class': 'form-control'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control'})
+        self.fields['tipo_user'].widget.attrs.update({'class': 'form-select'})
+        self.fields['password1'].widget.attrs.update({'class': 'form-control'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control'})
+    
     tipo_user = forms.ChoiceField(
         choices=(('1', 'aluno'), ('2', 'professor')), label='Tipo de Usuário')
 

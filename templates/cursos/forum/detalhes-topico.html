@@ -64,9 +64,30 @@
         <a href="{% url 'forum-curso' curso.slug %}" class="btn btn-light btn-sm mb-3 has-icon"><i
                 class="fa fa-arrow-left mr-2"></i>Voltar</a>
         {% if topico.autor == request.user %}
-        <a href="{% url 'deletar-topico' curso.slug topico.id %}?next={{ request.path }}"
-            class="btn btn-danger btn-sm mb-3 has-icon " onclick="window.open(document.referrer,'_self');"><i></i>Excluir
-            Tópico</a>
+        <a href="{% url 'deletar-topico' curso.slug topico.id %}?next={{ request.path }}" data-bs-title="Excluir Topico"
+            data-bs-toggle="modal" data-bs-target="#ModalExcluir" type="button"
+            class="btn btn-danger btn-sm mb-3 has-icon"><i></i>Excluir Tópico</a>
+        
+        <div class="modal fade" id="ModalExcluir" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Exclusão do Tópico: {{topico.titulo}}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Tem certeza que deseja remover esse tópico?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Voltar</button>
+                        <a href="{% url 'deletar-topico' curso.slug topico.id %}?next={{ request.path }}" type="button"
+                            data-bs-toggle="tooltip" data-bs-title="Excluir o Material" class="btn btn-danger">Excluir o
+                            Tópico</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         {% endif %}
         <div class="card mb-2">
             <div class="card-body">
