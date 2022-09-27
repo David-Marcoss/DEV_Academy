@@ -29,7 +29,6 @@
                         encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             
-            {% if aula.sobre_aula%}
             <div class="row p-3 bg-white">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -45,8 +44,8 @@
                             role="tab" aria-controls="contact-tab-pane" aria-selected="false">Ferramentas de aprendizado</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane"
-                            type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false">Fórum</button>
+                        <a href="{% url 'forum-curso' curso.slug %}" style="text-decoration: none;"><button class="nav-link"
+                            type="button" role="tab"aria-selected="false">Fórum</button></a>
                     </li>
                 </ul>
                 <div class="tab-content pt-4" id="myTabContent">
@@ -100,7 +99,6 @@
                 
                 
             </div>
-            {%endif%}
         
         </div>
 
@@ -118,7 +116,7 @@
         
                     {%for aula in modulos.get_aulas%}
         
-                    <div id="panelsStayOpen-collapseOne-{{ modulos.id }}" class="accordion-collapse collapse show"
+                    <div id="panelsStayOpen-collapseOne-{{ modulos.id }}" class="accordion-collapse collapse"
                         aria-labelledby="panelsStayOpen-headingOne">
                         <div class="accordion-body">
         
@@ -142,7 +140,7 @@
                         </div>
                     </div>
                     {% empty %}
-                    <div id="panelsStayOpen-collapseOne-{{ modulos.id }}" class="accordion-collapse collapse show"
+                    <div id="panelsStayOpen-collapseOne-{{ modulos.id }}" class="accordion-collapse collapse"
                         aria-labelledby="panelsStayOpen-headingOne">
                         <div class="accordion-body">
         
