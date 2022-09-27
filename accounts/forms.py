@@ -1,65 +1,97 @@
-from django.contrib.auth import forms as auth_forms
+from cgitb import reset
 import email
+from multiprocessing import context
+from re import template
+from django.contrib.auth import forms as auth_forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+
+#from accounts.models import User
+from django.contrib.auth import get_user_model
 
 from django import forms
+
+from .models import redefinir_senha
+
+from paginas.funcoes_auxiliares import generate_hash_key,acesentar_tempo
+from paginas.mail import send_mail_template
+
+
 
 #para personalizar formularios cria-se uma arquivo form para sobrescreber ou criar formularios
 #este arquivo vai servir para personalizar o user padrao do django
 
+User = get_user_model() 
+
 class UserChangeForm(auth_forms.UserChangeForm):
 
-    #campos adicionados ao form user
-    email = forms.EmailField(max_length=100)
-    tipo_user = forms.ChoiceField(
-        choices=(('1', 'aluno'), ('2', 'professor')), label='Tipo de Usuário')
-
     #definição de valores padrao
     class Meta:
         model = User  # model padrao de usuarios do django
-        fields = ['username', 'email', 'first_name', 'last_name']
+        fields = ['username', 'nome','email','imageperfil','bio']
 
 
+#form para cadastro de usuario
 class UserCreationForm(auth_forms.UserCreationForm):
-    #campos adicionados ao form user
-    email = forms.EmailField(max_length=100)
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'class': 'form-control'})
+        self.fields['nome'].widget.attrs.update({'class': 'form-control'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control'})
+        self.fields['tipo_user'].widget.attrs.update({'class': 'form-select'})
+        self.fields['password1'].widget.attrs.update({'class': 'form-control'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control'})
+    
     tipo_user = forms.ChoiceField(
         choices=(('1', 'aluno'), ('2', 'professor')), label='Tipo de Usuário')
 
     #definição de valores padrao
     class Meta:
         model = User  # model padrao de usuarios do django
-        fields = ['username', 'email', 'tipo_user']
+        fields = ['username', 'nome','email', 'tipo_user']
 
-    """ 
-        Clem_nome_do_campo é metodo padrao do UserCreationForm  para validar campo do form 
-        esta função sobreescreve o metodo de validação para que o email seja unico 
-    """
+
+
+"""
+    Form para redefinição de senha, onde o usuario
+    deve digitar seu e-mail para recuperar senha
+"""
+class Redefinir_senhaForm(forms.Form):
+
+    email = forms.EmailField(label='E-mail')
+
 
     def clean_email(self):
+
         email = self.cleaned_data['email']
 
-        #User.objects.filter(email = email ).exists retorna se o valor passado existe no model
+        if User.objects.filter(email = email).exists():
+            return email
+        else:
+            raise forms.ValidationError('E-mail não cadastrado!!') 
 
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError(
-                'E-mail já cadastrado, insira um novo E-mail')
+    def save(self):
 
-            #raise retorna uma msg de erro
+        usuario = User.objects.get(email=self.cleaned_data['email'])    
+        key = generate_hash_key(usuario.username)
 
-        return email
+        reset = redefinir_senha(User = usuario,key = key) 
+        #salva os dados no banco e armazena o horario em que a key foi gerada
+        reset.save()
 
-    """ 
-        metodo padrao do UserCreationForm  para salvar informações do form
-        esta função sobreescreve o metodo para que o email seja obrigatorio
-    """
+        #define o tempo em que a key é valida que de 1h
+        time = acesentar_tempo(reset.horario)
+        reset.expira_em = time 
 
-    def save(self, commit=True):
-        user = super(UserCreationForm, self).save(commit=False)
-        user.email = self.cleaned_data['email']
+        reset.save()
+        
 
-        if commit:
-            user.save()
+        template_name = 'account/reset_password.html'
+        assunto = "Instruções para redefinir senha"
+        context = {'reset':reset}
 
-        return user
+        send_mail_template(assunto,template_name,context,[usuario.email])
+
+
+
+     

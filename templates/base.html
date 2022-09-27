@@ -5,16 +5,22 @@
 
 <html lang="pt-br">
 
-<head>
+    <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="DEV Academy - Uma simples plataforma de ensino a distância" />
     <title>DEV Academy</title>
 
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/carousel.css' %}" rel="stylesheet">
+    <!-- Link to the file hosted on your server, -->
+    <link rel="stylesheet" href="{% static 'css/splide.min.css' %}">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"
+    integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
 
 </head>
 
@@ -41,59 +47,99 @@
         </symbol>
     </svg>
 
-    <nav class="py-2 fixed-top navbar-dark bg-dark border-bottom">
-        <div class="container d-flex flex-wrap">
-            <ul class="nav me-auto">
-                <li class="nav-item"><a href="{% url 'home' %}" class="nav-link text-white px-2 active" aria-current="page">Início</a></li>
-                <li class="nav-item"><a href="{% url 'cursos' %}" class="nav-link text-white px-2">Cursos</a></li>
-                <li class="nav-item"><a href="{% url 'contato' %}" class="nav-link text-white px-2">Contato</a></li>
-            </ul>
-
-            {%if request.user.is_authenticated %}
-
-            <div class="dropdown text-end">
-                <a href="#" class="d-block text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+    <nav class="py-2 fixed-top bg-white border-bottom shadow-lg border p-3 mb-3">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="{% url 'home' %}"
+                    class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"
                     aria-expanded="false">
-                    <img src="https://github.com/mdo3.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    <img src="{% static 'img/dev_logo.png' %}" alt="" width="100" class="p-2" height="50">
+                    <span>Dev Academy</span>
+    
                 </a>
-                <ul class="dropdown-menu text-small">
-                    {% if request.user.is_Teacher %}
-                        <li><a class="dropdown-item" href="{% url 'cadastrar-curso' %}">Criar Curso</a></li>
-                    {% endif %}
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="{% url 'perfil' %}">Profile</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+    
+                
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="#" class="nav-link px-2 link-secondary"></a></li>
+                    <div class="vr"></div>
+                    <li><a href="{% url 'home' %}" class="nav-link px-2 link-dark">Início</a></li>
+                    <li><a href="{% url 'cursos' %}" class="nav-link px-2 link-dark">Cursos</a></li>
+                    <li><a href="{% url 'contato' %}" class="nav-link px-2 link-dark">Contato</a></li>
                 </ul>
+        
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action = "{% url 'search' %}"  method = "get">
+                    <input name = "Busca" type="search" class="form-control" placeholder="{%if request.GET.Busca %}
+                    Search: {{request.GET.Busca}} {%else%} Search... {%endif%}" aria-label="Search">
+                </form>
+
+                {%if request.user.is_authenticated %}
+                
+                    {%if request.user.is_Teacher %}
+                        <a href="{% url 'dashview' %}" class="btn btn-primary text-white me-2">Área do Professor</a>
+                    {% endif %}
+
+                <div class="dropdown text-end">
+                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+    
+                        {% if request.user.imageperfil %}
+                        <img src="{{ request.user.imageperfil.url }}" alt="mdo" width="32" height="32"
+                            class="rounded-circle">
+                        {% else%}
+                        <img src="https://github.com/mdo3.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                        {% endif %}
+    
+    
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                        {% if request.user.is_Teacher %}
+                        <li><a class="dropdown-item" href="{% url 'cadastrar-curso' %}">Criar Curso</a></li>
+                        <li><a class="dropdown-item" href="{% url 'meus-cursos-criados' %}">Meus Cursos Criados</a></li>
+                        {% endif %}
+                        <li><a class="dropdown-item" href="{% url 'meus-cursos-matriculados' %}">Cursos Matriculados</a></li>
+                        <li><a class="dropdown-item" href="{% url 'perfil' %}">Profile</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+                    </ul>
+                </div>
+    
+                {% else %}
+    
+                <div class="flex-shrink-0 text-end">
+                    <a href="{% url 'login' %}" class="btn btn-light text-dark me-2">Login</a>
+                    <a href="{% url 'cadastrar' %}" class="btn btn-dark text-white me-2">Cadastre-se</a>
+                </div>
+    
+                {% endif %}
+        
+                <!-- <ul class="nav me-auto">
+                    <li class="nav-item"><a href="{% url 'home' %}" class="nav-link text-dark px-2 active" aria-current="page">Início</a></li>
+                    <li class="nav-item"><a href="{% url 'cursos' %}" class="nav-link text-dark px-2">Cursos</a></li>
+                    <li class="nav-item"><a href="{% url 'contato' %}" class="nav-link text-dark px-2">Contato</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-dark px-2">FAQs</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-dark px-2">About</a></li>
+                </ul> -->
             </div>
-
-            {% else %}
-
-            <div class="text-end">
-                <a href="{% url 'login' %}" class="btn btn-outline-light me-2">Login</a>
-                <a href="{% url 'cadastrar' %}" class="btn btn-warning">Cadastre-se</a>
-            </div>
-
-            {% endif %}
-            
         </div>
     </nav>
-    <header class="py-4 border-bottom">
-        <div class="container d-flex flex-wrap justify-content-center">
-            <a href="{% url 'home' %}" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
-                <img src="{% static 'img/dev_logo.png' %}" alt="" style="width: 10%; margin: 10px;">
-                <span class="fs-4">Dev Academy</span>
-            </a>
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
-                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-            </form>
+
+    <!-- Ajustar css, serve para informar mensagens-->
+    {% if messages %}
+        <div class="mt-4 container text-center">
+            {% for i in messages %}
+            <div class="alert alert-primary fade show alert-dismissible" role="alert">
+                {{ i }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+
         </div>
-    </header>
+    {% endif %}
 
     <main>
-
+        
         {% block content %} {% endblock%}
 
         <!-- FOOTER -->
@@ -130,6 +176,22 @@
     </main>
 
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/splide.min.js' %}"></script>
+    <script src="{% static 'js/splide-extension-auto-scroll.min.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% block scripts %}
+
+    {% endblock %}
 
 </body>
 

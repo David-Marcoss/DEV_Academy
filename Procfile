@@ -1,0 +1,1 @@
+web: gunicorn DMS_cursos.wsgi

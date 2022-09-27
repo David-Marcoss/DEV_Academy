@@ -64,7 +64,7 @@
             </p>
         </div>
         <div class="col-md-10 mx-auto col-lg-5">
-            <form class="p-4 p-md-5 border rounded-3 bg-light" method="post">
+            <form class="p-4 p-md-5 border rounded-3 bg-light" method="post" enctype="multipart/form-data">
                 <div class="form-floating mb-3">
                     <a href="{% url 'home' %}"
                         class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
@@ -77,20 +77,16 @@
                     {% csrf_token %}
 
                     {% for field in form %}
-                    <div class="form-floating mb-3">
-                        {% render_field field placeholder=field.label class="form-control" %}
+                    <div class="mb-3">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {% render_field field placeholder=field.label %}
                     </div>
                     
                     {% endfor %}
 
                 </div>
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" value="remember-me"> Remember me
-                    </label>
-                </div>
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
+                <div class="p-3"></div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Cadastrar-se</button>
                 <hr class="my-4">
                 
                 {% if form.errors %}

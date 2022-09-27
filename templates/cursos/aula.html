@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{%block content %}
+
+    <div class="container-fluid pb-4 mt-4">
+
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-8">
+                <div class="text-left mt-4">
+                    <h1 class="fw-light"><strong> Aula {{aula.numero_aula}} - {{ aula }} </strong></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<div class="container-fluid pb-4">
+
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-7 bg-light rounded-3">
+
+            <div class="text-center mt-3">
+            
+                <iframe width="100%" height="720" src="{{aula.video}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
+                        encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            
+            {% if aula.sobre_aula%}
+            <div class="row p-3 bg-white">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button"
+                            role="tab" aria-controls="home-tab-pane" aria-selected="true">Visão geral</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button"
+                            role="tab" aria-controls="profile-tab-pane" aria-selected="false">Avisos</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button"
+                            role="tab" aria-controls="contact-tab-pane" aria-selected="false">Ferramentas de aprendizado</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane"
+                            type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false">Fórum</button>
+                    </li>
+                </ul>
+                <div class="tab-content pt-4" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                        <div class="p-3 p-lg-5 pt-lg-3">
+                            <h1 class="display-6 fw-bold lh-1"><strong>Sobre a aula:</strong></h1>
+                            <p class="lead">{{ aula.sobre_aula|linebreaks }}</p>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                        <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                            <div class="text-center">
+                                <h1 class="bi bi-exclamation-triangle"></h1>
+                            </div>
+                            <div class="list-group list-group-flush border-bottom scrollarea">
+                                {% for i in avisos %}
+                                    <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                                        <div class="d-flex w-100 align-items-center justify-content-between">
+                                            <strong class="mb-1">{{i.titulo}}</strong>
+                                            <small>{{i.criado_em}}</small>
+                                        </div>
+                                        <div class="col-10 p-2 mb-1 small" style="height: 8rem; overflow-y: scroll;">
+                                            <strong>Assunto: </strong>{{i.assunto}}
+                                        </div>
+                                    </a>
+                                {% empty %}
+                                    <p class="lead">Não ha materiais disponiveis!</p>
+                                
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+                        <div class="p-3 p-lg-5 pt-lg-3">
+                            <h1 class="display-6 fw-bold lh-1"><strong>Materias do Curso:</strong></h1>
+                            <ul>
+                                {% for i in materiais %}
+                                <li><a class="alert-link" href="{{ i.material.url }}" type="download" target="_blank">{{i.titulo}}</a></li>
+                                {% empty %}
+                                <p class="lead">Não ha materiais disponiveis!</p>
+                        
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade text-center" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
+                        Empty
+                    </div>
+                </div>
+
+                
+                
+            </div>
+            {%endif%}
+        
+        </div>
+
+        <div class="col-3">
+            {% for modulos in curso.get_modulos %}
+            <div class="accordion pt-2" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseOne-{{ modulos.id }}" aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseOne">
+                            Modulo {{modulos.numero_modulo}}: {{ modulos }}
+                        </button>
+                    </h2>
+        
+                    {%for aula in modulos.get_aulas%}
+        
+                    <div id="panelsStayOpen-collapseOne-{{ modulos.id }}" class="accordion-collapse collapse show"
+                        aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+        
+                            <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                                <div class="list-group list-group-flush border-bottom scrollarea">
+                                    <a href="{% url 'ver-aula' curso.slug aula.id %}?next={{ request.path }}"
+                                        class="list-group-item list-group-item-action py-3 lh-sm" aria-current="False">
+                                        <div class="d-flex w-100 align-items-center justify-content-between">
+                                            <strong class="mb-1">{{aula.numero_aula}}. {{aula}}</strong>
+                                            <small><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+                                                    fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd"
+                                                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                                                </svg></small>
+                                        </div>
+                                        <div class="col-10 mb-1 small">{{aula.sobre_aula|truncatewords:20}}</div>
+                                    </a>
+        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div id="panelsStayOpen-collapseOne-{{ modulos.id }}" class="accordion-collapse collapse show"
+                        aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+        
+                            <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                                <div class="list-group list-group-flush border-bottom scrollarea">
+                                    <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+                                        <div class="d-flex w-100 align-items-center justify-content-between">
+                                            <strong class="mb-1">Aula Indisponivel</strong>
+                                        </div>
+                                        <div class="col-10 mb-1 small">As aulas deste modulo estarão disponiveis em breve!!
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    {% endfor %}
+                </div>
+            </div>
+            {% empty %}
+            <h3 class="display-6 lh-1 mb-5">Ainda não ha conteudo disponivel neste curso!!</h3>
+            {% endfor %}
+        </div>
+        <div class="col-1"></div>
+
+    </div>
+
+</div>
+
+{% endblock %}

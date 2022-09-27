@@ -1,0 +1,182 @@
+{% extends 'cursos/forum/forum.html' %}
+
+{% block sliderbar %}
+<div class="inner-sidebar">
+    <!-- Inner sidebar header -->
+    <div class="inner-sidebar-header justify-content-center">
+        <a href="{% url 'responder-topico' curso.slug topico.id %}?next={{ request.path }}">
+            <button class="btn btn-primary has-icon btn-block" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="feather feather-plus mr-2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Responder Topico
+            </button>
+        </a>
+    </div>
+    <!-- /Inner sidebar header -->
+
+    <!-- Inner sidebar body -->
+    <div class="inner-sidebar-body p-0">
+        <div class="p-3 h-100" data-simplebar="init">
+            <div class="simplebar-wrapper" style="margin: -16px;">
+                <div class="simplebar-height-auto-observer-wrapper">
+                    <div class="simplebar-height-auto-observer"></div>
+                </div>
+                <div class="simplebar-mask">
+                    <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                        <div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden scroll;">
+                            <div class="simplebar-content" style="padding: 16px;">
+                                <nav class="nav nav-pills nav-gap-y-1 flex-column">
+                                    <a href="?ordering=recentes" class="nav-link nav-link-faded has-icon">Recentes</a>
+                                    <a href="?ordering=antigas" class="nav-link nav-link-faded has-icon">Antigas</a>
+                                    <a href="?ordering=mais curtidas" class="nav-link nav-link-faded has-icon">Mais
+                                        curtidas</a>
+
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="simplebar-placeholder" style="width: 234px; height: 292px;"></div>
+            </div>
+            <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+            </div>
+            <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
+                <div class="simplebar-scrollbar"
+                    style="height: 151px; display: block; transform: translate3d(0px, 0px, 0px);"></div>
+            </div>
+        </div>
+    </div>
+    <!-- /Inner sidebar body -->
+</div>
+
+{% endblock %}
+
+
+{% block conteudo %}
+
+<div class="container">
+    <div class="inner-main-body p-2 p-sm-3">
+        <a href="{% url 'forum-curso' curso.slug %}" class="btn btn-light btn-sm mb-3 has-icon"><i
+                class="fa fa-arrow-left mr-2"></i>Voltar</a>
+        {% if topico.autor == request.user %}
+        <a href="{% url 'deletar-topico' curso.slug topico.id %}?next={{ request.path }}" data-bs-title="Excluir Topico"
+            data-bs-toggle="modal" data-bs-target="#ModalExcluir" type="button"
+            class="btn btn-danger btn-sm mb-3 has-icon"><i></i>Excluir Tópico</a>
+        
+        <div class="modal fade" id="ModalExcluir" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Exclusão do Tópico: {{topico.titulo}}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Tem certeza que deseja remover esse tópico?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Voltar</button>
+                        <a href="{% url 'deletar-topico' curso.slug topico.id %}?next={{ request.path }}" type="button"
+                            data-bs-toggle="tooltip" data-bs-title="Excluir o Material" class="btn btn-danger">Excluir o
+                            Tópico</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <div class="media forum-item">
+                    <div class="row">
+                        <div class="col-1">
+                            <a href="javascript:void(0)" class="card-link">
+                                {% if topico.autor.imageperfil %}
+                                <img src="{{ topico.autor.imageperfil.url }}" class="mr-3 rounded-circle" width="60"
+                                    alt="User" />
+                                {% else %}
+                                <img src="https://github.com/mdo3.png" class="mr-3 rounded-circle" width="60" alt="User" />
+                                {% endif %}
+                                {% if topico.autor.is_Teacher %}
+                                <small class="d-block text-center text-muted">Autor Topico</small>
+                                {% endif %}
+    
+                            </a>
+                        </div>
+                        <div class="col-11">
+                            <div class="media-body ml-3">
+                                <a href="javascript:void(0)"
+                                    class="text-secondary">{{topico.autor.nome|default:topico.autor}}</a>
+                                <small class="text-muted ml-2">criado a {{topico.criado_em|timesince}} Atrás</small>
+                                <h5 class="mt-1">{{topico.titulo}}</h5>
+                                <div class="mt-3 font-size-sm">
+                                    <p>{{topico.assunto|linebreaksbr}}</p>
+    
+                                </div>
+                            </div>
+                            <div class="text-muted small text-center">
+                                <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i>
+                                    {{topico.visualizacoes}}</span>
+                                <span><i class="far fa-comment ml-2"></i> {{topico.num_respostas}}</span>
+                            </div>
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container pb-5">
+    <div class="card">
+        <div class="card-body">
+            {% for resposta in respostas %}
+            <div class="media forum-item p-2">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-1">
+                            <a href="javascript:void(0)" class="card-link">
+                                {% if resposta.autor.imageperfil %}
+                                <img src="{{ resposta.autor.imageperfil.url }}" class="mr-3 rounded-circle" width="60" alt="User" />
+                                {% else %}
+                                <img src="https://github.com/mdo3.png" class="mr-3 rounded-circle" width="60" alt="User" />
+                                {% endif %}
+                                {% if resposta.autor == topico.autor %}
+                                <small class="d-block text-center text-muted">Autor Topico</small>
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="col-10">
+                            <div class="media-body ml-3">
+                                <div class="mt-3 font-size-sm">
+                                    <p>{{resposta.resposta|linebreaksbr}}</p>
+                                </div>
+                                <a href="javascript:void(0)" class="text-secondary">{{resposta.autor.nome|default:resposta.autor}}</a>
+                                <small class="text-muted ml-2">criado a {{resposta.criado_em|timesince}} Atrás</small>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <a href="{% url 'like-resposta' curso.slug resposta.id%}?next={{ request.path }}"><button
+                                    class="btn btn-xs text-muted has-icon"><i class="fa fa-heart" aria-hidden="true"></i>
+                                    {{resposta.like}}</button></a>
+                        </div>
+    
+                    </div>
+    
+                </div>
+            </div>
+    
+            {% empty%}
+            <h4>Ainda não há respostas neste topico!!</h4>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

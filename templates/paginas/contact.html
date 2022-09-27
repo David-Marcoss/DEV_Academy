@@ -2,13 +2,25 @@
 
 {% block content %}
 
-    <div class="container">
-        <h1>Fale conosco</h1>
-        <p>Você pode entrar em contato conosco tanto por e-mail como pelas redes sociais, abaixo seguem os links para contato:</p>
-        <h4>Links</h4>
-        <ul>
-            <li>E-mail: <a href="mailto:contato@DEV_Academy.org">contato@DEV_Academy.org</a></li>
-            <li>Twitter: <a href="https://twitter.com/DEV_Academy">@DEV Academy</a></li>
-        </ul>
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">{{ titulo }}</h1>
+            <!-- <p class="lead text-muted">Abaixo a lista de cursos disponíveis na plataforma</p>
+            <p>
+                <a href="#" class="btn btn-primary my-2">Main call to action</a>
+                <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+            </p> -->
+        </div>
     </div>
+</section>
+
+<div class="container mt-5 mb-5">
+    <p class="text-center">Você pode entrar em contato conosco tanto por e-mail como pelas redes sociais, abaixo seguem os links para contato:</p>
+    <h4>Links</h4>
+    <ul>
+        <li>E-mail: <a href="mailto:contato@DEV_Academy.org">contato@DEV_Academy.org</a></li>
+        <li>Twitter: <a href="https://twitter.com/DEV_Academy">@DEV Academy</a></li>
+    </ul>
+</div>
 {% endblock %}

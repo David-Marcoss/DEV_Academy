@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{%block content %}
+
+<div class="container">
+    <div class="row align-items-center py-5">
+        <div class="col-md-12 mx-auto col-lg-6">
+        <h1>Materiais do Curso:</h1>
+
+        {% for i in object_list %}
+            
+            <a href="{{ i.material.url }}" type="download" target="_blank"> <h3>{{i.titulo}}</h3> </a>
+
+            {% empty %}
+                <h2>Não ha materiais disponiveis!</h2>
+        
+        {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

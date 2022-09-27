@@ -78,6 +78,10 @@ python manage.py runserver
 ### Apos isso abra seu navegador e digite a url: 
     http://localhost:8000/home/ 
 
+# Notes
+
+ - https://stackoverflow.com/questions/22938679/error-trying-to-install-postgres-for-python-psycopg2
+
 # Desenvolvedores
 
  - DAVID MARCOS SANTOS MOURA

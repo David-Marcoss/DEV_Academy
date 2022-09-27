@@ -7,7 +7,7 @@
 <section class="py-5 text-center container">
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">Listagem de Cursos do DEV Academy</h1>
+            <h1 class="fw-light">{{ titulo }}</h1>
             <!-- <p class="lead text-muted">Abaixo a lista de cursos disponíveis na plataforma</p>
             <p>
                 <a href="#" class="btn btn-primary my-2">Main call to action</a>
@@ -23,25 +23,29 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             
             {% for curso in object_list %}
-                <div class="card-group">
-                    <div class="card shadow-sm">
+                <div class="col">
+                    <div class="card shadow-sm" id="card_Cursos">
 
                         {% if curso.image %}
 
-                        <a href="{% url 'detalhes-curso' curso.slug %}" ><img src="{{ curso.image.url }}" alt="{{curso.nome}}" style="width: 100%;"/></a>
+                            <a class="text-center" href="{% url 'detalhes-curso' curso.slug %}" >
+                                <img class="img-fluid rounded p-3" src="{{ curso.image.url }}" alt="{{curso.nome}}" />
+                            </a>
 
                         {%else %}
                         
-                        <a href="{% url 'detalhes-curso' curso.slug %}" ><img src="{% static 'img/curso_capa.png' %}" alt="" style="width: 100%;"/></a>
+                            <a href="{% url 'detalhes-curso' curso.slug %}" >
+                                <img class="img-fluid rounded p-3" src="{% static 'img/curso_capa.png' %}"  alt=""/>
+                            </a>
                         
                         {%endif%}
 
-                        <div class="card-body">
+                        <div class="card-body" id="card-body_Cursos">
                             <h4 class="fw-light text-center">
                                 {{ curso.nome | linebreaks }}
                             </h4>
                             <p class="lead text-muted">
-                                {{ curso.descricao| linebreaks }}
+                                {{ curso.descricao|truncatewords:40}}
                             </p>
                         </div>
                         <div class="card-footer">
@@ -51,7 +55,9 @@
                                 <div class="btn-group">
                                     <a href="{% url 'detalhes-curso' curso.slug %}" class="btn btn-sm btn-outline-secondary">View</a>
                                     <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button> -->
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                    {% if curso.user == request.user %}
+                                        <a href="{% url 'edit-curso' curso.id %}?next={{ request.path }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                    {% endif %}
                                 </div>
                                 
                                 <small class="text-muted">9 mins</small>
@@ -63,68 +69,40 @@
                 {% empty %}
             
             <h4 class="fw-light text-center">
-                Não ha cursos disponíveis
+                Nennhum Curso Encontrado :(
             </h4>
             
             {% endfor %}
         
         </div>
+        {% if object_list %}
+            <ul class="pagination pagination-circle justify-content-center pt-4">
+                
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a>
+                    </li>
+                {% endif %}
+                {% for page in paginator.page_range %}
+                    {% if page == page_obj.number %}
+                        <li class="page-item active"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+                    {% endif %}
+                
+                {%endfor%}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a>
+                    </li>
+                {% endif %}
+                
+            </ul>
+
+        {% endif %}
     </div>
+
 </div>
-
-<!-- <div class="container">
-
-    {% for curso in object_list %}
-
-    <div class="pure-g-r content-ribbon">
-
-        <div class="pure-u-1-3">
-            <div class="l-box">
-
-                <a href="{% url 'detalhes-curso' curso.slug %}">
-
-                    {% if curso.image %}
-
-                    <img src="{{ curso.image.url }}" alt="{{curso.nome}}" />
-
-                    {%else %}
-
-                    <img src="{% static 'img/curso_capa.png' %}" alt="" />
-
-                    {%endif%}
-
-                </a>
-
-            </div>
-
-        </div>
-
-        <div class="pure-u-2-3">
-            <div class="l-box">
-                <h4 class="content-subhead"><a href="{% url 'detalhes-curso' curso.slug %}" title="{{ curso.nome }}"></a>{{curso.nome}}</h4>
-
-                {{ curso.descricao | linebreaks }} #linelinebreaks comando em django para formatar texto
-
-
-            </div>
-
-        </div>
-
-    </div>
-
-    {% empty %}
-
-    <div class="pure-g-r content-ribbon">
-        <div class="pure-u-1">
-            <div class="l-box">
-                <h4 class="content-subhead">Não ha cursos disponíveis</h4>
-
-            </div>
-        </div>
-    </div>
-
-
-    {% endfor %}
-</div> -->
 
 {% endblock %}

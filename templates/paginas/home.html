@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load static %}
+{% get_media_prefix %}
 
 {% block content %}
 
@@ -11,10 +13,7 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#777" />
-                </svg>
+                <img src="{% static 'img/img_bg_1.jpg' %}" alt="" style="width: 100%; height: 100%">
 
                 <!-- <img src="../../static/img/dev_logo.svg" alt="" style="width: 100%; height: 100%"> -->
     
@@ -28,30 +27,24 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#777" />
-                </svg>
-    
+                <img src="{% static 'img/img_bg_2.jpg' %}" alt="" style="width: 100%; height: 100%">
+
                 <div class="container">
                     <div class="carousel-caption">
-                        <h1>Another example headline.</h1>
-                        <p>Some representative placeholder content for the second slide of the carousel.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                        <h1>Cursos de Android.</h1>
+                        <p>Não perca a oportunidade de aprender a programar aplicações para android.</p>
+                        <p><a class="btn btn-lg btn-primary" href="#">Buscar cursos para Android</a></p>
                     </div>
                 </div>
             </div>
             <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#777" />
-                </svg>
-    
+                <img src="{% static 'img/img_bg_3.jpg' %}" alt="" style="width: 100%; height: 100%">
+            
                 <div class="container">
                     <div class="carousel-caption text-end">
-                        <h1>One more for good measure.</h1>
-                        <p>Some representative placeholder content for the third slide of this carousel.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+                        <h1>Cursos de Machine Learning.</h1>
+                        <p>Aprenda a tecnologia que não para de crescer!</p>
+                        <p><a class="btn btn-lg btn-primary" href="#">Buscar cursos para ML</a></p>
                     </div>
                 </div>
             </div>
@@ -72,49 +65,101 @@
     <!-- Wrap the rest of the page in another container to center all the content. -->
     
     <div class="container marketing">
-    
+
         <!-- Three columns of text below the carousel -->
+        
         <div class="row">
+
+            {%if Prof_01 %}
+                <div class="col-lg-4">
+
+                    {% if Prof_01.imageperfil %}
+                        <img src="{% get_media_prefix %}{{ Prof_01.imageperfil }}" alt="mdo" width="140" height="140" class="rounded-circle">
+                    {% else%}
+                        <img src="https://github.com/mdo3.png" width="128" height="128" class="rounded-circle">
+                    {% endif %}
+
+                    <h2 class="fw-normal">{{ Prof_01.nome|default:Prof_01.username }}</h2>
+                    <p>Some representative placeholder content for the three columns of text below the carousel. This is
+                        the first
+                        column.</p>
+                    <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                </div><!-- /.col-lg-4 -->
+
+            {% else %}
+                <div class="col-lg-4">
+                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
+                        role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
+                    </svg>
+                
+                    <h2 class="fw-normal">Heading</h2>
+                    <p>Some representative placeholder content for the three columns of text below the carousel. This is
+                        the first
+                        column.</p>
+                    <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                </div><!-- /.col-lg-4 -->
+            {% endif %}
+
+            {%if Prof_02 %}
             <div class="col-lg-4">
-                <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-                    role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777"
-                        dy=".3em">140x140</text>
-                </svg>
+
+                {% if Prof_02.imageperfil %}
+                    <img src="{% get_media_prefix %}{{ Prof_02.imageperfil }}" alt="mdo" width="140" height="140" class="rounded-circle">
+                {% else%}
+                    <img src="https://github.com/mdo3.png" width="128" height="128" class="rounded-circle">
+                {% endif %}
     
-                <h2 class="fw-normal">Heading</h2>
-                <p>Some representative placeholder content for the three columns of text below the carousel. This is
-                    the first
-                    column.</p>
+                <h2 class="fw-normal">{{ Prof_02.nome|default:Prof_02.username }}</h2>
+                <p>Another exciting bit of representative placeholder content. This time, we've moved on to the
+                    second column.
+                </p>
                 <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
+            {% else %}
             <div class="col-lg-4">
                 <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
                     role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
                     <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777"
-                        dy=".3em">140x140</text>
+                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                 </svg>
-    
+            
                 <h2 class="fw-normal">Heading</h2>
                 <p>Another exciting bit of representative placeholder content. This time, we've moved on to the
                     second column.
                 </p>
                 <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
+            {% endif %}
+
+            {%if Prof_03 %}
+            <div class="col-lg-4">
+    
+                {% if Prof_03.imageperfil %}
+                    <img src="{% get_media_prefix %}{{ Prof_03.imageperfil }}" alt="mdo" width="140" height="140" class="rounded-circle">
+                {% else%}
+                    <img src="https://github.com/mdo3.png" width="128" height="128" class="rounded-circle">
+                {% endif %}
+
+                <h2 class="fw-normal">{{ Prof_03.nome|default:Prof_03.username }}</h2>
+                <p>And lastly this, the third column of representative placeholder content.</p>
+                <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+            {% else %}
             <div class="col-lg-4">
                 <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
                     role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false">
                     <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777"
-                        dy=".3em">140x140</text>
+                    <rect width="100%" height="100%" fill="#777" /><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                 </svg>
-    
+            
                 <h2 class="fw-normal">Heading</h2>
                 <p>And lastly this, the third column of representative placeholder content.</p>
                 <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
+            {% endif %}
+
         </div><!-- /.row -->
     
     
@@ -122,95 +167,425 @@
     
         <hr class="featurette-divider">
 
-        {% for curso in top_cursos %}
+        <div class="container">
 
-            <div class="row featurette">
-                <div class="col-md-7">
-                    <h2 class="featurette-heading fw-normal lh-1">{{ curso.nome }}</h2>
-                    <p class="lead">{{ curso.descricao }}</p>
+            <div>
+                <h2 class="pb-2">Uma ampla seleção de cursos</h2>
+                <p>Escolha entre diversos cursos em vídeo online com novas adições publicadas mensalmente.</p>
+            </div>
+
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    {% if firstCategorias and categoria01 %}
+                    <a class="nav-item nav-link active" id="nav-1-tab" data-toggle="tab" href="#nav-1" role="tab"
+                        aria-controls="nav-1" aria-selected="true">{{firstCategorias.categoria}}</a>
+                    {% endif %}
+                    {% if secondCategorias and categoria02 %}
+                    <a class="nav-item nav-link" id="nav-2-tab" data-toggle="tab" href="#nav-2" role="tab"
+                        aria-controls="nav-2" aria-selected="false">{{secondCategorias.categoria}}</a>
+                    {% endif %}
+                    {% if thirdCategorias and categoria03 %}
+                    <a class="nav-item nav-link" id="nav-3-tab" data-toggle="tab" href="#nav-3" role="tab"
+                        aria-controls="nav-3" aria-selected="false">{{thirdCategorias.categoria}}</a>
+                    {% endif %}
+                    {% if fourthCategorias and categoria04 %}
+                    <a class="nav-item nav-link" id="nav-4-tab" data-toggle="tab" href="#nav-4" role="tab"
+                        aria-controls="nav-4" aria-selected="false">{{fourthCategorias.categoria}}</a>
+                    {% endif %}
+                    {% if fifthCategorias and categoria05 %}
+                    <a class="nav-item nav-link" id="nav-5-tab" data-toggle="tab" href="#nav-5" role="tab"
+                        aria-controls="nav-5" aria-selected="false">{{fifthCategorias.categoria}}</a>
+                    {% endif %}
+                    {% if sixthCategorias and categoria06 %}
+                    <a class="nav-item nav-link" id="nav-6-tab" data-toggle="tab" href="#nav-6" role="tab"
+                        aria-controls="nav-6" aria-selected="false">{{sixthCategorias.categoria}}</a>
+                    {% endif %}
                 </div>
-                <div class="col-md-5">
-                    <a href="{% url 'detalhes-curso' curso.slug %}">
-                        <img src="{{ curso.image.url }}" alt="" style="width: 450px; height: 450px;">
-                    </a>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+
+                {% if firstCategorias and categoria01 %}
+                <div class="tab-pane fade show active" id="nav-1" role="tabpanel" aria-labelledby="nav-1-tab">
+                    <div class="splide pb-4" role="group" aria-label="Splide Basic HTML Example">
+                        <div class="card-group">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+                                    {% for curso in categoria01 %}
+                                    <li class="splide__slide p-1">
+                                        <div class="card">
+                                            {% if curso.image %}
+                    
+                                            <a href="{% url 'detalhes-curso' curso.slug %}">
+                                                <img class="img-thumbnail p-3 img-fluid rounded" src="{% get_media_prefix %}{{ curso.image }}" alt="{{curso.nome}}" />
+                                            </a>
+                    
+                                            {%else %}
+                    
+                                            <a href="{% url 'detalhes-curso' curso.slug %}">
+                                                <img class="img-thumbnail p-3 img-fluid rounded" src="{% static 'img/curso_capa.png' %}" alt="" />
+                                            </a>
+                    
+                                            {%endif%}
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{curso.nome}}</h5>
+                                                <p class="card-text">{{ curso.descricao }}</p>
+                                                <p>{{ curso.categoria }}</p>
+                    
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="d-flex justify-content-between align-items-center">
+                    
+                                                    <div class="btn-group">
+                                                        <a href="{% url 'detalhes-curso' curso.slug %}"
+                                                            class="btn btn-sm btn-outline-secondary">View</a>
+                                                        <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button> -->
+                                                        {% if curso.user == request.user %}
+                                                        <a href="{% url 'edit-curso' curso.id %}?next={{ request.path }}"
+                                                            class="btn btn-sm btn-outline-secondary">Edit</a>
+                                                        {% endif %}
+                                                    </div>
+                    
+                                                    <small class="text-muted">9 mins</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if secondCategorias and categoria02 %}
+                <div class="tab-pane fade" id="nav-2" role="tabpanel" aria-labelledby="nav-2-tab">
+                    <div class="splide pb-4" role="group" aria-label="Splide Basic HTML Example">
+                        <div class="card-group">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+                                    {% for curso in categoria02 %}
+                                    <li class="splide__slide p-1">
+                                        <div class="card">
+                                            {% if curso.image %}
+                    
+                                            <a href="{% url 'detalhes-curso' curso.slug %}">
+                                                <img class="img-thumbnail p-3 img-fluid rounded" src="{% get_media_prefix %}{{ curso.image }}"
+                                                    alt="{{curso.nome}}" />
+                                            </a>
+                                            
+                                            {%else %}
+                                            
+                                            <a href="{% url 'detalhes-curso' curso.slug %}">
+                                                <img class="img-thumbnail p-3 img-fluid rounded" src="{% static 'img/curso_capa.png' %}" alt="" />
+                                            </a>
+                    
+                                            {%endif%}
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{curso.nome}}</h5>
+                                                <p class="card-text">{{ curso.descricao }}</p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <small class="text-muted">Atualizados 3 minutos atrás</small>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if thirdCategorias and categoria03 %}
+                <div class="tab-pane fade" id="nav-3" role="tabpanel" aria-labelledby="nav-3-tab">
+                    <div class="splide pb-4" role="group" aria-label="Splide Basic HTML Example">
+                        <div class="card-group">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+                                    {% for curso in categoria03 %}
+                                    <li class="splide__slide p-1">
+                                        <div class="card">
+                                            {% if curso.image %}
+                    
+                                            <a href="{% url 'detalhes-curso' curso.slug %}">
+                                                <img class="img-thumbnail p-3 img-fluid rounded" src="{% get_media_prefix %}{{ curso.image }}"
+                                                    alt="{{curso.nome}}" />
+                                            </a>
+                                            
+                                            {%else %}
+                                            
+                                            <a href="{% url 'detalhes-curso' curso.slug %}">
+                                                <img class="img-thumbnail p-3 img-fluid rounded" src="{% static 'img/curso_capa.png' %}" alt="" />
+                                            </a>
+                    
+                                            {%endif%}
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{curso.nome}}</h5>
+                                                <p class="card-text">{{ curso.descricao }}</p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <small class="text-muted">Atualizados 3 minutos atrás</small>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if fourthCategorias and categoria04 %}
+                <div class="tab-pane fade" id="nav-4" role="tabpanel" aria-labelledby="nav-4-tab">
+                    <div class="splide pb-4" role="group" aria-label="Splide Basic HTML Example">
+                        <div class="card-group">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+                                    {% for curso in categoria04 %}
+                                    <li class="splide__slide p-1">
+                                        <div class="card">
+                                            {% if curso.image %}
+                    
+                                            <a href="{% url 'detalhes-curso' curso.slug %}">
+                                                <img class="img-thumbnail p-3 img-fluid rounded" src="{% get_media_prefix %}{{ curso.image }}"
+                                                    alt="{{curso.nome}}" />
+                                            </a>
+                                            
+                                            {%else %}
+                                            
+                                            <a href="{% url 'detalhes-curso' curso.slug %}">
+                                                <img class="img-thumbnail p-3 img-fluid rounded" src="{% static 'img/curso_capa.png' %}" alt="" />
+                                            </a>
+                    
+                                            {%endif%}
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{curso.nome}}</h5>
+                                                <p class="card-text">{{ curso.descricao }}</p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <small class="text-muted">Atualizados 3 minutos atrás</small>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if fifthCategorias and categoria05 %}
+                <div class="tab-pane fade" id="nav-5" role="tabpanel" aria-labelledby="nav-5-tab">
+                    <div class="splide pb-4" role="group" aria-label="Splide Basic HTML Example">
+                        <div class="card-group">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+                                    {% for curso in categoria05 %}
+                                    <li class="splide__slide p-1">
+                                        <div class="card">
+                                            {% if curso.image %}
+                    
+                                            <a href="{% url 'detalhes-curso' curso.slug %}">
+                                                <img class="img-thumbnail p-3 img-fluid rounded" src="{% get_media_prefix %}{{ curso.image }}"
+                                                    alt="{{curso.nome}}" />
+                                            </a>
+                                            
+                                            {%else %}
+                                            
+                                            <a href="{% url 'detalhes-curso' curso.slug %}">
+                                                <img class="img-thumbnail p-3 img-fluid rounded" src="{% static 'img/curso_capa.png' %}" alt="" />
+                                            </a>
+                    
+                                            {%endif%}
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{curso.nome}}</h5>
+                                                <p class="card-text">{{ curso.descricao }}</p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <small class="text-muted">Atualizados 3 minutos atrás</small>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if sixthCategorias and categoria06 %}
+                <div class="tab-pane fade" id="nav-6" role="tabpanel" aria-labelledby="nav-6-tab">
+                    <div class="splide pb-4" role="group" aria-label="Splide Basic HTML Example">
+                        <div class="card-group">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+                                    {% for curso in categoria06 %}
+                                    <li class="splide__slide p-1">
+                                        <div class="card">
+                                            {% if curso.image %}
+                    
+                                            <a href="{% url 'detalhes-curso' curso.slug %}">
+                                                <img class="img-thumbnail p-3 img-fluid rounded" src="{% get_media_prefix %}{{ curso.image }}"
+                                                    alt="{{curso.nome}}" />
+                                            </a>
+                                            
+                                            {%else %}
+                                            
+                                            <a href="{% url 'detalhes-curso' curso.slug %}">
+                                                <img class="img-thumbnail p-3 img-fluid rounded" src="{% static 'img/curso_capa.png' %}" alt="" />
+                                            </a>
+                    
+                                            {%endif%}
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{curso.nome}}</h5>
+                                                <p class="card-text">{{ curso.descricao }}</p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <small class="text-muted">Atualizados 3 minutos atrás</small>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <div class="b-example-divider"></div>
+
+        <div class="container col-xxl-10 px-4 py-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                    <img src="{% static 'img/instructor-1x-v3.jpg' %}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700"
+                        height="500" loading="lazy">
+                </div>
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold lh-1 mb-3">Torne-se um professor</h1>
+                    <p class="lead">Professores de todo o mundo lecionam a milhões de alunos na Dev Academy. Oferecemos as ferramentas e habilidades para ensinar
+                    o que você ama.</p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                        {%if request.user.is_Teacher %}
+                        <a type="button" href="{% url 'dashview' %}" class="btn btn-dark text-white btn-lg px-4 me-md-2">Comece a ensinar hoje mesmo</a>
+                        {% else %}
+                        <a type="button" href="{% url 'cadastrar' %}" class="btn btn-dark text-white btn-lg px-4 me-md-2">Comece a ensinar hoje mesmo</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-            
-            <hr class="featurette-divider">
+        </div>
+        
+        <div class="b-example-divider"></div>
 
-        {% endfor %}
+        <div class="container">
 
-        <!-- <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading fw-normal lh-1">First featurette heading. <span class="text-muted">It’ll blow
-                        your mind.</span></h2>
-                <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting
-                    prose
-                    here.</p>
+            <div>
+                <h2 class="pb-2">Alunos estão assistindo</h2>
+                <p>Alunos de todo o mundo estão iniciando novas carreiras, avançando em suas áreas e enriquecendo suas vidas.</p>
             </div>
-            <div class="col-md-5">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
-                    height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
-                    preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
-                        dy=".3em">500x500</text>
-                </svg>
-    
-            </div>
-        </div>
-    
-        <hr class="featurette-divider">
-    
-        <div class="row featurette">
-            <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading fw-normal lh-1">Oh yeah, it’s that good. <span class="text-muted">See
-                        for
-                        yourself.</span></h2>
-                <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of
-                    how this
-                    layout would work with some actual real-world content in place.</p>
-            </div>
-            <div class="col-md-5 order-md-1">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
-                    height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
-                    preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
-                        dy=".3em">500x500</text>
-                </svg>
-    
-            </div>
-        </div>
-    
-        <hr class="featurette-divider">
-    
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading fw-normal lh-1">And lastly, this one. <span
-                        class="text-muted">Checkmate.</span>
-                </h2>
-                <p class="lead">And yes, this is the last block of representative placeholder content. Again, not
-                    really
-                    intended to be actually read, simply here to give you a better view of what this would look like
-                    with some
-                    actual content. Your content.</p>
-            </div>
-            <div class="col-md-5">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
-                    height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
-                    preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#eee" /><text x="50%" y="50%" fill="#aaa"
-                        dy=".3em">500x500</text>
-                </svg>
-    
+
+            <div class="splide pb-4" role="group" aria-label="Splide Basic HTML Example">
+                <div class="card-group">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            {% for curso in maisAssistidos %}
+                                <li class="splide__slide p-1">
+                                    <div class="card">
+                                        {% if curso.image %}
+                                
+                                        <a href="{% url 'detalhes-curso' curso.slug %}">
+                                            <img class="img-thumbnail img-fluid rounded p-3" src="{% get_media_prefix %}{{ curso.image }}"
+                                                alt="{{curso.nome}}" />
+                                        </a>
+                                
+                                        {%else %}
+                                
+                                        <a href="{% url 'detalhes-curso' curso.slug %}">
+                                            <img class="img-thumbnail img-fluid roundedp-3" src="{% static 'img/curso_capa.png' %}" alt=""/>
+                                        </a>
+                                
+                                        {%endif%}
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{curso.nome}}</h5>
+                                            <p class="card-text">{{ curso.descricao }}</p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small class="text-muted">Atualizados 3 minutos atrás</small>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    
-        <hr class="featurette-divider"> -->
-    
-        <!-- /END THE FEATURETTES -->
+
+        <div class="py-5 container" id="icon-grid">
+
+            <h2 class="pb-2 border-bottom">Principais categorias</h2>
+        
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
+
+                {% for category in prin_categorias %}
+                
+                <a href="{% url 'cursos-categoria' category.categoria %}" class="text-decoration-none text-dark">
+                    <div class="col d-flex align-items-start">
+                        <div class="fs-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-tags-fill"
+                                viewBox="0 0 20 20">
+                                <path
+                                    d="M2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2zm3.5 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                                </path>
+                                <path
+                                    d="M1.293 7.793A1 1 0 0 1 1 7.086V2a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l.043-.043-7.457-7.457z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold mb-0">{{category.categoria}}</h4>
+                            <p>{{ category.descricao }}</p>
+                        </div>
+                    </div>
+                </a>
+
+                {% endfor %}
+                
+            </div>
+        
+        <div class="b-example-divider"></div>
+
+        <div class="container">
+
+            <div>
+                <h2 class="pb-2">Alunos estão assistindo</h2>
+                <p>Alunos de todo o mundo estão iniciando novas carreiras, avançando em suas áreas e enriquecendo suas vidas.</p>
+        </div>
+
+        <hr>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var elms = document.getElementsByClassName('splide');
+                for (var i = 0; i < elms.length; i++) {
+                    new Splide(elms[i],
+                        {
+                            type: 'loop',
+                            drag: 'free',
+                            focus: 'left',
+                            perPage: 4,
+                            autoScroll: {
+                                speed: 2,
+                            },
+                            autoWidth: true,
+                        }).mount();
+                }
+            });
+        </script>
     
     </div><!-- /.container -->
 

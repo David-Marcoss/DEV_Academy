@@ -1,0 +1,139 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% get_media_prefix %}
+
+{%block content_sidebar %}
+    <li class="border-top my-3"></li>
+    <p class="bi bi-journals text-center"> {{ curso.nome }}</p>
+    <li class="nav-item">
+        <a class="nav-link bi bi-filter-circle" id="detalhes_dash" aria-current="page"
+            href="{% url 'detalhesView_dash' curso.slug %}">
+            Informações do Curso
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-journal-plus" id="Modulos_dash" aria-current="page"
+            href="{% url 'modulos-curso' curso.slug %}">
+            Módulos
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-file-earmark-plus" id="Aula_dash" aria-current="page"
+            href="{% url 'aulasView_dash' curso.slug %}">
+            Aulas
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-bar-chart" id="Materiais_dash" aria-current="page" href="{% url 'materiais-cursodash' curso.slug %}">
+            Materiais do Curso
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link bi bi-exclamation-triangle" id="Avisos_dash" aria-current="page" href="{% url 'Aviso_views-curso' curso.slug %}?next={{ request.path }}">
+            Enviar avisos para os alunos
+        </a>
+    </li>
+{% endblock%}
+
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+    <h2>{{ curso.nome }}</h2>
+    <!-- <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar" class="align-text-bottom"></span>
+            This week
+        </button>
+    </div> -->
+</div>
+
+<div class="container-fluid">
+
+    <div class="row align-items-md-stretch">
+        <div class="col-md-6">
+            <div class="p-5 bg-light rounded-3">
+                <div class="text-center">
+                    <h2>Informações do Curso</h2>
+                </div>
+                <form method="post" enctype="multipart/form-data" id="formOne">
+                
+                    <div class="form-row">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="formOne">
+                
+                        {{ field.non_field_errors }}
+                
+                        {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {% render_field field class="form-control" %}
+                            {{field.errors}}
+                        </div>
+                        {% endfor %}
+                
+                    </div>
+                
+                    <div class="text-center">
+                        <button class="btn btn-primary" type="submit">{{ botao }}</button>
+                    </div>
+                
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-5 bg-light border rounded-3 text-center">
+                <h2>Imagem do Curso</h2>
+                <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure
+                    to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both
+                    column's content for equal-height.</p>
+                <div class="p-4">
+                    <img class="img-thumbnail" width="100%"
+                        src="{% get_media_prefix %}{{ curso.image }}" alt="{{curso.nome}}" class="img-fluid rounded" />
+                </div>
+
+                <hr class="p-2">
+
+                <form method="post" enctype="multipart/form-data" id="formTwo">
+                
+                    <div class="form-row">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="formTwo">
+                
+                        {{ field.non_field_errors }}
+                
+                        {% for field in form_image %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {% render_field field class="form-control" %}
+                            {{field.errors}}
+                        </div>
+                        {% endfor %}
+                
+                    </div>
+                
+                    <div class="text-center">
+                        <button class="btn btn-primary" type="submit">{{ botao }}</button>
+                    </div>
+                
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script>
+    const activeDiv = document.getElementById('detalhes_dash');
+    activeDiv.classList.add('active');
+    console.log(activeDiv)
+</script>
+
+{% endblock %}

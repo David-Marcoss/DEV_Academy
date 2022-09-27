@@ -1,0 +1,106 @@
+{% extends 'cursos/dashboard/detalhes.html' %}
+{% load static %}
+{% get_media_prefix %}
+
+
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+    <h2>Curso - {{ curso.nome }}</h2>
+
+</div>
+
+<div class="container-fluid text-center">
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h4 class="pt-2">Aulas do Módulo {{modulo}}</h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="p-5">
+                {% if object_list %}
+                <table class="table table-striped" id="tabela-aulas-modululos">
+                    <thead>
+                        <tr>
+                            <th scope="col"class="text-center">Numero Aula</th>
+                            <th scope="col"class="text-center">Titulo</th>
+                            <th scope="col"class="text-center">Link da aula</th>
+                            <th scope="col"class="text-center">Data de criacao</th>
+                            <th scope="col"class="text-center"></th>
+                        </tr>
+                    </thead>
+            
+                    {% for aula in object_list %}
+            
+                    <tbody>
+                        <tr>
+                            <td>{{aula.numero_aula}}</td>
+                            <td>{{aula.titulo}}</td>
+                            <td>{{aula.video}}</td>
+                            <td>{{aula.criado_em}}</td>
+                            <td>
+
+                                <a type="button" data-bs-title="Excluir a Aula" class="btn btn-group bi bi-trash3" data-bs-toggle="modal" data-bs-target="#ModalExcluir{{ modulo.id }}"></a>
+
+                                <div class="modal fade" id="ModalExcluir{{ modulo.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Exclusão da aula: {{aula.titulo}}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Tem certeza que deseja remover essa aula?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Voltar</button>
+                                                <a href="{% url 'deletar-aula-modulo-curso' modulo.curso.slug  aula.id %}?next={{ request.path }}" type="button"
+                                                    data-bs-toggle="tooltip" data-bs-title="Excluir o Módulo" class="btn btn-danger">Excluir a Aula</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <a href="{% url 'edit-aula-modulo-curso' modulo.curso.slug  aula.id %}?next={{ request.path }}"
+                                data-bs-toggle="tooltip" data-bs-title="Editar a aula" type="button" class="btn btn-group bi bi-pencil-square"></a>
+                            
+                                <a href="{% url 'ver-aula-dash' modulo.curso.slug aula.id %}" type="button" class="btn btn-group bi bi-arrow-bar-right"
+                                data-bs-toggle="tooltip" data-bs-title="Ver a aula"></a>
+            
+                            </td>
+                        </tr>
+            
+                    </tbody>
+                    {% endfor %}
+            
+                </table>
+                {% else %}
+                <h2> Não Há Aulas cadastradas neste modulo!!</h2>
+                {% endif %}
+
+                <div class="text-center p-4">
+                    <a href="{% url 'criar-aula-modulo' curso.slug  modulo.id %}?next={{ request.path }}" class="btn btn-success">
+                        Crastrar Aula</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    const activeDiv = document.getElementById('Aula_dash');
+    activeDiv.classList.add('active');
+    console.log(activeDiv)
+</script>
+
+{% endblock %}

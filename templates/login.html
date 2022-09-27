@@ -30,7 +30,7 @@
     </div>
 </div> -->
 
-<main class="form-signin w-100 m-auto">
+<main class="form-signin w-100 m-auto mt-5">
 
     {%if request.user.is_authenticated %}
 
@@ -54,15 +54,19 @@
                 <div class="form-floating mb-3">
                     {% render_field field placeholder=field.label class="form-control" %}
                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{field.errors}}
                 </div>
                 {% endfor %}
             
             </div>
 
             <div class="checkbox mb-3">
-                <label>
+                <!--<label>
                     <input type="checkbox" value="remember-me"> Remember me
-                </label>
+                </label> -->
+        
+                <a href="{% url 'redefinir-senha'%}"> Esqueceu a senha?</a>
+
             </div>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
             <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>

@@ -3,7 +3,7 @@ import site
 from django.contrib import admin
 
 # Register your models here.
-from .models import modelcursos
+from .models import *
 
 class cusosadmin(admin.ModelAdmin): #faz a customização dos models
 
@@ -12,3 +12,6 @@ class cusosadmin(admin.ModelAdmin): #faz a customização dos models
     prepopulated_fields= {'slug': ('nome',)}
 
 admin.site.register(modelcursos,cusosadmin) #adciona tabela cursos no admin
+
+admin.site.register([matricula,categoria_curso
+,modulo_curso,aulas_curso,avisos_curso,materiais_curso]) #adciona tabela cursos no admin

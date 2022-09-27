@@ -2,11 +2,24 @@
 
 {% block content %}
 
-<div class="container mt-5 mb-5">
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Perfil</h1>
+            <!-- <p class="lead text-muted">Abaixo a lista de cursos disponíveis na plataforma</p>
+            <p>
+                <a href="#" class="btn btn-primary my-2">Main call to action</a>
+                <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+            </p> -->
+        </div>
+    </div>
+</section>
+
+<div class="container">
 
     <div class="row d-flex justify-content-center">
 
-        <div class="rounded-3 border col-md-10">
+        <div class="rounded-3 border col-md-10 p-2">
 
             <nav>
                 <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
@@ -23,7 +36,12 @@
                     <div class="p-3 py-4">
                     
                         <div class="text-center">
-                            <img src="https://github.com/mdo3.png" width="100" class="rounded-circle">
+                            {% if user.imageperfil %}
+                                <img src="{{ user.imageperfil.url }}" width="128" height="128" class="rounded-circle">
+                            {% else%}
+                                <img src="https://github.com/mdo3.png" width="128" height="128" class="rounded-circle">
+                            {% endif %} 
+
                         </div>
                     
                         <div class="text-center mt-3">
@@ -33,9 +51,7 @@
                             <!-- <span>UI/UX Designer</span> -->
                     
                             <div class="px-4 mt-1">
-                                <p class="fonts">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-                                    ut aliquip ex ea commodo consequat. </p>
+                                <p class="fonts">{{user.bio|linebreaks}} </p>
                     
                             </div>
                     
@@ -52,7 +68,12 @@
                     <div class="p-3 py-4">
                     
                         <div class="text-center">
-                            <img src="https://github.com/mdo3.png" width="100" class="rounded-circle">
+                            {% if user.imageperfil %}
+                                <img src="{{ user.imageperfil.url }}" width="128" height="128" class="rounded-circle">
+                            {% else%}
+                                <img src="https://github.com/mdo3.png" width="128" height="128" class="rounded-circle">
+                            {% endif %} 
+
                         </div>
                     
                         <div class="text-center mt-3">
@@ -62,11 +83,9 @@
                             <!-- <span>UI/UX Designer</span> -->
                     
                             <div class="p-5">
-                                {% if tipo_user == 'Aluno'%}
-                                    <h2>Aluno não está inscrito em nenhum curso!!</h2>
-                                
-                                {% else %}
-                                    {% if cursos != None %}
+                                {% if user.is_Teacher %}
+
+                                    {% if cursos %}
 
                                         <table class="table table-striped">
                                             <thead>
@@ -88,7 +107,7 @@
                                                         <td>*</td>
                                                         <td>{{c.criado_em}}</td>
                                                         <td>
-                                                            <a href="" type="button" class="btn btn-group">
+                                                            <a href="{% url 'edit-curso' c.id %}?next={{ request.path }}" type="button" class="btn btn-group">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square"
                                                                     viewBox="0 0 16 16">
                                                                     <path
@@ -114,8 +133,15 @@
                                         </table>
                                     {% else %}
                                         <h2>Usuario não possui Cursos criados!</h2>
+                                    
                                     {% endif %}
-                                
+
+
+                                    
+                                {% else %}
+
+                                    <h2>Aluno não está inscrito em nenhum curso!!</h2>
+                         
                                 {% endif %}
 
                             </div>
@@ -127,7 +153,12 @@
                     <div class="p-3 py-4">
                     
                         <div class="text-center">
-                            <img src="https://github.com/mdo3.png" width="100" class="rounded-circle">
+                            {% if user.imageperfil %}
+                                <img src="{{ user.imageperfil.url }}" width="128" height="128" class="rounded-circle">
+                            {% else%}
+                                <img src="https://github.com/mdo3.png" width="128" height="128" class="rounded-circle">
+                            {% endif %} 
+
                         </div>
                     
                         <div class="text-center mt-3">
@@ -137,9 +168,7 @@
                             <!-- <span>UI/UX Designer</span> -->
                     
                             <div class="px-4 mt-1">
-                                <p class="fonts">Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-                                    ut aliquip ex ea commodo consequat. </p>
+                                <p class="fonts">{{user.bio|linebreaks}}</p>
                     
                             </div>
                     
@@ -154,65 +183,5 @@
 
 </div>
 
-{% block editperfil %}
-
-
-<div class="modal fade" id="editAccount" tabindex="-1"
-    aria-labelledby="editAccountTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editAccountTitle">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Aqui vai ter o <strong>FORM</strong> para editar as informacoes da conta do usuario</p>
-                
-             <!--   
-                <div class="form-row">
-                    {% csrf_token %}
-                    {{ form.non_field_errors }}
-                    
-                    {% for field in form %}
-                        <div class="form-floating mb-3">
-                            {{ field.label }}
-                            {{field}}
-
-                        </div>
-                    {% endfor %}
-                
-                </div>
-
-            --> 
-            
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-
-{% endblock %}
-
-<div class="modal fade" id="editPassword" tabindex="-1"
-    aria-labelledby="editPasswordTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editPasswordTitle">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Aqui vai ter o <strong>FORM</strong> para editar apenas a senha do usuario.</p>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 {% endblock %}

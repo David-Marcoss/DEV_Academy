@@ -1,0 +1,70 @@
+{% extends "form.html" %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">{{ titulo }}</h1>
+            <!-- <p class="lead text-muted">Abaixo a lista de cursos disponíveis na plataforma</p>
+            <p>
+                <a href="#" class="btn btn-primary my-2">Main call to action</a>
+                <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+            </p> -->
+        </div>
+    </div>
+</section>
+
+    {% if success == True %}
+
+        <div class="mt-4 container text-center">
+            <div class="alert alert-primary fade show alert-dismissible" role="alert">
+                {{ success_msg|linebreaks }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+    {% else %}
+
+
+        <div class="container">
+            <div class="row">
+
+                <div class="my-3 col-md-2"></div>
+                <div class="my-3 col-md-8">
+                    <form method="post" enctype="multipart/form-data" >
+                        
+                        <div class="form-row">
+                            {% csrf_token %}
+                            
+                            {{ field.non_field_errors }}
+            
+                            {% for field in form %}
+                            <div class="form-floating mb-3">
+                                {% render_field field placeholder=field.label class="form-control" %}
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            </div>
+                            {% endfor %}
+                        
+                        </div>
+            
+
+                        <div class="text-center">
+                            <button class="btn btn-lg btn-danger" onclick="window.open(document.referrer,'_self');">Voltar</button>
+                            <button class="btn btn-lg btn-primary" type="submit">{{ botao }}</button>
+                        </div>
+                    
+                    </form>
+            
+                </div>
+                <div class="my-3 col-md-2"></div>
+            </div>
+        </div>
+
+    {% endif %}
+    
+{% endblock%}

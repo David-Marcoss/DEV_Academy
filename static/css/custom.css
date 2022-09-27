@@ -1,0 +1,26 @@
+.accordion-button:not(.collapsed) {
+    color: inherit;
+    background: rgba(33, 37, 41);
+    color: white;
+}
+
+.accordion-button:not(.collapsed)::after {
+    filter: brightness(0%) invert(70%);
+}
+
+#card-body_Cursos{
+    height: 8rem;
+    overflow-y: scroll;
+}
+
+#card_Cursos img {
+    width: 100%;
+    height: 360px;
+    object-fit: contain;
+}
+
+.splide__slide img {
+    width: 350px;
+    height: 350px;
+    object-fit: contain;
+}

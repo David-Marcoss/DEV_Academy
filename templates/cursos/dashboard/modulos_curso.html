@@ -1,0 +1,94 @@
+{% extends 'cursos/dashboard/detalhes.html' %}
+{% load static %}
+{% get_media_prefix %}
+
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+    <h2>Curso - {{ curso.nome }}</h2>
+
+</div>
+
+<div class="container-fluid text-center">
+
+    <div class="card">
+
+        <div class="card-header">
+            <h4 class="pt-2">Módulos</h4>
+        </div>
+
+        <div class="card-body">
+            {% if object_list %}
+                <div class="p-4">
+                    <table class="table table-striped" id="tabela-modulos">
+                        <thead>
+                            <tr>
+                                <th scope="col"class="text-center">Numero do Modulo</th>
+                                <th scope="col"class="text-center">Titulo</th>
+                                <th scope="col"class="text-center">Data de criacao</th>
+                                <th scope="col"class="text-center"></th>
+                            </tr>
+                        </thead>
+            
+                        
+                        <tbody>
+                        {% for modulo in object_list %}
+                                <tr>
+                                    <td>{{modulo.numero_modulo}}</td>
+                                    <td>{{modulo.titulo}}</td>
+                                    <td>{{modulo.criado_em}}</td>
+                                    <td>
+                                        <!-- <a href="{% url 'excluir-modulo-curso' curso.slug  modulo.id %}?next={{ request.path }}" type="button" data-bs-toggle="tooltip" data-bs-title="Excluir o Módulo" class="btn btn-group bi bi-trash3"></a> -->
+                                        <a type="button" data-bs-title="Excluir o Módulo" class="btn btn-group bi bi-trash3" data-bs-toggle="modal" data-bs-target="#ModalExcluir{{ modulo.id }}"></a>
+
+                                        <div class="modal fade" id="ModalExcluir{{ modulo.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Exclusão do módulo: {{modulo.titulo}}</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Tem certeza que deseja remover esse módulo?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Voltar</button>
+                                                        <a href="{% url 'excluir-modulo-curso' curso.slug  modulo.id %}?next={{ request.path }}" type="button" data-bs-toggle="tooltip" data-bs-title="Excluir o Módulo" class="btn btn-danger">Excluir o Módulo</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <a href="{% url 'editar-modulo-curso' curso.slug  modulo.id %}?next={{ request.path }}" type="button" data-bs-toggle="tooltip" data-bs-title="Editar o Módulo" class="btn btn-group bi bi-pencil-square"></a>
+                                        
+                                        <a href="{% url 'aulas-modulo-curso' curso.slug  modulo.id %}" type="button" data-bs-toggle="tooltip" data-bs-title="Ver aulas do Módulo" class="btn btn-group bi bi-arrow-bar-right"></a>
+                                    </td>
+                                </tr>
+            
+                                
+                        {% endfor %}
+                                
+                        </tbody>
+                    </table>
+                </div>
+                
+            {% else %}
+                <h2 class="text-center"> Não Há Modulos cadastradas neste curso!!</h2>
+            {% endif%}
+        </div>
+        <div class="text-center p-4">
+            <a href="{% url 'criar-modulo-curso' curso.slug %}?next={{ request.path }}" class="btn btn-success">
+                Criar modulo</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const activeDiv = document.getElementById('Modulos_dash');
+    activeDiv.classList.add('active');
+    console.log(activeDiv)
+</script>
+
+{% endblock %}
