@@ -664,6 +664,8 @@ def detalhesView_dash(request, slug):
 
             if form.is_valid():
                 form.save()
+
+                messages.info(request,'Alterações salvas!!')
                 return redirect("detalhesView_dash", slug=slug)
                 
         elif request.POST.get("form_type")== 'formTwo':
@@ -671,6 +673,7 @@ def detalhesView_dash(request, slug):
 
             if form.is_valid():
                 form.save()
+                messages.info(request,'Alterações salvas!!')
                 return redirect("detalhesView_dash", slug=slug)
 
     context = {'curso': request.curso,
