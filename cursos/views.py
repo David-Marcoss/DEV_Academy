@@ -735,11 +735,10 @@ def materiais_cursodash(request, slug):
     return render(request, template_name, context)
 
 
-def cursos_categoriaView(request,cat):
+def categoriaView(request,cat):
     template_name = 'cursos/cursos.html'
     
-    cate = get_object_or_404(categoria_curso,categoria = cat)
-
+    cate = categoria_curso.objects.get(categoria = cat)
     object_list = cate.cursos_c.all()
-
+   
     return render(request,template_name,context={'object_list':object_list,'titulo':f"Cursos de {cate}"})

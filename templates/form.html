@@ -34,9 +34,10 @@
     
                     {% for field in form %}
                     <div class="mb-3">
+                        <p>{{field.errors}}</p>
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                         {% render_field field class="form-control" %}
-                        {{field.errors}}
+                    
                     </div>
                     {% endfor %}
                 
