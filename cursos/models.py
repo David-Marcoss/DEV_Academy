@@ -25,7 +25,7 @@ class categoria_curso(models.Model):
 class modelcursos(models.Model):
 
     nome = models.CharField('Titulo do curso',max_length=100)
-    descricao = models.TextField('descrição breve',blank=True) #blank indica que o campo nao é obrigatorio
+    descricao = models.TextField('descrição breve',blank=True,max_length=250) #blank indica que o campo nao é obrigatorio
     
     sobre_curso = models.TextField('sobre o curso',blank=True) #blank indica que o campo nao é obrigatorio
     

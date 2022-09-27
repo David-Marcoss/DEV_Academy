@@ -7,6 +7,5 @@ urlpatterns = [
     path('home/', homeview.as_view(), name='home'),
     path('dashview/', dashview.as_view(), name='dashview'),
     path('search/', searchView, name='search'),
-
 ]
 
