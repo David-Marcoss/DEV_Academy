@@ -31,13 +31,13 @@ or
 ### Create a venv
 
 ```bash
-python3 -m venv .venv
+virtualenv venv
 ```
 
 ### Access to env
 
 ```bash
-source .venv/bin/activate
+source venv/bin/activate
 ```
 
 ### Install python environment dependencies
