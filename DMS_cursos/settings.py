@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'DMS_cursos.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "postgres",
@@ -96,6 +96,13 @@ DATABASES = {
         "PASSWORD": "postgres",
         "HOST": "db",  # set in docker-compose.yml
         "PORT": 5432,  # default postgres port
+    }
+}"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
